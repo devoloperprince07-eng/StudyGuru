@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#5145cd">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#064bdc">
 <title>StudyGuru — Online Study App</title>
 <style>
-:root{--p:#5145cd;--p2:#8068ed;--bg:#f5f6fc;--ink:#20223a;--muted:#777b96;--card:#fff;--line:#e9eaf3}
+:root{--p:#064bdc;--p2:#ff6b00;--bg:#f3f8ff;--ink:#071b49;--muted:#586782;--card:#fff;--line:#dce7f8}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:var(--p);color:white;font-weight:650}button.secondary{background:#efedff;color:var(--p)}button.danger{background:#fff0f0;color:#c03939}button.ghost{background:transparent;color:var(--muted)}.hidden{display:none!important}
 header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 17px;position:sticky;top:0;z-index:5}.brand{font-weight:850;font-size:20px;color:var(--p);display:flex;gap:9px;align-items:center}.logo{width:35px;height:35px;border-radius:12px;background:linear-gradient(135deg,var(--p),#9d83ff);color:white;display:grid;place-items:center}.userchip{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:13px}.avatar{width:35px;height:35px;border-radius:50%;background:#eeeaff;color:var(--p);display:grid;place-items:center;font-weight:800}
 .wrap{max-width:1120px;margin:auto;padding:20px 15px 90px}.hero{background:linear-gradient(115deg,#5145cd,#8b70f2);border-radius:22px;padding:24px;color:#fff;display:flex;justify-content:space-between;gap:18px;align-items:center}.hero h1{font-size:25px;margin:0 0 8px}.hero p{margin:0;color:#e9e5ff}.heroicon{font-size:55px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:17px 0}.stat,.panel,.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:24px;margin-top:5px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:23px 0 12px}.sectionhead h2{font-size:19px;margin:0}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tile{cursor:pointer}.tile:hover{border-color:#c9c1ff}.tile .emoji{font-size:26px}.tile h3{margin:9px 0 4px}.tile p{margin:0;color:var(--muted);font-size:13px}.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:white;outline:none;margin:6px 0 12px}.field:focus{border-color:var(--p)}label{font-size:13px;color:var(--muted);font-weight:650}.auth{max-width:440px;margin:5vh auto;background:white;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 15px 45px #302b6a12}.auth h1{margin:10px 0 4px}.muted{color:var(--muted);font-size:13px}.tabs{display:flex;gap:7px;margin:14px 0}.tab{background:#eeedfa;color:#5b5684}.tab.active{background:var(--p);color:white}.listitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border:0}.pill{font-size:11px;border-radius:30px;padding:5px 9px;background:#eeeaff;color:var(--p)}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:25px 8px}.bottomnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom));z-index:6}.bottomnav button{background:transparent;color:var(--muted);padding:7px 9px;font-size:11px}.bottomnav button span{display:block;font-size:19px}.bottomnav button.active{color:var(--p)}.notice{padding:12px;background:#fff8df;border:1px solid #f2e4a8;border-radius:12px;color:#775f15;font-size:12px;line-height:1.5}.modalback{position:fixed;inset:0;background:#16152c88;display:grid;place-items:center;padding:14px;z-index:10}.modal{background:white;border-radius:18px;padding:18px;width:min(650px,100%);max-height:91vh;overflow:auto}.reader{width:100%;height:70vh;border:1px solid var(--line);border-radius:10px}.q{padding:14px;border:1px solid var(--line);border-radius:12px;margin:11px 0}.q label{display:block;color:var(--ink);font-weight:500;margin:8px 0}.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:#24213f;color:#fff;padding:11px 16px;border-radius:30px;z-index:20;font-size:13px}
 @media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.tiles{grid-template-columns:repeat(2,1fr)}.wrap{padding:14px 11px 90px}.hero h1{font-size:21px}.heroicon{font-size:42px}}@media(max-width:390px){.tiles{grid-template-columns:1fr 1fr}}
+
+/* StudyGuru refreshed landing page */
+body{background:radial-gradient(circle at 12% 12%,#e1f1ff 0,transparent 32%),var(--bg)}
+header{height:76px;padding:0 max(18px,calc((100vw - 1200px)/2));box-shadow:0 4px 20px #0b2b6510}
+.brand{color:#09265c}.logo{background:linear-gradient(135deg,#064bdc,#ff7a00);box-shadow:0 7px 16px #064bdc30}
+#authView.wrap{max-width:1240px;padding:30px 20px 80px}
+.sg-hero{min-height:340px;border-radius:28px;padding:38px;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:22px;background:linear-gradient(115deg,#e5f3ff,#f8fbff 58%,#fff0dc);border:1px solid #d6e8ff;box-shadow:0 18px 50px #153b7812}
+.sg-kicker{display:inline-block;background:#fff;border:1px solid #d8e8ff;border-radius:40px;padding:8px 14px;color:#064bdc;font-weight:800;font-size:13px}
+.sg-hero h1{font-size:clamp(38px,5vw,62px);line-height:1.08;letter-spacing:-1.8px;margin:17px 0 12px;color:#09265c}
+.sg-hero h1 span{color:#f36b08}.sg-hero p{font-size:17px;line-height:1.65;color:#3d5275;max-width:600px}
+.sg-points{background:#ffffffdf;border:1px solid white;border-radius:22px;padding:23px;box-shadow:0 15px 35px #1d4b8512}
+.sg-points h3{margin:0 0 12px;color:#09265c}.sg-points div{padding:11px 0;border-bottom:1px solid #eaf0f8;font-weight:650;color:#253b62}.sg-points div:last-child{border:0}
+.sg-features{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0 25px}
+.sg-feature{background:white;border:1px solid #e1eafa;border-radius:17px;padding:17px;box-shadow:0 8px 22px #153b780a}
+.sg-feature b{display:block;color:#09265c;margin:7px 0 3px}.sg-feature small{color:#64738d}.sg-feature i{font-style:normal;font-size:26px}
+.auth{max-width:480px;margin:25px auto;background:#fff;border:1px solid #dce7f8;border-radius:23px;padding:27px;box-shadow:0 18px 48px #14366b18}
+.auth h1{color:#09265c}.tab{background:#edf3ff;color:#16458e}.tab.active{background:#064bdc;color:white}
+button{background:linear-gradient(100deg,#064bdc,#1768ef)}button.secondary{background:#eaf2ff;color:#064bdc}
+.panel,.stat,.tile{border-color:#e1eafa;box-shadow:0 7px 22px #153b7808}
+.hero{background:linear-gradient(110deg,#064bdc,#287df0 68%,#ff8a19);box-shadow:0 14px 30px #064bdc25}
+.tile:hover{transform:translateY(-3px);box-shadow:0 12px 25px #153b7815;transition:.2s}
+@media(max-width:760px){header{height:66px;padding:0 14px}.sg-hero{grid-template-columns:1fr;padding:25px 21px}.sg-hero h1{font-size:39px}.sg-hero p{font-size:15px}.sg-features{grid-template-columns:repeat(2,1fr)}#authView.wrap{padding:17px 12px 70px}}
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="logo">S</div>StudyGuru</div><div class="userchip"><span id="topName">Guest</span><div class="avatar" id="topAvatar">G</div></div></header>
-<div id="authView" class="wrap"><div class="auth">
+<header><div class="brand"><div class="logo">🎓</div>Study<span style="color:#f36b08">Guru</span></div><div class="userchip"><span id="topName">Guest</span><div class="avatar" id="topAvatar">G</div></div></header>
+<div id="authView" class="wrap">
+<section class="sg-hero"><div><span class="sg-kicker">🚀 आपकी स्मार्ट पढ़ाई का साथी</span><h1>Study<span>Guru</span><br>Learn • Practice • Excel</h1><p>Class 10, 11 और 12 के लिए notes, PDF library, practice tests और study helper — सब कुछ एक ही जगह। अपनी पढ़ाई को आसान और बेहतर बनाएँ!</p></div><div class="sg-points"><h3>StudyGuru पर मिलेगा ✨</h3><div>📘 Class-wise Study Material</div><div>📚 PDF Notes Library</div><div>📝 Practice & Mock Tests</div><div>🤖 Study Helper</div><div>📈 Student Dashboard</div></div></section>
+<div class="sg-features"><div class="sg-feature"><i>📘</i><b>Study Material</b><small>Subjects और chapters</small></div><div class="sg-feature"><i>📚</i><b>PDF Library</b><small>Notes एक जगह</small></div><div class="sg-feature"><i>📝</i><b>Mock Tests</b><small>Practice और revision</small></div><div class="sg-feature"><i>🤖</i><b>Study Helper</b><small>पढ़ाई में मदद</small></div></div>
+<div class="auth">
  <div class="brand"><div class="logo">S</div>StudyGuru</div><h1>पढ़ाई अब होगी स्मार्ट! ✨</h1><p class="muted">अपने अकाउंट में Login करें या नया अकाउंट बनाएँ।</p>
  <div class="tabs"><button class="tab active" id="loginTab" onclick="authMode('login')">Login</button><button class="tab" id="signupTab" onclick="authMode('signup')">Create account</button></div>
  <div id="nameWrap" class="hidden"><label>पूरा नाम</label><input id="authName" class="field" placeholder="अपना नाम"></div>
