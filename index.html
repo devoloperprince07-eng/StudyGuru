@@ -86,6 +86,25 @@ header .logo{width:52px;height:48px;border-radius:14px;font-size:29px}
 @media(max-width:1050px){header{height:auto;min-height:72px;flex-wrap:wrap;padding:10px 15px}.sg-nav{order:3;flex-basis:100%;overflow-x:auto;justify-content:flex-start}.sg-feature-row{grid-template-columns:repeat(3,1fr)}.sg-student-art{height:310px}.sg-dream{font-size:20px}}
 @media(max-width:700px){#authView.wrap{padding:12px 10px 60px}header .brand{font-size:22px}.sg-head-actions .sg-login,.sg-head-actions .sg-signup{padding:9px 12px;font-size:12px}.sg-nav{gap:0}.sg-nav button{padding:8px 10px;font-size:12px}.sg-hero{grid-template-columns:1fr;padding:24px 18px;min-height:0}.sg-hero h1{font-size:54px}.sg-hero h2{font-size:29px}.sg-hero h3{font-size:23px}.sg-hero p{font-size:15px}.sg-student-art{height:245px}.sg-sun{width:190px;height:190px;right:25%;top:8%}.sg-student{font-size:130px}.sg-student span{font-size:45px}.sg-dream{font-size:16px;right:0}.sg-checks{font-size:11px;right:0;bottom:0;padding:8px}.sg-feature-row{grid-template-columns:repeat(2,1fr);gap:8px}.sg-feature{padding:12px 9px;gap:8px}.sg-feature i{flex-basis:38px;height:38px;font-size:21px}.sg-feature b{font-size:13px}.sg-feature small{font-size:11px}.sg-lower-grid{grid-template-columns:1fr}.sg-course-grid{grid-template-columns:repeat(2,1fr)}.sg-quick{min-height:210px}.sg-footer{font-size:12px;text-align:center;margin-left:-10px;margin-right:-10px}}
 
+
+/* App dashboard refresh: native-feeling, responsive and touch-friendly */
+#appView .wrap{max-width:1240px;padding-top:25px}
+#appView .hero{border-radius:24px;padding:30px 32px;min-height:170px}
+#appView .hero h1{font-size:clamp(24px,4vw,36px)}
+#appView .grid{gap:13px;margin:17px 0 22px}
+#appView .stat{border-radius:17px;padding:18px;box-shadow:0 8px 22px #153b780b}
+#appView .stat strong{color:#064bdc;font-size:28px}
+#appView .sectionhead{margin:25px 0 13px}
+#appView .sectionhead h2{font-size:21px;color:#09265c}
+#appView .tiles{gap:13px}
+#appView .tile{min-height:126px;border-radius:18px;padding:18px;box-shadow:0 7px 20px #153b7809;transition:transform .18s,box-shadow .18s}
+#appView .tile:hover{transform:translateY(-3px);box-shadow:0 13px 26px #153b7817}
+#appView .tile .emoji{font-size:30px}
+#appView .tile h3{color:#09265c}
+#appView .bottomnav{justify-content:center;gap:clamp(3px,3vw,32px);box-shadow:0 -6px 24px #102b560c;padding-top:9px}
+#appView .bottomnav button{min-width:54px;min-height:48px;border-radius:12px}
+#appView .bottomnav button.active{background:#eaf2ff;color:#064bdc}
+@media(max-width:760px){#appView .wrap{padding:14px 11px 100px}#appView .hero{padding:22px 18px;min-height:145px}#appView .grid{grid-template-columns:repeat(2,1fr);gap:9px}#appView .tiles{grid-template-columns:repeat(2,1fr);gap:9px}#appView .tile{min-height:115px;padding:13px}#appView .bottomnav{justify-content:space-around;gap:0}#appView .bottomnav button{min-width:0;flex:1;padding:6px 3px;font-size:10px}}
 </style>
 </head>
 <body>
@@ -108,7 +127,7 @@ header .logo{width:52px;height:48px;border-radius:14px;font-size:29px}
  <div class="notice">Online version: Login और PDF Firebase पर सेव होंगे। पहली बार Firebase Console में Email/Password और Google sign-in चालू करना तथा नीचे दिए Security Rules publish करना जरूरी है।</div>
 </div></div>
 <div id="appView" class="hidden"><main class="wrap" id="main"></main><nav class="bottomnav">
-<button class="active" data-page="home" onclick="go('home')"><span>⌂</span>Home</button><button data-page="study" onclick="go('study')"><span>▤</span>Study</button><button data-page="library" onclick="go('library')"><span>📚</span>PDFs</button><button data-page="tests" onclick="go('tests')"><span>✓</span>Tests</button><button data-page="profile" onclick="go('profile')"><span>●</span>Profile</button>
+<button class="active" data-page="home" onclick="go('home')"><span>⌂</span>Home</button><button data-page="study" onclick="go('study')"><span>▤</span>Study</button><button data-page="library" onclick="go('library')"><span>📚</span>PDFs</button><button data-page="tests" onclick="go('tests')"><span>✓</span>Tests</button><button onclick="openNotes()"><span>✎</span>Notes</button><button data-page="profile" onclick="go('profile')"><span>●</span>Profile</button>
 </nav></div><div id="modalRoot"></div><div id="toastRoot"></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
