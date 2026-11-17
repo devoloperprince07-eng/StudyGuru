@@ -93,7 +93,7 @@ header .logo{width:52px;height:48px;border-radius:14px;font-size:29px}
 <div id="authView" class="wrap">
 <section class="sg-hero" id="sgHome"><div class="sg-copy"><span class="sg-kicker">🚀 Your Learning Partner for a Better Future</span><h1>Study<span>Guru</span></h1><h2>Learn <i>•</i> Practice <i>•</i> Excel</h2><h3>अब पढ़ाई होगी और भी आसान!</h3><p>StudyGuru के साथ पाएं — नोट्स, PDF, मॉक टेस्ट और AI Tutor की मदद, वो भी बिल्कुल मुफ्त में।</p><div class="sg-hero-actions"><button onclick="landingNav('courses')">▶ Start Learning&nbsp; →</button><button class="sg-outline" onclick="landingNav('courses')">▣ Browse Courses</button></div></div><div class="sg-student-art"><div class="sg-sun"></div><div class="sg-student">🎓<span>📚</span></div><div class="sg-dream">Dream Big...<br>Study Smart...</div><div class="sg-checks"><span>✅ Free Notes & PDFs</span><span>✅ Online Tests</span><span>✅ AI Tutor</span><span>✅ Student Dashboard</span><span>✅ Expert Guidance</span></div></div></section>
 <div class="sg-feature-row"><div class="sg-feature"><i>📘</i><div><b>PDF Library</b><small>Class-wise Study Material</small></div></div><div class="sg-feature"><i>🟢</i><div><b>Online Tests</b><small>Practice & Improve</small></div></div><div class="sg-feature"><i>🤖</i><div><b>AI Tutor</b><small>24×7 Doubt Support</small></div></div><div class="sg-feature"><i>📈</i><div><b>Student Dashboard</b><small>Track Your Progress</small></div></div><div class="sg-feature"><i>🏆</i><div><b>Topper Goals</b><small>Achieve Your Dreams</small></div></div></div>
-<div class="sg-lower-grid"><section class="sg-courses"><div class="sg-section-title"><h2>⭐ Popular Courses</h2><button onclick="landingNav('courses')">View All →</button></div><div class="sg-course-grid"><button onclick="landingNav('courses')"><span>📚</span><b>Class 10th<br>Board Exam</b></button><button onclick="landingNav('courses')"><span>🎓</span><b>Class 12th<br>Board Exam</b></button><button onclick="landingNav('courses')"><span>🏆</span><b>Competitive<br>Exams</b></button><button onclick="landingNav('courses')"><span>🌍</span><b>General<br>Knowledge</b></button></div></section><section class="sg-quick"><h2>⚡ Quick Access</h2><button onclick="landingNav('library')">⬇ Download Notes</button><button onclick="landingNav('tests')">▣ Take a Test</button><button onclick="landingNav('tutor')">🤖 Ask AI Tutor</button><div class="sg-quote">“Hard Work<br>Always Pays Off”<span>🏆</span></div></section></div>
+<div class="sg-lower-grid"><section class="sg-courses"><div class="sg-section-title"><h2>⭐ Popular Courses</h2><button onclick="landingNav('courses')">View All →</button></div><div class="sg-course-grid"><button onclick="openCourseClass(10)"><span>📚</span><b>Class 10th<br>Board Exam</b></button><button onclick="openCourseClass(12)"><span>🎓</span><b>Class 12th<br>Board Exam</b></button><button onclick="closeModal();toast('Competitive Exams अभी उपलब्ध नहीं हैं')"><span>🏆</span><b>Competitive<br>Exams</b></button><button onclick="closeModal();toast('General Knowledge अभी उपलब्ध नहीं है')"><span>🌍</span><b>General<br>Knowledge</b></button></div></section><section class="sg-quick"><h2>⚡ Quick Access</h2><button onclick="landingNav('library')">⬇ Download Notes</button><button onclick="landingNav('tests')">▣ Take a Test</button><button onclick="landingNav('tutor')">🤖 Ask AI Tutor</button><div class="sg-quote">“Hard Work<br>Always Pays Off”<span>🏆</span></div></section></div>
 <footer class="sg-footer">❤️ Made with ❤️ for Students&nbsp; | &nbsp;StudyGuru - Learn Today, Lead Tomorrow</footer>
 <div class="auth">
  <div class="brand"><div class="logo">S</div>StudyGuru</div><h1>पढ़ाई अब होगी स्मार्ट! ✨</h1><p class="muted">अपने अकाउंट में Login करें या नया अकाउंट बनाएँ।</p>
@@ -135,14 +135,17 @@ function isAdmin(){return !!currentUser&&currentUser.email.toLowerCase()===ADMIN
 
 function landingNav(target){
  if(target==='home'){if(!auth.currentUser){document.getElementById('sgHome')?.scrollIntoView({behavior:'smooth'});return}go('home');return}
- if(!auth.currentUser){landingAuth('login');toast('पहले Login करें');return}
- if(target==='courses')go('study');
+ if(!auth.currentUser){pendingLandingTarget=target;landingAuth('login');toast('इस सुविधा को खोलने के लिए Login करें');return}
+ if(target==='courses')openCoursesCatalog();
  else if(target==='library')go('library');
  else if(target==='tests')go('tests');
  else if(target==='tutor')openTutor();
  else if(target==='notes')openNotes();
  else if(target==='about')openAbout();
 }
+let pendingLandingTarget=null;
+function openCoursesCatalog(){const h='<h2>Browse Courses</h2><p class="muted">अपनी कक्षा चुनें।</p><div class="tiles"><div class="tile" onclick="openCourseClass(10)"><div class="emoji">📘</div><h3>Class 10th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="openCourseClass(12)"><div class="emoji">🎓</div><h3>Class 12th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="closeModal();toast(\'Competitive Exams अभी उपलब्ध नहीं हैं\')"><div class="emoji">🏆</div><h3>Competitive Exams</h3><p>Coming soon</p></div><div class="tile" onclick="closeModal();toast(\'General Knowledge अभी उपलब्ध नहीं है\')"><div class="emoji">🌍</div><h3>General Knowledge</h3><p>Coming soon</p></div></div><button class="ghost" onclick="closeModal()">Close</button>';modal(h)}
+function openCourseClass(c){closeModal();changeClass(String(c)).then(()=>go('study'))}
 function landingAuth(mode){if(auth.currentUser){if(mode==='signup')go('profile');else go('home');return}authMode(mode);document.querySelector('.auth')?.scrollIntoView({behavior:'smooth',block:'center'});}
 function openAbout(){modal('<h2>About StudyGuru</h2><p>StudyGuru — Learn • Practice • Excel</p><p>विद्यार्थियों के लिए study material, PDF library, practice tests और study helper एक जगह।</p><button onclick="closeModal()">Close</button>')}
 
@@ -182,7 +185,7 @@ auth.onAuthStateChanged(async u=>{
  }
 });
 auth.getRedirectResult().catch(e=>toast(friendlyError(e)));
-function start(){authView.classList.add('hidden');appView.classList.remove('hidden');document.querySelector('.sg-head-actions .sg-login').style.display='none';document.querySelector('.sg-head-actions .sg-signup').style.display='none';document.querySelector('.sg-head-actions .userchip').style.display='flex';topName.textContent=currentUser.name;topAvatar.textContent=currentUser.name[0].toUpperCase();go('home')}
+function start(){authView.classList.add('hidden');appView.classList.remove('hidden');document.querySelector('.sg-head-actions .sg-login').style.display='none';document.querySelector('.sg-head-actions .sg-signup').style.display='none';document.querySelector('.sg-head-actions .userchip').style.display='flex';topName.textContent=currentUser.name;topAvatar.textContent=currentUser.name[0].toUpperCase();if(pendingLandingTarget){const target=pendingLandingTarget;pendingLandingTarget=null;landingNav(target)}else go('home')}
 async function logout(){try{await auth.signOut();closeModal();toast('Logout हो गया')}catch(e){toast(friendlyError(e))}}
 function go(p){page=p;document.querySelectorAll('.bottomnav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));render()}
 function render(){if(page==='home')main.innerHTML=homeHTML();if(page==='study')main.innerHTML=studyHTML();if(page==='library')libraryHTML();if(page==='tests')main.innerHTML=testsHTML();if(page==='profile')profileHTML()}
