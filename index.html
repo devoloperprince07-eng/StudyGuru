@@ -31,13 +31,70 @@ button{background:linear-gradient(100deg,#064bdc,#1768ef)}button.secondary{backg
 .hero{background:linear-gradient(110deg,#064bdc,#287df0 68%,#ff8a19);box-shadow:0 14px 30px #064bdc25}
 .tile:hover{transform:translateY(-3px);box-shadow:0 12px 25px #153b7815;transition:.2s}
 @media(max-width:760px){header{height:66px;padding:0 14px}.sg-hero{grid-template-columns:1fr;padding:25px 21px}.sg-hero h1{font-size:39px}.sg-hero p{font-size:15px}.sg-features{grid-template-columns:repeat(2,1fr)}#authView.wrap{padding:17px 12px 70px}}
+
+/* Screenshot-inspired StudyGuru homepage */
+:root{--p:#064bdc;--p2:#f36b08;--bg:#f2f7ff;--ink:#071b49;--muted:#586782;--line:#dce7f8}
+body{background:#eef5ff}
+header{height:82px;gap:16px;padding:0 max(18px,calc((100vw - 1450px)/2));}
+header .brand{font-size:28px;white-space:nowrap}
+header .logo{width:52px;height:48px;border-radius:14px;font-size:29px}
+.sg-nav{display:flex;align-items:center;gap:5px;flex:1;justify-content:center}
+.sg-nav button{background:transparent;color:#101c35;padding:10px 12px;font-size:14px;font-weight:750;white-space:nowrap}
+.sg-nav button:first-child{background:#064bdc;color:white}
+.sg-nav button:hover{background:#e9f1ff;color:#064bdc}
+.sg-head-actions{display:flex;align-items:center;gap:8px}
+.sg-head-actions .userchip{display:none}
+.sg-head-actions .sg-login,.sg-head-actions .sg-signup{border-radius:28px;padding:13px 19px}
+.sg-head-actions .sg-signup{background:linear-gradient(110deg,#f36b08,#ff8a00)}
+#authView.wrap{max-width:1500px;padding:22px 22px 65px}
+.sg-hero{min-height:420px;border-radius:0;padding:28px 42px;grid-template-columns:1.08fr .92fr;background:linear-gradient(110deg,#dff2ff,#f9fcff 55%,#dceeff);border:0;box-shadow:none;position:relative;overflow:hidden}
+.sg-copy{position:relative;z-index:1}
+.sg-kicker{font-size:15px;padding:10px 16px;background:#ffffffb8}
+.sg-hero h1{font-size:clamp(58px,7vw,92px);margin:14px 0 0;letter-spacing:-3px}
+.sg-hero h2{font-size:clamp(27px,3.4vw,46px);margin:0;color:#09265c;letter-spacing:-1px}
+.sg-hero h2 i{font-style:normal;color:#f36b08}
+.sg-hero h3{font-size:29px;margin:16px 0 4px;color:#121b30}
+.sg-hero p{font-size:19px;line-height:1.4;color:#182a49;max-width:610px;margin:5px 0 17px}
+.sg-hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.sg-hero-actions button{border-radius:28px;padding:16px 25px;font-size:16px}
+.sg-hero-actions .sg-outline{background:#ffffffa8;border:2px solid #064bdc;color:#09265c}
+.sg-student-art{height:365px;position:relative;display:flex;align-items:center;justify-content:center}
+.sg-sun{position:absolute;width:300px;height:300px;border-radius:50%;background:linear-gradient(140deg,#ffd44f,#ffad17);right:20%;top:6%}
+.sg-student{position:relative;z-index:1;font-size:190px;filter:drop-shadow(0 15px 12px #193c6530);transform:translate(-10px,28px)}
+.sg-student span{position:absolute;font-size:66px;right:-42px;bottom:18px}
+.sg-dream{position:absolute;right:0;top:20px;font-size:26px;font-weight:900;font-style:italic;color:#09265c;transform:rotate(-5deg)}
+.sg-checks{position:absolute;right:0;bottom:12px;display:grid;gap:8px;font-size:15px;font-weight:800;color:#17243b;background:#ffffffc9;padding:13px 16px;border-radius:16px}
+.sg-feature-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:0 0 18px}
+.sg-feature{display:flex;align-items:center;gap:13px;background:white;border:1px solid #e1eafa;border-radius:18px;padding:18px 15px;box-shadow:0 8px 18px #0c327014;min-width:0}
+.sg-feature i{font-style:normal;font-size:26px;flex:0 0 48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#eaf2ff}
+.sg-feature b{display:block;font-size:16px;color:#09265c}.sg-feature small{display:block;color:#3e4e68;font-size:13px;margin-top:3px}
+.sg-lower-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+.sg-courses,.sg-quick{border-radius:20px;padding:19px;background:#e8f1ff;border:1px solid #d1e1f8}
+.sg-section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
+.sg-section-title h2,.sg-quick h2{margin:0;font-size:23px;color:#09265c}
+.sg-section-title button{background:transparent;color:#064bdc;padding:6px}
+.sg-course-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sg-course-grid button{background:white;color:#101b31;border:1px solid #d8e5f7;border-radius:14px;padding:13px 7px;display:grid;gap:8px;justify-items:center;white-space:normal;box-shadow:0 5px 12px #12355b0c}
+.sg-course-grid span{font-size:43px}.sg-course-grid b{text-align:center;font-size:14px}
+.sg-quick{background:linear-gradient(130deg,#064bdc,#0755d9 70%,#07389a);color:white;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8px}
+.sg-quick h2{color:white;grid-column:1/-1}
+.sg-quick button{background:#fff;color:#0640ad;text-align:left;border-radius:12px;padding:12px 15px}
+.sg-quote{font-size:22px;font-weight:900;font-style:italic;color:#ffe15b;text-align:center;grid-column:2;grid-row:2/5}
+.sg-quote span{display:block;font-size:45px}
+.sg-footer{margin:18px -22px -65px;padding:18px 25px;background:#071b49;color:white;font-weight:650}
+.auth{margin:32px auto 12px;scroll-margin-top:100px}
+@media(max-width:1050px){header{height:auto;min-height:72px;flex-wrap:wrap;padding:10px 15px}.sg-nav{order:3;flex-basis:100%;overflow-x:auto;justify-content:flex-start}.sg-feature-row{grid-template-columns:repeat(3,1fr)}.sg-student-art{height:310px}.sg-dream{font-size:20px}}
+@media(max-width:700px){#authView.wrap{padding:12px 10px 60px}header .brand{font-size:22px}.sg-head-actions .sg-login,.sg-head-actions .sg-signup{padding:9px 12px;font-size:12px}.sg-nav{gap:0}.sg-nav button{padding:8px 10px;font-size:12px}.sg-hero{grid-template-columns:1fr;padding:24px 18px;min-height:0}.sg-hero h1{font-size:54px}.sg-hero h2{font-size:29px}.sg-hero h3{font-size:23px}.sg-hero p{font-size:15px}.sg-student-art{height:245px}.sg-sun{width:190px;height:190px;right:25%;top:8%}.sg-student{font-size:130px}.sg-student span{font-size:45px}.sg-dream{font-size:16px;right:0}.sg-checks{font-size:11px;right:0;bottom:0;padding:8px}.sg-feature-row{grid-template-columns:repeat(2,1fr);gap:8px}.sg-feature{padding:12px 9px;gap:8px}.sg-feature i{flex-basis:38px;height:38px;font-size:21px}.sg-feature b{font-size:13px}.sg-feature small{font-size:11px}.sg-lower-grid{grid-template-columns:1fr}.sg-course-grid{grid-template-columns:repeat(2,1fr)}.sg-quick{min-height:210px}.sg-footer{font-size:12px;text-align:center;margin-left:-10px;margin-right:-10px}}
+
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="logo">🎓</div>Study<span style="color:#f36b08">Guru</span></div><div class="userchip"><span id="topName">Guest</span><div class="avatar" id="topAvatar">G</div></div></header>
+<header><div class="brand"><div class="logo">🎓</div><span>Study<span style="color:#f36b08">Guru</span></span></div><nav class="sg-nav"><button onclick="landingNav('home')">⌂ Home</button><button onclick="landingNav('courses')">Courses</button><button onclick="landingNav('library')">PDF Library</button><button onclick="landingNav('tutor')">AI Tutor</button><button onclick="landingNav('tests')">Tests</button><button onclick="landingNav('notes')">Notes</button><button onclick="landingNav('about')">About</button></nav><div class="sg-head-actions"><button class="sg-login" onclick="landingAuth('login')">♟ Login</button><button class="sg-signup" onclick="landingAuth('signup')">♟ Sign Up</button><div class="userchip"><span id="topName">Guest</span><div class="avatar" id="topAvatar">G</div></div></div></header>
 <div id="authView" class="wrap">
-<section class="sg-hero"><div><span class="sg-kicker">🚀 आपकी स्मार्ट पढ़ाई का साथी</span><h1>Study<span>Guru</span><br>Learn • Practice • Excel</h1><p>Class 10, 11 और 12 के लिए notes, PDF library, practice tests और study helper — सब कुछ एक ही जगह। अपनी पढ़ाई को आसान और बेहतर बनाएँ!</p></div><div class="sg-points"><h3>StudyGuru पर मिलेगा ✨</h3><div>📘 Class-wise Study Material</div><div>📚 PDF Notes Library</div><div>📝 Practice & Mock Tests</div><div>🤖 Study Helper</div><div>📈 Student Dashboard</div></div></section>
-<div class="sg-features"><div class="sg-feature"><i>📘</i><b>Study Material</b><small>Subjects और chapters</small></div><div class="sg-feature"><i>📚</i><b>PDF Library</b><small>Notes एक जगह</small></div><div class="sg-feature"><i>📝</i><b>Mock Tests</b><small>Practice और revision</small></div><div class="sg-feature"><i>🤖</i><b>Study Helper</b><small>पढ़ाई में मदद</small></div></div>
+<section class="sg-hero" id="sgHome"><div class="sg-copy"><span class="sg-kicker">🚀 Your Learning Partner for a Better Future</span><h1>Study<span>Guru</span></h1><h2>Learn <i>•</i> Practice <i>•</i> Excel</h2><h3>अब पढ़ाई होगी और भी आसान!</h3><p>StudyGuru के साथ पाएं — नोट्स, PDF, मॉक टेस्ट और AI Tutor की मदद, वो भी बिल्कुल मुफ्त में।</p><div class="sg-hero-actions"><button onclick="landingNav('courses')">▶ Start Learning&nbsp; →</button><button class="sg-outline" onclick="landingNav('courses')">▣ Browse Courses</button></div></div><div class="sg-student-art"><div class="sg-sun"></div><div class="sg-student">🎓<span>📚</span></div><div class="sg-dream">Dream Big...<br>Study Smart...</div><div class="sg-checks"><span>✅ Free Notes & PDFs</span><span>✅ Online Tests</span><span>✅ AI Tutor</span><span>✅ Student Dashboard</span><span>✅ Expert Guidance</span></div></div></section>
+<div class="sg-feature-row"><div class="sg-feature"><i>📘</i><div><b>PDF Library</b><small>Class-wise Study Material</small></div></div><div class="sg-feature"><i>🟢</i><div><b>Online Tests</b><small>Practice & Improve</small></div></div><div class="sg-feature"><i>🤖</i><div><b>AI Tutor</b><small>24×7 Doubt Support</small></div></div><div class="sg-feature"><i>📈</i><div><b>Student Dashboard</b><small>Track Your Progress</small></div></div><div class="sg-feature"><i>🏆</i><div><b>Topper Goals</b><small>Achieve Your Dreams</small></div></div></div>
+<div class="sg-lower-grid"><section class="sg-courses"><div class="sg-section-title"><h2>⭐ Popular Courses</h2><button onclick="landingNav('courses')">View All →</button></div><div class="sg-course-grid"><button onclick="landingNav('courses')"><span>📚</span><b>Class 10th<br>Board Exam</b></button><button onclick="landingNav('courses')"><span>🎓</span><b>Class 12th<br>Board Exam</b></button><button onclick="landingNav('courses')"><span>🏆</span><b>Competitive<br>Exams</b></button><button onclick="landingNav('courses')"><span>🌍</span><b>General<br>Knowledge</b></button></div></section><section class="sg-quick"><h2>⚡ Quick Access</h2><button onclick="landingNav('library')">⬇ Download Notes</button><button onclick="landingNav('tests')">▣ Take a Test</button><button onclick="landingNav('tutor')">🤖 Ask AI Tutor</button><div class="sg-quote">“Hard Work<br>Always Pays Off”<span>🏆</span></div></section></div>
+<footer class="sg-footer">❤️ Made with ❤️ for Students&nbsp; | &nbsp;StudyGuru - Learn Today, Lead Tomorrow</footer>
 <div class="auth">
  <div class="brand"><div class="logo">S</div>StudyGuru</div><h1>पढ़ाई अब होगी स्मार्ट! ✨</h1><p class="muted">अपने अकाउंट में Login करें या नया अकाउंट बनाएँ।</p>
  <div class="tabs"><button class="tab active" id="loginTab" onclick="authMode('login')">Login</button><button class="tab" id="signupTab" onclick="authMode('signup')">Create account</button></div>
@@ -75,6 +132,20 @@ let currentUser=null,page='home',authType='login',pdfUnsub=null;
 const subjects={'10':['Mathematics','Science','Social Science','English','Hindi'],'11':['Physics','Chemistry','Mathematics','Biology','English'],'12':['Physics','Chemistry','Mathematics','Biology','English']};
 const chapters={'Mathematics':['Real Numbers','Polynomials','Pair of Linear Equations','Quadratic Equations','Triangles'],'Science':['Chemical Reactions','Acids, Bases and Salts','Life Processes','Light','Electricity'],'Social Science':['History','Geography','Political Science','Economics'],'English':['Reading','Writing','Grammar','Literature'],'Hindi':['क्षितिज','कृतिका','व्याकरण','लेखन'],'Physics':['Units and Measurements','Motion','Laws of Motion','Work Energy Power','Electrostatics'],'Chemistry':['Some Basic Concepts','Structure of Atom','Chemical Bonding','Solutions','Electrochemistry'],'Biology':['The Living World','Biological Classification','Plant Kingdom','Human Physiology']};
 function isAdmin(){return !!currentUser&&currentUser.email.toLowerCase()===ADMIN_EMAIL}
+
+function landingNav(target){
+ if(target==='home'){if(!auth.currentUser){document.getElementById('sgHome')?.scrollIntoView({behavior:'smooth'});return}go('home');return}
+ if(!auth.currentUser){landingAuth('login');toast('पहले Login करें');return}
+ if(target==='courses')go('study');
+ else if(target==='library')go('library');
+ else if(target==='tests')go('tests');
+ else if(target==='tutor')openTutor();
+ else if(target==='notes')openNotes();
+ else if(target==='about')openAbout();
+}
+function landingAuth(mode){if(auth.currentUser){if(mode==='signup')go('profile');else go('home');return}authMode(mode);document.querySelector('.auth')?.scrollIntoView({behavior:'smooth',block:'center'});}
+function openAbout(){modal('<h2>About StudyGuru</h2><p>StudyGuru — Learn • Practice • Excel</p><p>विद्यार्थियों के लिए study material, PDF library, practice tests और study helper एक जगह।</p><button onclick="closeModal()">Close</button>')}
+
 function authMode(m){authType=m;loginTab.classList.toggle('active',m==='login');signupTab.classList.toggle('active',m==='signup');nameWrap.classList.toggle('hidden',m==='login');authSubmit.textContent=m==='login'?'Login करें':'Account बनाएँ'}
 async function submitAuth(){const email=authEmail.value.trim().toLowerCase(),pass=authPass.value,name=authName.value.trim();if(!email||!pass){toast('Email और password भरें');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Email address सही लिखें');return}try{authSubmit.disabled=true;authSubmit.textContent='कृपया प्रतीक्षा करें…';if(authType==='signup'){if(!name){toast('अपना नाम लिखें');return}const c=await auth.createUserWithEmailAndPassword(email,pass);await c.user.updateProfile({displayName:name});await db.collection('users').doc(c.user.uid).set({name,email,class:'10',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}else{await auth.signInWithEmailAndPassword(email,pass)}}catch(e){toast(friendlyError(e))}finally{authSubmit.disabled=false;authSubmit.textContent=authType==='login'?'Login करें':'Account बनाएँ'}}
 async function googleLogin(){try{const provider=new firebase.auth.GoogleAuthProvider();await auth.signInWithPopup(provider)}catch(e){toast(friendlyError(e))}}
