@@ -145,7 +145,7 @@ function landingNav(target){
 }
 let pendingLandingTarget=null;
 function openCoursesCatalog(){const h='<h2>Browse Courses</h2><p class="muted">अपनी कक्षा चुनें।</p><div class="tiles"><div class="tile" onclick="openCourseClass(10)"><div class="emoji">📘</div><h3>Class 10th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="openCourseClass(12)"><div class="emoji">🎓</div><h3>Class 12th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="closeModal();toast(\'Competitive Exams अभी उपलब्ध नहीं हैं\')"><div class="emoji">🏆</div><h3>Competitive Exams</h3><p>Coming soon</p></div><div class="tile" onclick="closeModal();toast(\'General Knowledge अभी उपलब्ध नहीं है\')"><div class="emoji">🌍</div><h3>General Knowledge</h3><p>Coming soon</p></div></div><button class="ghost" onclick="closeModal()">Close</button>';modal(h)}
-function openCourseClass(c){closeModal();changeClass(String(c)).then(()=>go('study'))}
+function openCourseClass(c){if(!auth.currentUser){pendingLandingTarget='courses';landingAuth('login');toast('Course खोलने के लिए पहले Login करें');return}closeModal();changeClass(String(c)).then(()=>go('study')).catch(e=>toast(friendlyError(e)))}
 function landingAuth(mode){if(auth.currentUser){if(mode==='signup')go('profile');else go('home');return}authMode(mode);document.querySelector('.auth')?.scrollIntoView({behavior:'smooth',block:'center'});}
 function openAbout(){modal('<h2>About StudyGuru</h2><p>StudyGuru — Learn • Practice • Excel</p><p>विद्यार्थियों के लिए study material, PDF library, practice tests और study helper एक जगह।</p><button onclick="closeModal()">Close</button>')}
 
