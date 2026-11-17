@@ -105,6 +105,85 @@ header .logo{width:52px;height:48px;border-radius:14px;font-size:29px}
 #appView .bottomnav button{min-width:54px;min-height:48px;border-radius:12px}
 #appView .bottomnav button.active{background:#eaf2ff;color:#064bdc}
 @media(max-width:760px){#appView .wrap{padding:14px 11px 100px}#appView .hero{padding:22px 18px;min-height:145px}#appView .grid{grid-template-columns:repeat(2,1fr);gap:9px}#appView .tiles{grid-template-columns:repeat(2,1fr);gap:9px}#appView .tile{min-height:115px;padding:13px}#appView .bottomnav{justify-content:space-around;gap:0}#appView .bottomnav button{min-width:0;flex:1;padding:6px 3px;font-size:10px}}
+
+/* StudyGuru coaching-app dashboard UI */
+#appView .wrap{max-width:1180px;padding:25px 22px 112px}
+#appView{background:#f5f7fb;min-height:100vh}
+#appView .dash-topline{display:flex;align-items:center;justify-content:space-between;margin:2px 0 18px}
+#appView .dash-eyebrow{display:block;font-size:10px;letter-spacing:1.45px;font-weight:900;color:#f07819}
+#appView .dash-subtitle{font-size:13px;color:#64748b;margin-top:4px}
+#appView .dash-user{width:43px;height:43px;border-radius:15px;padding:3px;background:linear-gradient(135deg,#ff8b28,#0c55ce)}
+#appView .dash-user span{display:grid;place-items:center;width:100%;height:100%;border-radius:12px;background:#fff;color:#123b7b;font-weight:900;font-size:18px}
+#appView .dash-welcome{position:relative;overflow:hidden;display:grid;grid-template-columns:1.3fr .7fr;align-items:center;min-height:230px;padding:30px 34px;border-radius:25px;background:linear-gradient(112deg,#082f78 0%,#0755b8 62%,#f07819 150%);color:#fff;box-shadow:0 16px 34px #0b397322}
+#appView .dash-welcome:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid #ffffff26;right:8%;top:-130px;box-shadow:0 0 0 28px #ffffff0a,0 0 0 58px #ffffff08}
+#appView .dash-welcome-copy{position:relative;z-index:2}
+#appView .dash-tag{display:inline-flex;padding:7px 12px;border-radius:30px;background:#ffffff1b;border:1px solid #ffffff30;font-size:11px;font-weight:750}
+#appView .dash-welcome h1{font-size:clamp(25px,4vw,37px);line-height:1.2;margin:14px 0 7px;color:#fff}
+#appView .dash-welcome p{max-width:530px;color:#e2edff;line-height:1.6;margin:0;font-size:14px}
+#appView .dash-hero-actions{margin-top:18px}
+#appView .dash-hero-actions button{background:#ff8b24;color:#172b4d;border-radius:11px;padding:12px 17px;min-height:45px}
+#appView .dash-hero-actions .dash-light-btn{background:#ffffff1d;color:#fff;border:1px solid #ffffff55}
+#appView .dash-illustration{position:relative;z-index:1;height:170px;display:grid;place-items:center}
+#appView .dash-orbit{width:155px;height:155px;border-radius:50%;background:linear-gradient(145deg,#ffbd68,#ff8427);box-shadow:0 0 0 15px #ffffff0b}
+#appView .dash-book{position:absolute;font-size:82px;filter:drop-shadow(0 12px 8px #001b4b44);transform:rotate(-8deg)}
+#appView .dash-cap{position:absolute;font-size:38px;right:16%;bottom:10px}
+#appView .dash-spark{position:absolute;color:#ffe49c;font-size:28px}.spark-one{left:12%;top:18px}.spark-two{right:13%;top:20px}
+#appView .dash-section-heading{display:flex;align-items:end;justify-content:space-between;margin:25px 0 12px}
+#appView .dash-section-heading h2{font-size:20px;margin:4px 0 0;color:#152d50}
+#appView .dash-class-pill{background:#fff1e4;color:#b6530a;border:1px solid #ffd6b3;border-radius:30px;padding:7px 13px;font-size:12px;font-weight:850}
+#appView .dash-stats{gap:12px;margin:0}
+#appView .dash-stats .stat{position:relative;min-height:120px;padding:15px 16px;border:1px solid #e8edf5;border-radius:17px;background:#fff;box-shadow:0 5px 17px #17345d08}
+#appView .dash-stats .stat small{display:block;margin-top:6px;color:#68778e;font-weight:650}
+#appView .dash-stats .stat strong{display:block;font-size:27px;line-height:1.15;color:#142f56;margin-top:3px}
+#appView .dash-stats .stat em{font-style:normal;font-size:10px;color:#98a3b4}
+#appView .dash-stat-icon{float:right;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:17px}
+#appView .dash-stat-icon.orange{background:#fff0e2}#appView .dash-stat-icon.blue{background:#e8f1ff}#appView .dash-stat-icon.green{background:#e6f8ef}#appView .dash-stat-icon.purple{background:#f1eaff}
+#appView .dash-learning-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#appView .dash-learning-card{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;color:#193457;border:1px solid #e8edf5;border-radius:16px;padding:14px;min-height:82px;box-shadow:0 5px 16px #17345d08;transition:transform .18s,box-shadow .18s}
+#appView .dash-learning-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px #17345d13}
+#appView .dash-card-icon{flex:0 0 43px;height:43px;border-radius:13px;display:grid;place-items:center;font-size:22px}
+#appView .icon-blue{background:#e8f1ff}#appView .icon-orange{background:#fff0e2}#appView .icon-green{background:#e6f8ef}#appView .icon-purple{background:#f1eaff}#appView .icon-yellow{background:#fff8d9}#appView .icon-pink{background:#ffeaf0}
+#appView .dash-learning-card b{display:block;font-size:13px;color:#183354}
+#appView .dash-learning-card small{display:block;color:#7b8799;font-size:11px;margin-top:4px}
+#appView .dash-learning-card i{font-style:normal;margin-left:auto;color:#94a3b8;font-size:20px}
+#appView .dash-bottom-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:13px;margin-top:14px}
+#appView .dash-subject-panel,#appView .dash-live-panel{background:#fff;border:1px solid #e8edf5;border-radius:18px;padding:18px;box-shadow:0 5px 16px #17345d08}
+#appView .dash-panel-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+#appView .dash-panel-heading h2,#appView .dash-live-panel h2{font-size:18px;margin:4px 0;color:#193457}
+#appView .dash-panel-heading button{background:transparent;color:#0755b8;padding:5px;font-size:12px}
+#appView .dash-subject-list button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 2px;background:transparent;color:#193457;border-bottom:1px solid #eef1f6;border-radius:0}
+#appView .dash-subject-list button:last-child{border-bottom:0}
+#appView .dash-subject-list button span{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#f2f6fc;font-size:18px}
+#appView .dash-subject-list button b{font-size:13px}
+#appView .dash-subject-list button i{font-style:normal;margin-left:auto;color:#9aa6b6;font-size:20px}
+#appView .dash-live-panel{background:linear-gradient(145deg,#fff8ef,#fff);position:relative;overflow:hidden}
+#appView .dash-live-icon{display:block;font-size:30px;margin-bottom:12px}
+#appView .dash-live-panel p{font-size:12px;line-height:1.6;color:#718096}
+#appView .dash-coming-pill{display:inline-block;padding:6px 10px;border-radius:20px;background:#fff0df;color:#b95b0c;font-size:10px;font-weight:850}
+#appView .bottomnav{background:#fff;border-top:1px solid #e8edf5;box-shadow:0 -7px 25px #142e500c}
+#appView .bottomnav button.active{background:#fff1e5;color:#d9660d}
+@media(max-width:760px){
+#appView .wrap{padding:15px 12px 100px}
+#appView .dash-welcome{grid-template-columns:1fr .38fr;padding:23px 18px;min-height:205px;border-radius:20px}
+#appView .dash-welcome h1{font-size:25px}
+#appView .dash-welcome p{font-size:12px}
+#appView .dash-illustration{height:125px}
+#appView .dash-orbit{width:95px;height:95px}
+#appView .dash-book{font-size:55px}
+#appView .dash-cap{font-size:26px;right:0}
+#appView .dash-stats{grid-template-columns:repeat(2,1fr)}
+#appView .dash-stats .stat{min-height:108px;padding:12px}
+#appView .dash-learning-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#appView .dash-learning-card{padding:11px 9px;gap:8px;min-height:76px}
+#appView .dash-card-icon{flex-basis:36px;height:36px;font-size:18px}
+#appView .dash-learning-card b{font-size:11px}
+#appView .dash-learning-card small{font-size:9px}
+#appView .dash-learning-card i{font-size:16px}
+#appView .dash-bottom-grid{grid-template-columns:1fr}
+#appView .dash-section-heading{margin-top:21px}
+}
+@media(max-width:390px){#appView .dash-welcome{grid-template-columns:1fr;padding:20px 16px}.dash-illustration{display:none!important}}
+
 </style>
 </head>
 <body>
