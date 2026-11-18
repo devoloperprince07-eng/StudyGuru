@@ -1,520 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#FF6148">
-<title>StudyGuru — Online Study App</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#FF6148">
+<title>StudyGuru — Learn • Practice • Excel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--p:#FF6148;--p2:#1F2633;--bg:#f3f8ff;--ink:#071b49;--muted:#586782;--card:#fff;--line:#dce7f8}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:var(--p);color:white;font-weight:650}button.secondary{background:#efedff;color:var(--p)}button.danger{background:#fff0f0;color:#c03939}button.ghost{background:transparent;color:var(--muted)}.hidden{display:none!important}
-header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 17px;position:sticky;top:0;z-index:5}.brand{font-weight:850;font-size:20px;color:var(--p);display:flex;gap:9px;align-items:center}.logo{width:35px;height:35px;border-radius:12px;background:linear-gradient(135deg,var(--p),#9d83ff);color:white;display:grid;place-items:center}.userchip{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:13px}.avatar{width:35px;height:35px;border-radius:50%;background:#eeeaff;color:var(--p);display:grid;place-items:center;font-weight:800}
-.wrap{max-width:1120px;margin:auto;padding:20px 15px 90px}.hero{background:linear-gradient(115deg,#5145cd,#8b70f2);border-radius:22px;padding:24px;color:#fff;display:flex;justify-content:space-between;gap:18px;align-items:center}.hero h1{font-size:25px;margin:0 0 8px}.hero p{margin:0;color:#e9e5ff}.heroicon{font-size:55px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:17px 0}.stat,.panel,.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:24px;margin-top:5px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:23px 0 12px}.sectionhead h2{font-size:19px;margin:0}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tile{cursor:pointer}.tile:hover{border-color:#c9c1ff}.tile .emoji{font-size:26px}.tile h3{margin:9px 0 4px}.tile p{margin:0;color:var(--muted);font-size:13px}.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:white;outline:none;margin:6px 0 12px}.field:focus{border-color:var(--p)}label{font-size:13px;color:var(--muted);font-weight:650}.auth{max-width:440px;margin:5vh auto;background:white;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 15px 45px #302b6a12}.auth h1{margin:10px 0 4px}.muted{color:var(--muted);font-size:13px}.tabs{display:flex;gap:7px;margin:14px 0}.tab{background:#eeedfa;color:#5b5684}.tab.active{background:var(--p);color:white}.listitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border:0}.pill{font-size:11px;border-radius:30px;padding:5px 9px;background:#eeeaff;color:var(--p)}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:25px 8px}.bottomnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom));z-index:6}.bottomnav button{background:transparent;color:var(--muted);padding:7px 9px;font-size:11px}.bottomnav button span{display:block;font-size:19px}.bottomnav button.active{color:var(--p)}.notice{padding:12px;background:#fff8df;border:1px solid #f2e4a8;border-radius:12px;color:#775f15;font-size:12px;line-height:1.5}.modalback{position:fixed;inset:0;background:#16152c88;display:grid;place-items:center;padding:14px;z-index:10}.modal{background:white;border-radius:18px;padding:18px;width:min(650px,100%);max-height:91vh;overflow:auto}.reader{width:100%;height:70vh;border:1px solid var(--line);border-radius:10px}.q{padding:14px;border:1px solid var(--line);border-radius:12px;margin:11px 0}.q label{display:block;color:var(--ink);font-weight:500;margin:8px 0}.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:#24213f;color:#fff;padding:11px 16px;border-radius:30px;z-index:20;font-size:13px}
-@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.tiles{grid-template-columns:repeat(2,1fr)}.wrap{padding:14px 11px 90px}.hero h1{font-size:21px}.heroicon{font-size:42px}}@media(max-width:390px){.tiles{grid-template-columns:1fr 1fr}}
-
-/* StudyGuru refreshed landing page */
-body{background:radial-gradient(circle at 12% 12%,#e1f1ff 0,transparent 32%),var(--bg)}
-header{height:76px;padding:0 max(18px,calc((100vw - 1200px)/2));box-shadow:0 4px 20px #0b2b6510}
-.brand{color:#09265c}.logo{background:linear-gradient(135deg,#064bdc,#ff7a00);box-shadow:0 7px 16px #064bdc30}
-#authView.wrap{max-width:1240px;padding:30px 20px 80px}
-.sg-hero{min-height:340px;border-radius:28px;padding:38px;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:22px;background:linear-gradient(115deg,#e5f3ff,#f8fbff 58%,#fff0dc);border:1px solid #d6e8ff;box-shadow:0 18px 50px #153b7812}
-.sg-kicker{display:inline-block;background:#fff;border:1px solid #d8e8ff;border-radius:40px;padding:8px 14px;color:#064bdc;font-weight:800;font-size:13px}
-.sg-hero h1{font-size:clamp(38px,5vw,62px);line-height:1.08;letter-spacing:-1.8px;margin:17px 0 12px;color:#09265c}
-.sg-hero h1 span{color:#f36b08}.sg-hero p{font-size:17px;line-height:1.65;color:#3d5275;max-width:600px}
-.sg-points{background:#ffffffdf;border:1px solid white;border-radius:22px;padding:23px;box-shadow:0 15px 35px #1d4b8512}
-.sg-points h3{margin:0 0 12px;color:#09265c}.sg-points div{padding:11px 0;border-bottom:1px solid #eaf0f8;font-weight:650;color:#253b62}.sg-points div:last-child{border:0}
-.sg-features{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0 25px}
-.sg-feature{background:white;border:1px solid #e1eafa;border-radius:17px;padding:17px;box-shadow:0 8px 22px #153b780a}
-.sg-feature b{display:block;color:#09265c;margin:7px 0 3px}.sg-feature small{color:#64738d}.sg-feature i{font-style:normal;font-size:26px}
-.auth{max-width:480px;margin:25px auto;background:#fff;border:1px solid #dce7f8;border-radius:23px;padding:27px;box-shadow:0 18px 48px #14366b18}
-.auth h1{color:#09265c}.tab{background:#edf3ff;color:#16458e}.tab.active{background:#064bdc;color:white}
-button{background:linear-gradient(100deg,#064bdc,#1768ef)}button.secondary{background:#eaf2ff;color:#064bdc}
-.panel,.stat,.tile{border-color:#e1eafa;box-shadow:0 7px 22px #153b7808}
-.hero{background:linear-gradient(110deg,#064bdc,#287df0 68%,#ff8a19);box-shadow:0 14px 30px #064bdc25}
-.tile:hover{transform:translateY(-3px);box-shadow:0 12px 25px #153b7815;transition:.2s}
-@media(max-width:760px){header{height:66px;padding:0 14px}.sg-hero{grid-template-columns:1fr;padding:25px 21px}.sg-hero h1{font-size:39px}.sg-hero p{font-size:15px}.sg-features{grid-template-columns:repeat(2,1fr)}#authView.wrap{padding:17px 12px 70px}}
-
-/* Screenshot-inspired StudyGuru homepage */
-:root{--p:#FF6148;--p2:#1F2633;--bg:#f2f7ff;--ink:#071b49;--muted:#586782;--line:#dce7f8}
-body{background:#eef5ff}
-header{height:82px;gap:16px;padding:0 max(18px,calc((100vw - 1450px)/2));}
-header .brand{font-size:28px;white-space:nowrap}
-header .logo{width:52px;height:48px;border-radius:14px;font-size:29px}
-.sg-nav{display:flex;align-items:center;gap:5px;flex:1;justify-content:center}
-.sg-nav button{background:transparent;color:#101c35;padding:10px 12px;font-size:14px;font-weight:750;white-space:nowrap}
-.sg-nav button:first-child{background:#064bdc;color:white}
-.sg-nav button:hover{background:#e9f1ff;color:#064bdc}
-.sg-head-actions{display:flex;align-items:center;gap:8px}
-.sg-head-actions .userchip{display:none}
-.sg-head-actions .sg-login,.sg-head-actions .sg-signup{border-radius:28px;padding:13px 19px}
-.sg-head-actions .sg-signup{background:linear-gradient(110deg,#f36b08,#ff8a00)}
-#authView.wrap{max-width:1500px;padding:22px 22px 65px}
-.sg-hero{min-height:420px;border-radius:0;padding:28px 42px;grid-template-columns:1.08fr .92fr;background:linear-gradient(110deg,#dff2ff,#f9fcff 55%,#dceeff);border:0;box-shadow:none;position:relative;overflow:hidden}
-.sg-copy{position:relative;z-index:1}
-.sg-kicker{font-size:15px;padding:10px 16px;background:#ffffffb8}
-.sg-hero h1{font-size:clamp(58px,7vw,92px);margin:14px 0 0;letter-spacing:-3px}
-.sg-hero h2{font-size:clamp(27px,3.4vw,46px);margin:0;color:#09265c;letter-spacing:-1px}
-.sg-hero h2 i{font-style:normal;color:#f36b08}
-.sg-hero h3{font-size:29px;margin:16px 0 4px;color:#121b30}
-.sg-hero p{font-size:19px;line-height:1.4;color:#182a49;max-width:610px;margin:5px 0 17px}
-.sg-hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.sg-hero-actions button{border-radius:28px;padding:16px 25px;font-size:16px}
-.sg-hero-actions .sg-outline{background:#ffffffa8;border:2px solid #064bdc;color:#09265c}
-.sg-student-art{height:365px;position:relative;display:flex;align-items:center;justify-content:center}
-.sg-sun{position:absolute;width:300px;height:300px;border-radius:50%;background:linear-gradient(140deg,#ffd44f,#ffad17);right:20%;top:6%}
-.sg-student{position:relative;z-index:1;font-size:190px;filter:drop-shadow(0 15px 12px #193c6530);transform:translate(-10px,28px)}
-.sg-student span{position:absolute;font-size:66px;right:-42px;bottom:18px}
-.sg-dream{position:absolute;right:0;top:20px;font-size:26px;font-weight:900;font-style:italic;color:#09265c;transform:rotate(-5deg)}
-.sg-checks{position:absolute;right:0;bottom:12px;display:grid;gap:8px;font-size:15px;font-weight:800;color:#17243b;background:#ffffffc9;padding:13px 16px;border-radius:16px}
-.sg-feature-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 18px}
-.sg-feature{display:flex;align-items:center;gap:13px;background:white;border:1px solid #e1eafa;border-radius:18px;padding:18px 15px;box-shadow:0 8px 18px #0c327014;min-width:0}
-.sg-feature i{font-style:normal;font-size:26px;flex:0 0 48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#eaf2ff}
-.sg-feature b{display:block;font-size:16px;color:#09265c}.sg-feature small{display:block;color:#3e4e68;font-size:13px;margin-top:3px}
-.sg-lower-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
-.sg-courses,.sg-quick{border-radius:20px;padding:19px;background:#e8f1ff;border:1px solid #d1e1f8}
-.sg-section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
-.sg-section-title h2,.sg-quick h2{margin:0;font-size:23px;color:#09265c}
-.sg-section-title button{background:transparent;color:#064bdc;padding:6px}
-.sg-course-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.sg-course-grid button{background:white;color:#101b31;border:1px solid #d8e5f7;border-radius:14px;padding:13px 7px;display:grid;gap:8px;justify-items:center;white-space:normal;box-shadow:0 5px 12px #12355b0c}
-.sg-course-grid span{font-size:43px}.sg-course-grid b{text-align:center;font-size:14px}
-.sg-quick{background:linear-gradient(130deg,#064bdc,#0755d9 70%,#07389a);color:white;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8px}
-.sg-quick h2{color:white;grid-column:1/-1}
-.sg-quick button{background:#fff;color:#0640ad;text-align:left;border-radius:12px;padding:12px 15px}
-.sg-quote{font-size:22px;font-weight:900;font-style:italic;color:#ffe15b;text-align:center;grid-column:2;grid-row:2/5}
-.sg-quote span{display:block;font-size:45px}
-.sg-footer{margin:18px -22px -65px;padding:18px 25px;background:#071b49;color:white;font-weight:650}
-.auth{margin:32px auto 12px;scroll-margin-top:100px}
-@media(max-width:1050px){header{height:auto;min-height:72px;flex-wrap:wrap;padding:10px 15px}.sg-nav{order:3;flex-basis:100%;overflow-x:auto;justify-content:flex-start}.sg-feature-row{grid-template-columns:repeat(3,1fr)}.sg-student-art{height:310px}.sg-dream{font-size:20px}}
-@media(max-width:700px){#authView.wrap{padding:12px 10px 60px}header .brand{font-size:22px}.sg-head-actions .sg-login,.sg-head-actions .sg-signup{padding:9px 12px;font-size:12px}.sg-nav{gap:0}.sg-nav button{padding:8px 10px;font-size:12px}.sg-hero{grid-template-columns:1fr;padding:24px 18px;min-height:0}.sg-hero h1{font-size:54px}.sg-hero h2{font-size:29px}.sg-hero h3{font-size:23px}.sg-hero p{font-size:15px}.sg-student-art{height:245px}.sg-sun{width:190px;height:190px;right:25%;top:8%}.sg-student{font-size:130px}.sg-student span{font-size:45px}.sg-dream{font-size:16px;right:0}.sg-checks{font-size:11px;right:0;bottom:0;padding:8px}.sg-feature-row{grid-template-columns:repeat(2,1fr);gap:8px}.sg-feature{padding:12px 9px;gap:8px}.sg-feature i{flex-basis:38px;height:38px;font-size:21px}.sg-feature b{font-size:13px}.sg-feature small{font-size:11px}.sg-lower-grid{grid-template-columns:1fr}.sg-course-grid{grid-template-columns:repeat(2,1fr)}.sg-quick{min-height:210px}.sg-footer{font-size:12px;text-align:center;margin-left:-10px;margin-right:-10px}}
-
-
-/* App dashboard refresh: native-feeling, responsive and touch-friendly */
-#appView .wrap{max-width:1240px;padding-top:25px}
-#appView .hero{border-radius:24px;padding:30px 32px;min-height:170px}
-#appView .hero h1{font-size:clamp(24px,4vw,36px)}
-#appView .grid{gap:13px;margin:17px 0 22px}
-#appView .stat{border-radius:17px;padding:18px;box-shadow:0 8px 22px #153b780b}
-#appView .stat strong{color:#064bdc;font-size:28px}
-#appView .sectionhead{margin:25px 0 13px}
-#appView .sectionhead h2{font-size:21px;color:#09265c}
-#appView .tiles{gap:13px}
-#appView .tile{min-height:126px;border-radius:18px;padding:18px;box-shadow:0 7px 20px #153b7809;transition:transform .18s,box-shadow .18s}
-#appView .tile:hover{transform:translateY(-3px);box-shadow:0 13px 26px #153b7817}
-#appView .tile .emoji{font-size:30px}
-#appView .tile h3{color:#09265c}
-#appView .bottomnav{justify-content:center;gap:clamp(3px,3vw,32px);box-shadow:0 -6px 24px #102b560c;padding-top:9px}
-#appView .bottomnav button{min-width:54px;min-height:48px;border-radius:12px}
-#appView .bottomnav button.active{background:#eaf2ff;color:#064bdc}
-@media(max-width:760px){#appView .wrap{padding:14px 11px 100px}#appView .hero{padding:22px 18px;min-height:145px}#appView .grid{grid-template-columns:repeat(2,1fr);gap:9px}#appView .tiles{grid-template-columns:repeat(2,1fr);gap:9px}#appView .tile{min-height:115px;padding:13px}#appView .bottomnav{justify-content:space-around;gap:0}#appView .bottomnav button{min-width:0;flex:1;padding:6px 3px;font-size:10px}}
-
-/* StudyGuru coaching-app dashboard UI */
-#appView .wrap{max-width:1180px;padding:25px 22px 112px}
-#appView{background:#f5f7fb;min-height:100vh}
-#appView .dash-topline{display:flex;align-items:center;justify-content:space-between;margin:2px 0 18px}
-#appView .dash-eyebrow{display:block;font-size:10px;letter-spacing:1.45px;font-weight:900;color:#f07819}
-#appView .dash-subtitle{font-size:13px;color:#64748b;margin-top:4px}
-#appView .dash-user{width:43px;height:43px;border-radius:15px;padding:3px;background:linear-gradient(135deg,#ff8b28,#0c55ce)}
-#appView .dash-user span{display:grid;place-items:center;width:100%;height:100%;border-radius:12px;background:#fff;color:#123b7b;font-weight:900;font-size:18px}
-#appView .dash-welcome{position:relative;overflow:hidden;display:grid;grid-template-columns:1.3fr .7fr;align-items:center;min-height:230px;padding:30px 34px;border-radius:25px;background:linear-gradient(112deg,#082f78 0%,#0755b8 62%,#f07819 150%);color:#fff;box-shadow:0 16px 34px #0b397322}
-#appView .dash-welcome:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid #ffffff26;right:8%;top:-130px;box-shadow:0 0 0 28px #ffffff0a,0 0 0 58px #ffffff08}
-#appView .dash-welcome-copy{position:relative;z-index:2}
-#appView .dash-tag{display:inline-flex;padding:7px 12px;border-radius:30px;background:#ffffff1b;border:1px solid #ffffff30;font-size:11px;font-weight:750}
-#appView .dash-welcome h1{font-size:clamp(25px,4vw,37px);line-height:1.2;margin:14px 0 7px;color:#fff}
-#appView .dash-welcome p{max-width:530px;color:#e2edff;line-height:1.6;margin:0;font-size:14px}
-#appView .dash-hero-actions{margin-top:18px}
-#appView .dash-hero-actions button{background:#ff8b24;color:#172b4d;border-radius:11px;padding:12px 17px;min-height:45px}
-#appView .dash-hero-actions .dash-light-btn{background:#ffffff1d;color:#fff;border:1px solid #ffffff55}
-#appView .dash-illustration{position:relative;z-index:1;height:170px;display:grid;place-items:center}
-#appView .dash-orbit{width:155px;height:155px;border-radius:50%;background:linear-gradient(145deg,#ffbd68,#ff8427);box-shadow:0 0 0 15px #ffffff0b}
-#appView .dash-book{position:absolute;font-size:82px;filter:drop-shadow(0 12px 8px #001b4b44);transform:rotate(-8deg)}
-#appView .dash-cap{position:absolute;font-size:38px;right:16%;bottom:10px}
-#appView .dash-spark{position:absolute;color:#ffe49c;font-size:28px}.spark-one{left:12%;top:18px}.spark-two{right:13%;top:20px}
-#appView .dash-section-heading{display:flex;align-items:end;justify-content:space-between;margin:25px 0 12px}
-#appView .dash-section-heading h2{font-size:20px;margin:4px 0 0;color:#152d50}
-#appView .dash-class-pill{background:#fff1e4;color:#b6530a;border:1px solid #ffd6b3;border-radius:30px;padding:7px 13px;font-size:12px;font-weight:850}
-#appView .dash-stats{gap:12px;margin:0}
-#appView .dash-stats .stat{position:relative;min-height:120px;padding:15px 16px;border:1px solid #e8edf5;border-radius:17px;background:#fff;box-shadow:0 5px 17px #17345d08}
-#appView .dash-stats .stat small{display:block;margin-top:6px;color:#68778e;font-weight:650}
-#appView .dash-stats .stat strong{display:block;font-size:27px;line-height:1.15;color:#142f56;margin-top:3px}
-#appView .dash-stats .stat em{font-style:normal;font-size:10px;color:#98a3b4}
-#appView .dash-stat-icon{float:right;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:17px}
-#appView .dash-stat-icon.orange{background:#fff0e2}#appView .dash-stat-icon.blue{background:#e8f1ff}#appView .dash-stat-icon.green{background:#e6f8ef}#appView .dash-stat-icon.purple{background:#f1eaff}
-#appView .dash-learning-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-#appView .dash-learning-card{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;color:#193457;border:1px solid #e8edf5;border-radius:16px;padding:14px;min-height:82px;box-shadow:0 5px 16px #17345d08;transition:transform .18s,box-shadow .18s}
-#appView .dash-learning-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px #17345d13}
-#appView .dash-card-icon{flex:0 0 43px;height:43px;border-radius:13px;display:grid;place-items:center;font-size:22px}
-#appView .icon-blue{background:#e8f1ff}#appView .icon-orange{background:#fff0e2}#appView .icon-green{background:#e6f8ef}#appView .icon-purple{background:#f1eaff}#appView .icon-yellow{background:#fff8d9}#appView .icon-pink{background:#ffeaf0}
-#appView .dash-learning-card b{display:block;font-size:13px;color:#183354}
-#appView .dash-learning-card small{display:block;color:#7b8799;font-size:11px;margin-top:4px}
-#appView .dash-learning-card i{font-style:normal;margin-left:auto;color:#94a3b8;font-size:20px}
-#appView .dash-bottom-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:13px;margin-top:14px}
-#appView .dash-subject-panel,#appView .dash-live-panel{background:#fff;border:1px solid #e8edf5;border-radius:18px;padding:18px;box-shadow:0 5px 16px #17345d08}
-#appView .dash-panel-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-#appView .dash-panel-heading h2,#appView .dash-live-panel h2{font-size:18px;margin:4px 0;color:#193457}
-#appView .dash-panel-heading button{background:transparent;color:#0755b8;padding:5px;font-size:12px}
-#appView .dash-subject-list button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 2px;background:transparent;color:#193457;border-bottom:1px solid #eef1f6;border-radius:0}
-#appView .dash-subject-list button:last-child{border-bottom:0}
-#appView .dash-subject-list button span{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#f2f6fc;font-size:18px}
-#appView .dash-subject-list button b{font-size:13px}
-#appView .dash-subject-list button i{font-style:normal;margin-left:auto;color:#9aa6b6;font-size:20px}
-#appView .dash-live-panel{background:linear-gradient(145deg,#fff8ef,#fff);position:relative;overflow:hidden}
-#appView .dash-live-icon{display:block;font-size:30px;margin-bottom:12px}
-#appView .dash-live-panel p{font-size:12px;line-height:1.6;color:#718096}
-#appView .dash-coming-pill{display:inline-block;padding:6px 10px;border-radius:20px;background:#fff0df;color:#b95b0c;font-size:10px;font-weight:850}
-#appView .bottomnav{background:#fff;border-top:1px solid #e8edf5;box-shadow:0 -7px 25px #142e500c}
-#appView .bottomnav button.active{background:#fff1e5;color:#d9660d}
-@media(max-width:760px){
-#appView .wrap{padding:15px 12px 100px}
-#appView .dash-welcome{grid-template-columns:1fr .38fr;padding:23px 18px;min-height:205px;border-radius:20px}
-#appView .dash-welcome h1{font-size:25px}
-#appView .dash-welcome p{font-size:12px}
-#appView .dash-illustration{height:125px}
-#appView .dash-orbit{width:95px;height:95px}
-#appView .dash-book{font-size:55px}
-#appView .dash-cap{font-size:26px;right:0}
-#appView .dash-stats{grid-template-columns:repeat(2,1fr)}
-#appView .dash-stats .stat{min-height:108px;padding:12px}
-#appView .dash-learning-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-#appView .dash-learning-card{padding:11px 9px;gap:8px;min-height:76px}
-#appView .dash-card-icon{flex-basis:36px;height:36px;font-size:18px}
-#appView .dash-learning-card b{font-size:11px}
-#appView .dash-learning-card small{font-size:9px}
-#appView .dash-learning-card i{font-size:16px}
-#appView .dash-bottom-grid{grid-template-columns:1fr}
-#appView .dash-section-heading{margin-top:21px}
-}
-@media(max-width:390px){#appView .dash-welcome{grid-template-columns:1fr;padding:20px 16px}.dash-illustration{display:none!important}}
-
-
-/* StudyGuru unified coaching-platform visual system */
-:root{--p:#FF6148;--p2:#1F2633;--bg:#f6f8f7;--ink:#172b24;--muted:#64736b;--line:#e2eae5}
-body{background:#f5f8f6;color:#172b24}
-button{background:linear-gradient(110deg,#e96b16,#f28a32);color:#fff;border-radius:12px;min-height:44px}
-button.secondary{background:#e8f5ed;color:#176b3d}
-button.ghost{color:#53665b}
-header .logo{background:linear-gradient(135deg,#e96b16,#16834a)}
-header .brand{color:#173d2a}
-.sg-head-actions .sg-signup{background:linear-gradient(110deg,#16834a,#22a45f)}
-.sg-nav button:first-child{background:#16834a}
-.sg-nav button:hover{background:#e8f5ed;color:#176b3d}
-.sg-kicker{color:#176b3d}
-.sg-hero{background:linear-gradient(112deg,#fff0df,#fff 54%,#e5f5eb);border:1px solid #f3e5d6}
-.sg-hero h1 span{color:#e96b16}
-.sg-feature i{background:#e8f5ed}
-.sg-courses,.sg-quick{border-color:#e0eae3}
-.sg-quick{background:linear-gradient(130deg,#176b3d,#16834a 72%,#e96b16)}
-.sg-quick button{color:#176b3d}
-#appView{background:#f5f8f6}
-#appView .dash-welcome{background:linear-gradient(112deg,#155d39 0%,#16834a 65%,#e96b16 145%)}
-#appView .dash-eyebrow{color:#d97724}
-#appView .dash-welcome h1{color:#fff}
-#appView .dash-hero-actions button{background:#f28a32;color:#fff}
-#appView .dash-stats .stat strong{color:#176b3d}
-#appView .dash-class-pill{background:#fff0e2;color:#b6530a;border-color:#ffdbbd}
-#appView .dash-learning-card:hover{border-color:#b8ddc5}
-#appView .bottomnav button.active{background:#e8f5ed;color:#176b3d}
-#appView .dash-subject-list button span{background:#e8f5ed}
-#appView .dash-live-panel{background:linear-gradient(145deg,#fff4e8,#fff)}
-#appView .dash-panel-heading button{color:#176b3d}
-#appView .pill{background:#e8f5ed;color:#176b3d}
-#appView .field:focus{border-color:#16834a}
-#appView .tile:hover{border-color:#b8ddc5}
-#appView .panel,#appView .stat,#appView .tile{border-color:#e2eae5}
-#appView .sectionhead h2,#appView .dash-section-heading h2{color:#173d2a}
-#appView .bottomnav{overflow-x:auto}
-@media(max-width:760px){.sg-nav{scrollbar-width:none}.sg-nav::-webkit-scrollbar{display:none}#appView .dash-welcome{grid-template-columns:1fr .35fr}#appView .dash-learning-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:390px){#appView .dash-welcome{grid-template-columns:1fr}#appView .dash-illustration{display:none}}
-
-
-/* StudyGuru platform expansion — mobile-first coaching portal */
-.sg-platform-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:14px 0 28px}
-.sg-platform-card{background:#fff;border:1px solid #e3ece6;border-radius:18px;padding:18px;box-shadow:0 8px 22px #123d1808;min-width:0}
-.sg-platform-card>span{font-size:29px;display:block;margin-bottom:10px}
-.sg-platform-card h3{font-size:16px;margin:0 0 7px;color:#164b35}
-.sg-platform-card p{font-size:13px;line-height:1.55;color:#68766f;min-height:58px;margin:0 0 12px}
-.sg-platform-card small{display:inline-block;background:#edf7f0;color:#24794b;border-radius:30px;padding:6px 10px;font-weight:700}
-.sg-platform-card button{background:#197c4c;color:white;min-height:42px;padding:9px 13px;font-size:12px}
-.sg-nav{overflow-x:auto;white-space:nowrap;scrollbar-width:none}
-.sg-nav::-webkit-scrollbar{display:none}
-.sg-nav button{min-height:44px}
-@media(max-width:900px){.sg-platform-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.sg-platform-grid{gap:9px}.sg-platform-card{padding:13px;border-radius:15px}.sg-platform-card p{min-height:78px;font-size:12px}.sg-platform-card h3{font-size:14px}.sg-platform-card>span{font-size:25px}.sg-nav{max-width:100%;justify-content:flex-start}}
-
-
-/* StudyGuru responsive navigation refresh */
-body.sg-app-mode header .sg-nav{display:none} body.sg-app-mode header{position:sticky;top:0;z-index:5}
-#appView .bottomnav{display:flex;justify-content:space-around;gap:4px}
-#appView .bottomnav button{flex:1;min-width:0;min-height:52px;padding:7px 5px;border-radius:13px;font-size:11px;font-weight:650;line-height:1.2}
-#appView .bottomnav button span{display:block;font-size:20px;line-height:1.3;margin-bottom:2px}
-#appView .bottomnav button.active{background:#e9f5ed;color:#147747}
-#appView .bottomnav button:focus-visible,.userchip:focus-visible{outline:3px solid #f07819;outline-offset:2px}
-#appView .wrap{padding-bottom:112px}
-.sg-more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:15px}
-.sg-more-grid button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;min-height:100px;padding:14px;background:#f7faf8;color:#194b34;border:1px solid #e3ece6;border-radius:15px}
-.sg-more-grid button span{font-size:22px}.sg-more-grid button small{font-size:11px;color:#68766f}
-.sg-more-grid .sg-logout{background:#fff7f3;color:#a43f20}
-@media(min-width:900px){#appView .bottomnav{position:fixed;left:0;top:78px;bottom:0;right:auto;width:88px;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:8px;padding:18px 10px;background:#fff;border-top:0;border-right:1px solid var(--line)}#appView .bottomnav button{flex:0 0 68px;width:100%;min-height:62px;font-size:10px}#appView .wrap{margin-left:88px;max-width:1240px;padding:28px 30px 50px}}
-@media(max-width:520px){#appView .bottomnav{padding:7px 5px calc(7px + env(safe-area-inset-bottom))}#appView .bottomnav button{font-size:10px;min-height:50px}}
-
-/* Final StudyGuru brand system */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-:root{--p:#FF6148;--p2:#1F2633;--bg:#F7F8FA;--ink:#1F2633;--muted:#667085;--card:#FFFFFF;--line:#E7E9ED;--accent-soft:#FFF0ED}
-html{scroll-behavior:smooth}
-body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F7F8FA;color:#1F2633}
-header{background:#fff;border-bottom:1px solid #E7E9ED;box-shadow:0 2px 12px rgba(31,38,51,.04)}
-.brand,header .brand{color:#1F2633}
-.logo,header .logo{background:#FF6148;box-shadow:none;border-radius:11px}
-button{background:#FF6148;color:#fff;border-radius:11px;box-shadow:none}
-button:hover{background:#ed5038}
-button.secondary,.tab{background:#FFF0ED;color:#D94B35}
-button.secondary:hover,.tab:hover{background:#FFE2DC}
-button.danger{background:#FFF0F0;color:#C03939}
-button.ghost{background:transparent;color:#667085}
-.tab.active{background:#FF6148;color:#fff}
-.field{border-color:#E1E4E9;color:#1F2633}
-.field:focus{border-color:#FF6148;box-shadow:0 0 0 3px #FF61481c}
-.hero,#appView .hero{background:#1F2633;color:#fff;box-shadow:none}
-.hero p{color:#E4E7EC}
-.sg-hero{background:#fff;border:1px solid #E7E9ED;border-radius:24px;box-shadow:0 10px 30px rgba(31,38,51,.05)}
-.sg-kicker{color:#D94B35;border-color:#FFE0DA;background:#FFF5F2}
-.sg-hero h1,.sg-hero h2,.sg-hero h3{color:#1F2633}
-.sg-hero h1 span,.sg-hero h2 i{color:#FF6148}
-.sg-hero p{color:#667085}
-.sg-student-art{display:none!important}
-.sg-hero{grid-template-columns:1fr!important;min-height:300px}
-.sg-feature,.sg-courses,.sg-quick,.sg-platform-card,.panel,.stat,.tile,.auth{border-color:#E7E9ED;box-shadow:0 4px 16px rgba(31,38,51,.045)}
-.sg-feature i,.dash-card-icon,.dash-stat-icon,.sg-course-grid span{background:#FFF0ED;color:#D94B35}
-.sg-feature i{font-size:0}
-.sg-feature i:before,.dash-card-icon:before,.dash-stat-icon:before,.sg-course-grid span:before,.tile .emoji:before{content:"";display:block;width:22px;height:22px;background-repeat:no-repeat;background-position:center;background-size:contain;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D94B35' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z'/%3E%3C/svg%3E")}
-.sg-quick{background:#1F2633;color:#fff}
-.sg-quick h2{color:#fff}
-.sg-quick button{background:#fff;color:#1F2633}
-.sg-quote{display:none}
-.sg-nav button:first-child,.sg-nav button:hover{background:#FF6148;color:#fff}
-.sg-nav button{color:#344054}
-.sg-head-actions .sg-signup{background:#FF6148}
-#appView{background:#F7F8FA}
-#appView .dash-welcome{background:#1F2633;box-shadow:none}
-#appView .dash-welcome:after{border-color:#ffffff20}
-#appView .dash-hero-actions button{background:#FF6148;color:#fff}
-#appView .dash-hero-actions .dash-light-btn{background:#ffffff16;color:#fff;border-color:#ffffff40}
-#appView .dash-eyebrow{color:#E85B45}
-#appView .dash-stats .stat strong{color:#1F2633}
-#appView .dash-section-heading h2,#appView .dash-learning-card b,#appView .dash-panel-heading h2,#appView .dash-live-panel h2{color:#1F2633}
-#appView .dash-class-pill,.pill{background:#FFF0ED;color:#C94C38;border-color:#FFD8D0}
-#appView .dash-learning-card{color:#1F2633;border-color:#E7E9ED;box-shadow:0 4px 14px rgba(31,38,51,.04)}
-#appView .dash-card-icon{background:#FFF0ED}
-#appView .dash-stat-icon{background:#FFF0ED!important}
-#appView .dash-subject-panel,#appView .dash-live-panel{border-color:#E7E9ED;box-shadow:0 4px 14px rgba(31,38,51,.04)}
-#appView .dash-panel-heading button{color:#D94B35}
-#appView .bottomnav{border-color:#E7E9ED;box-shadow:0 -4px 16px rgba(31,38,51,.05)}
-#appView .bottomnav button.active{background:#FFF0ED;color:#D94B35}
-#appView .tile:hover{border-color:#FFB3A6}
-.sg-footer{background:#1F2633}
-.auth h1{color:#1F2633}
-.notice{background:#FFF8F4;border-color:#FFD8D0;color:#7A3C30}
-.toast{background:#1F2633}
-.reader{border-color:#E7E9ED}
-@media(max-width:760px){.sg-hero{padding:24px 18px}.sg-feature-row{grid-template-columns:repeat(2,minmax(0,1fr))}.sg-footer{margin-left:-10px;margin-right:-10px}}
-
-
-/* StudyGuru logo + accessible notification styling */
-header .brand{gap:10px;color:#1F2633}
-header .logo{width:58px;height:58px;min-width:58px;background:transparent!important;box-shadow:none!important;border-radius:0!important;display:grid;place-items:center;overflow:visible}
-header .logo svg{display:block;width:100%;height:100%}
-.toast{background:#FFF0ED!important;color:#1F2633!important;border:1px solid #FFD8D0;box-shadow:0 8px 24px rgba(31,38,51,.12);font-family:Inter,system-ui,sans-serif;font-weight:600}
-@media(max-width:520px){header .logo{width:52px;height:52px;min-width:52px}}
-
-
-/* StudyGuru usability fixes */
-#appView,.bottomnav{font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif}
-#appView .sectionhead h2,#appView .dash-section-heading h2{font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif;color:#1F2633}
-#appView .course-group{margin:18px 0 26px}
-#appView .course-group h3{margin:8px 0;color:#1F2633}
-#appView .course-tile{display:block;width:100%;text-align:left;background:#fff;color:#1F2633;border:1px solid #E7E9ED;border-radius:16px;padding:18px;box-shadow:0 4px 14px rgba(31,38,51,.04)}
-#appView .course-tile h3{margin:0 0 8px;font-size:16px}
-#appView .course-tile p{margin:0 0 12px;color:#667085}
-#appView .course-tile .pill{display:inline-flex}
-.toast{background:#1F2633;color:#fff}
-
-/* Admin upload and student study-material presentation */
-.study-video{width:100%;max-height:65vh;background:#1F2633;border-radius:14px}
-#amUploadStatus{display:block;margin-top:10px;min-height:22px}
-#adminMaterials .listitem{align-items:center;gap:12px}
-#adminMaterials .row{flex-wrap:wrap}
-@media(max-width:600px){#adminMaterials .listitem{align-items:flex-start;flex-direction:column}#adminMaterials .row{width:100%}}
+:root{--orange:#FF6148;--dark:#1F2633;--white:#fff;--bg:#f6f7f9;--muted:#6b7280;--line:#e7e9ed;--green:#16865b;--red:#c33d3d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--dark);font-family:Inter,system-ui,sans-serif}button,input,select,textarea{font:inherit}button{border:0;border-radius:11px;padding:11px 15px;background:var(--orange);color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.55;cursor:wait}.secondary{background:#fff0ed;color:#d94f38}.plain{background:#f0f1f3;color:var(--dark)}.danger{background:#fff0f0;color:var(--red)}.hidden{display:none!important}header{height:66px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(18px,calc((100vw - 1120px)/2));position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}.mark{width:35px;height:35px;border-radius:11px;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800}.user{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}main{max-width:1120px;margin:auto;padding:28px 18px 70px}.auth{max-width:430px;margin:7vh auto;background:#fff;padding:28px;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 35px #1f26330a}.auth h1{margin:0 0 8px;font-size:26px}.muted{color:var(--muted)}label{display:block;font-size:13px;font-weight:650;margin:14px 0 7px}.field{width:100%;border:1px solid #dfe2e7;border-radius:10px;padding:12px;background:#fff;color:var(--dark);outline-color:var(--orange)}.auth button{width:100%;margin-top:14px}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.hero{background:var(--dark);color:white;padding:26px;border-radius:18px;margin-bottom:20px}.hero h1{margin:0 0 8px;font-size:clamp(24px,4vw,34px)}.hero p{margin:0;color:#d5d9df}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tabs button{background:#fff;color:var(--dark);border:1px solid var(--line)}.tabs button.active{background:var(--orange);border-color:var(--orange);color:white}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.item{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fff}.item h3{margin:0 0 7px;font-size:16px}.item p{margin:0 0 12px;font-size:13px;color:var(--muted)}.item .actions{display:flex;gap:8px;flex-wrap:wrap}.item button{padding:9px 12px;font-size:13px}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.notice{padding:12px 14px;border-radius:11px;background:#fff4ed;color:#8c3e2e;font-size:13px;margin:12px 0}.status{font-size:13px;margin-top:10px;min-height:18px}.status.error{color:var(--red)}.status.ok{color:var(--green)}.section-title{font-size:19px;margin:22px 0 12px}.empty{padding:25px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #d7dbe1;border-radius:14px}.small{font-size:12px;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}@media(max-width:600px){main{padding:18px 13px 55px}.row{grid-template-columns:1fr}.hero{padding:21px}.auth{margin:4vh 13px;padding:22px}header{padding:0 13px}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header><div class="brand"><div class="logo" aria-label="StudyGuru logo"><svg viewBox="0 0 64 64" role="img" aria-hidden="true"><path d="M8 26 32 8l24 18-24 18L8 26Z" fill="#1F2633"/><path d="M20 24h24l-2 9H22l-2-9Z" fill="#FF6148"/><path d="M27 39h10v8H27z" fill="#1F2633"/><path d="M5 39c9-2 17 0 27 8 10-8 18-10 27-8v13c-10-2-18 1-27 8C22 53 14 50 5 52V39Z" fill="#FF6148"/><path d="M9 43c8 0 15 3 23 10 8-7 15-10 23-10M9 49c8 0 15 3 23 10 8-7 15-10 23-10" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/><circle cx="32" cy="20" r="4" fill="#FFFFFF"/></svg></div><span>Study<span style="color:#FF6148">Guru</span></span></div><nav class="sg-nav"><button onclick="landingNav('home')">⌂ Home</button><button onclick="landingNav('courses')">Courses</button><button onclick="landingNav('library')">PDF Library</button><button onclick="landingNav('tests')">Tests</button><button onclick="landingNav('notes')">Notes</button><button onclick="landingNav('about')">About</button></nav><div class="sg-head-actions"><button class="sg-login" onclick="landingAuth('login')"> Login</button><button class="sg-signup" onclick="landingAuth('signup')"> Sign Up</button><div class="userchip" onclick="openMoreMenu()" role="button" tabindex="0" aria-label="More options"><span id="topName">Guest</span><div class="avatar" id="topAvatar">G</div></div></div></header>
-<div id="authView" class="wrap">
-<section class="sg-hero" id="sgHome"><div class="sg-copy"><span class="sg-kicker"> Your Learning Partner for a Better Future</span><h1>Study<span>Guru</span></h1><h2>Learn <i>•</i> Practice <i>•</i> Excel</h2><h3>अब पढ़ाई होगी और भी आसान!</h3><p>StudyGuru के साथ पाएं — नोट्स, PDF और मॉक टेस्ट की मदद, वो भी बिल्कुल मुफ्त में।</p><div class="sg-hero-actions"><button onclick="landingNav('courses')"> Start Learning&nbsp; →</button><button class="sg-outline" onclick="landingNav('courses')">▣ Browse Courses</button></div></div><div class="sg-student-art"><div class="sg-sun"></div><div class="sg-student"><span></span></div><div class="sg-dream">Dream Big...<br>Study Smart...</div><div class="sg-checks"><span> Free Notes & PDFs</span><span> Online Tests</span><span> Student Dashboard</span><span> Expert Guidance</span></div></div></section>
-<div class="sg-feature-row"><div class="sg-feature"><i></i><div><b>PDF Library</b><small>Class-wise Study Material</small></div></div><div class="sg-feature"><i></i><div><b>Online Tests</b><small>Practice & Improve</small></div></div><div class="sg-feature"><i></i><div><b>Student Dashboard</b><small>Track Your Progress</small></div></div><div class="sg-feature"><i></i><div><b>Topper Goals</b><small>Achieve Your Dreams</small></div></div></div>
-<div class="sg-lower-grid"><section class="sg-courses"><div class="sg-section-title"><h2> Popular Courses</h2><button onclick="landingNav('courses')">View All →</button></div><div class="sg-course-grid"><button onclick="openCourseClass(10)"><span></span><b>Class 10th<br>Board Exam</b></button><button onclick="openCourseClass(12)"><span></span><b>Class 12th<br>Board Exam</b></button><button onclick="closeModal();toast('Competitive Exams अभी उपलब्ध नहीं हैं')"><span></span><b>Competitive<br>Exams</b></button><button onclick="closeModal();toast('General Knowledge अभी उपलब्ध नहीं है')"><span></span><b>General<br>Knowledge</b></button></div></section><section class="sg-quick"><h2> Quick Access</h2><button onclick="landingNav('library')"> Download Notes</button><button onclick="landingNav('tests')">▣ Take a Test</button><div class="sg-quote">“Hard Work<br>Always Pays Off”<span></span></div></section></div>
-<footer class="sg-footer"> Made with  for Students&nbsp; | &nbsp;StudyGuru - Learn Today, Lead Tomorrow</footer>
-<div class="auth">
- <div class="brand"><div class="logo">S</div>StudyGuru</div><h1>पढ़ाई अब होगी स्मार्ट! </h1><p class="muted">अपने अकाउंट में Login करें या नया अकाउंट बनाएँ।</p>
- <div class="tabs"><button class="tab active" id="loginTab" onclick="authMode('login')">Login</button><button class="tab" id="signupTab" onclick="authMode('signup')">Create account</button></div>
- <div id="nameWrap" class="hidden"><label>पूरा नाम</label><input id="authName" class="field" placeholder="अपना नाम"></div>
- <label>Email</label><input id="authEmail" class="field" type="email" placeholder="name@example.com">
- <label>Password</label><input id="authPass" class="field" type="password" placeholder="कम से कम 6 अक्षर">
- <button style="width:100%" id="authSubmit" onclick="submitAuth()">Login करें</button>
- <button class="ghost" style="width:100%;margin-top:6px" onclick="resetPassword()">पासवर्ड भूल गए?</button>
- <button class="secondary" style="width:100%;margin-top:9px" onclick="googleLogin()">Google से Login</button>
- 
- 
-</div></div>
-<div id="appView" class="hidden"><main class="wrap" id="main"></main><nav class="bottomnav" aria-label="Main navigation">
-<button class="active" data-page="home" aria-current="page" onclick="go('home')"><span>⌂</span>Home</button>
-<button data-page="courses" onclick="go('courses')"><span></span>Courses</button>
-<button data-page="study" onclick="go('study')"><span>▤</span>Study</button>
-<button data-page="library" onclick="go('library')"><span></span>PDFs</button>
-<button data-page="tests" onclick="go('tests')"><span>✓</span>Tests</button>
-</nav></div><div id="modalRoot"></div><div id="toastRoot"></div>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+<header><div class="brand"><span class="mark">S</span>StudyGuru</div><div id="userArea" class="user hidden"><span id="userName"></span><button class="plain" onclick="logout()">Logout</button></div></header>
+<main>
+<section id="authView" class="auth">
+<h1>पढ़ाई को बनाइए आसान</h1><p class="muted">अपने StudyGuru account में Login करें या नया account बनाएँ।</p>
+<div id="nameField" class="hidden"><label>आपका नाम</label><input id="fullName" class="field" maxlength="80" placeholder="पूरा नाम"></div>
+<label>Email</label><input id="email" class="field" type="email" autocomplete="email" placeholder="name@example.com">
+<label>Password</label><input id="password" class="field" type="password" autocomplete="current-password" minlength="8" placeholder="कम से कम 8 अक्षर">
+<button id="authButton" onclick="submitAuth()">Login करें</button>
+<button class="secondary" id="modeButton" onclick="toggleMode()">नया account बनाएँ</button>
+<div id="authStatus" class="status" role="status"></div>
+<p class="small">Admin access verified email और सुरक्षित server-side role से नियंत्रित होता है।</p>
+</section>
+<section id="appView" class="hidden">
+<div class="hero"><h1>Learn • Practice • Excel</h1><p>अपनी कक्षा, विषय और अध्याय के अनुसार study material पढ़ें।</p></div>
+<div class="topline"><div><strong id="welcome"></strong><div id="roleText" class="small"></div></div><button class="plain" onclick="refreshAll()">Refresh</button></div>
+<div class="tabs"><button id="studentTab" class="active" onclick="showTab('library')">Study Library</button><button id="adminTab" class="hidden" onclick="showTab('admin')">Admin Manager</button></div>
+<section id="libraryPanel">
+<div class="row panel">
+<div><label>Class</label><select id="classFilter" class="field" onchange="loadSubjects()"><option value="">सभी Classes</option></select></div>
+<div><label>Subject</label><select id="subjectFilter" class="field" onchange="loadLibrary()"><option value="">सभी Subjects</option></select></div>
+</div>
+<div id="libraryList" class="grid"><div class="empty">Study material लोड हो रहा है…</div></div>
+</section>
+<section id="adminPanel" class="hidden">
+<div class="notice">Admin workspace: यहाँ से Classes, Subjects, Chapters और PDF/Video सामग्री manage करें। केवल verified Admin account को access मिलेगा।</div>
+<div class="panel"><h2 class="section-title">Academic structure</h2>
+<div class="row"><div><label>नई Class</label><input id="newClass" class="field" placeholder="जैसे Class 10"></div><div style="align-self:end"><button onclick="addClass()">Class जोड़ें</button></div></div>
+<div class="row"><div><label>Class चुनें</label><select id="manageClass" class="field" onchange="loadManageSubjects()"></select></div><div><label>नया Subject</label><input id="newSubject" class="field" placeholder="जैसे Mathematics"></div></div><button class="secondary" onclick="addSubject()">Subject जोड़ें</button>
+<div class="row"><div><label>Subject चुनें</label><select id="manageSubject" class="field" onchange="loadManageChapters()"></select></div><div><label>नया Chapter</label><input id="newChapter" class="field" placeholder="जैसे Real Numbers"></div></div><button class="secondary" onclick="addChapter()">Chapter जोड़ें</button>
+<div id="structureStatus" class="status"></div></div>
+<div class="panel"><h2 class="section-title">Upload study material</h2>
+<label>Chapter</label><select id="uploadChapter" class="field"></select>
+<div class="row"><div><label>Title</label><input id="materialTitle" class="field" maxlength="120" placeholder="PDF / Video का नाम"></div><div><label>Type</label><select id="materialType" class="field"><option value="pdf">PDF</option><option value="video">Video</option></select></div></div>
+<label>Description (optional)</label><textarea id="materialDescription" class="field" rows="2" maxlength="500" placeholder="छोटा विवरण"></textarea>
+<label>File upload (PDF या MP4, अधिकतम 50 MB)</label><input id="materialFile" class="field" type="file" accept=".pdf,application/pdf,video/mp4">
+<label>या external URL (optional)</label><input id="materialUrl" class="field" type="url" placeholder="https://...">
+<label style="display:flex;gap:9px;align-items:center"><input id="publishNow" type="checkbox" checked> Upload के बाद Students को दिखाएँ</label>
+<button id="uploadButton" onclick="uploadMaterial()">Upload material</button><div id="uploadStatus" class="status"></div>
+</div>
+<h2 class="section-title">Manage uploaded materials</h2><div id="adminMaterials" class="grid"></div>
+</section>
+</section>
+</main><footer>StudyGuru · Secure learning workspace</footer>
 <script>
-// StudyGuru Firebase Web App configuration
-const firebaseConfig={
- apiKey:"AIzaSyD4XL1MAU2Bfb--kjqUbW0prImlEpyJqxE",
- authDomain:"studyguru-89396.firebaseapp.com",
- projectId:"studyguru-89396",
- storageBucket:"studyguru-89396.firebasestorage.app",
- messagingSenderId:"1021971261414",
- appId:"1:1021971261414:web:9d4cfa1ecbea0d3ae3d827",
- measurementId:"G-C3MZ61TKFM"
-};
-const ADMIN_EMAIL="devoloperprince07@gmail.com";
-firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
-let currentUser=null,page='home',authType='login',pdfUnsub=null;
-const subjects={'10':['Mathematics','Science','Social Science','English','Hindi'],'11':['Physics','Chemistry','Mathematics','Biology','English'],'12':['Physics','Chemistry','Mathematics','Biology','English']};
-const chapters={'Mathematics':['Real Numbers','Polynomials','Pair of Linear Equations','Quadratic Equations','Triangles'],'Science':['Chemical Reactions','Acids, Bases and Salts','Life Processes','Light','Electricity'],'Social Science':['History','Geography','Political Science','Economics'],'English':['Reading','Writing','Grammar','Literature'],'Hindi':['क्षितिज','कृतिका','व्याकरण','लेखन'],'Physics':['Units and Measurements','Motion','Laws of Motion','Work Energy Power','Electrostatics'],'Chemistry':['Some Basic Concepts','Structure of Atom','Chemical Bonding','Solutions','Electrochemistry'],'Biology':['The Living World','Biological Classification','Plant Kingdom','Human Physiology']};
-function isAdmin(){return !!currentUser&&currentUser.email.toLowerCase()===ADMIN_EMAIL}
-function isTeacher(){return !!currentUser&&currentUser.role==='teacher'&&!isAdmin()}
-function userRole(){return isAdmin()?'admin':isTeacher()?'teacher':'student'}
-function roleLabel(){return ({admin:'Admin',teacher:'Teacher',student:'Student'})[userRole()]}
-
-function landingNav(target){
- if(target==='home'){if(!auth.currentUser){document.getElementById('sgHome')?.scrollIntoView({behavior:'smooth'});return}go('home');return}
- if(!auth.currentUser){pendingLandingTarget=target;landingAuth('login');toast('इस सुविधा को खोलने के लिए Login करें');return}
- if(target==='courses')openCoursesCatalog();
- else if(target==='library')go('library');
- else if(target==='tests')go('tests');
-
- else if(target==='notes')openNotes();
- else if(target==='about')openAbout();
-}
-let pendingLandingTarget=null;
-function openCoursesCatalog(){const h='<h2>Browse Courses</h2><p class="muted">अपनी कक्षा चुनें।</p><div class="tiles"><div class="tile" onclick="openCourseClass(10)"><div class="emoji"></div><h3>Class 10th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="openCourseClass(11)"><div class="emoji"></div><h3>Class 11th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="openCourseClass(12)"><div class="emoji"></div><h3>Class 12th</h3><p>Board Exam • Subjects</p></div><div class="tile" onclick="closeModal();toast(\'Competitive Exams अभी उपलब्ध नहीं हैं\')"><div class="emoji"></div><h3>Competitive Exams</h3><p>Coming soon</p></div><div class="tile" onclick="closeModal();toast(\'General Knowledge अभी उपलब्ध नहीं है\')"><div class="emoji"></div><h3>General Knowledge</h3><p>Coming soon</p></div></div><button class="ghost" onclick="closeModal()">Close</button>';modal(h)}
-function openCourseClass(c){if(!auth.currentUser){pendingLandingTarget='courses';landingAuth('login');toast('Course खोलने के लिए पहले Login करें');return}closeModal();changeClass(String(c)).then(()=>go('study')).catch(e=>toast(friendlyError(e)))}
-function landingAuth(mode){if(auth.currentUser){if(mode==='signup')go('profile');else go('home');return}authMode(mode);document.querySelector('.auth')?.scrollIntoView({behavior:'smooth',block:'center'});}
-function openAbout(){modal('<h2>About StudyGuru</h2><p>StudyGuru — Learn • Practice • Excel</p><p>विद्यार्थियों के लिए study material, PDF library, practice tests और study helper एक जगह।</p><button onclick="closeModal()">Close</button>')}
-
-function authMode(m){authType=m;loginTab.classList.toggle('active',m==='login');signupTab.classList.toggle('active',m==='signup');nameWrap.classList.toggle('hidden',m==='login');authSubmit.textContent=m==='login'?'Login करें':'Account बनाएँ'}
-async function submitAuth(){const email=authEmail.value.trim().toLowerCase(),pass=authPass.value,name=authName.value.trim();if(!email||!pass){toast('Email और password भरें');return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Email address सही लिखें');return}try{authSubmit.disabled=true;authSubmit.textContent='कृपया प्रतीक्षा करें…';if(authType==='signup'){if(!name){toast('अपना नाम लिखें');return}const c=await auth.createUserWithEmailAndPassword(email,pass);await c.user.updateProfile({displayName:name});await db.collection('users').doc(c.user.uid).set({name,email,class:'10',role:'student',createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}else{await auth.signInWithEmailAndPassword(email,pass)}}catch(e){toast(friendlyError(e))}finally{authSubmit.disabled=false;authSubmit.textContent=authType==='login'?'Login करें':'Account बनाएँ'}}
-async function googleLogin(){
- try{
-  const provider=new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({prompt:'select_account'});
-  auth.useDeviceLanguage();
-  toast('Google account page खुल रही है…');
-  await auth.signInWithRedirect(provider);
- }catch(e){toast(friendlyError(e))}
-}
-async function resetPassword(){const email=authEmail.value.trim().toLowerCase();if(!email){toast('पहले Email लिखें');return}try{await auth.sendPasswordResetEmail(email);toast('Password reset link email पर भेज दिया गया है')}catch(e){toast(friendlyError(e))}}
-async function ensureProfile(u){const ref=db.collection('users').doc(u.uid),snap=await ref.get();if(!snap.exists)await ref.set({name:u.displayName||'Student',email:u.email,class:'10',role:'student',createdAt:firebase.firestore.FieldValue.serverTimestamp()})}
-auth.onAuthStateChanged(async u=>{
- if(u){
-  currentUser={uid:u.uid,name:u.displayName||'Student',email:u.email||'',class:'10'};
-  try{
-   await ensureProfile(u);
-   const snap=await db.collection('users').doc(u.uid).get();
-   if(snap.exists){const d=snap.data()||{};currentUser.name=d.name||currentUser.name;currentUser.class=d.class||'10';currentUser.role=isAdmin()?'admin':(d.role==='teacher'?'teacher':'student')}
-  }catch(e){
-   console.warn('StudyGuru profile sync:',e);
-   toast('Google Login सफल है, लेकिन profile sync में समस्या है। Firestore Rules जाँचें।');
-  }
-  start();
- }else{
-  currentUser=null;
-  if(pdfUnsub)pdfUnsub();
-  document.querySelector('.sg-head-actions .sg-login').style.display='';
-  document.querySelector('.sg-head-actions .sg-signup').style.display='';
-  document.querySelector('.sg-head-actions .userchip').style.display='none';
-  document.body.classList.remove('sg-app-mode');
-  authView.classList.remove('hidden');
-  appView.classList.add('hidden');
- }
-});
-auth.getRedirectResult().catch(e=>toast(friendlyError(e)));
-function start(){authView.classList.add('hidden');appView.classList.remove('hidden');document.body.classList.add('sg-app-mode');updateRoleNav();document.querySelector('.sg-head-actions .sg-login').style.display='none';document.querySelector('.sg-head-actions .sg-signup').style.display='none';document.querySelector('.sg-head-actions .userchip').style.display='flex';topName.textContent=currentUser.name;topAvatar.textContent=currentUser.name[0].toUpperCase();if(pendingLandingTarget){const target=pendingLandingTarget;pendingLandingTarget=null;landingNav(target)}else go('home')}
-async function logout(){try{await auth.signOut();closeModal();toast('Logout हो गया')}catch(e){toast(friendlyError(e))}}
-function openMoreMenu(){if(!currentUser)return;let h='<h2>More options</h2><p class="muted">'+esc(currentUser.name)+' • '+roleLabel()+'</p><div class="sg-more-grid"><button onclick="closeModal();openNotes()"><span>✎</span><b>My Notes</b><small>Saved notes</small></button><button onclick="go(&quot;profile&quot;)"><span>●</span><b>My Profile</b><small>Account settings</small></button>';if(isTeacher())h+='<button onclick="go(&quot;teacher&quot;)"><span></span><b>Teacher Dashboard</b></button>';if(isAdmin())h+='<button onclick="go(&quot;admin&quot;)"><span></span><b>Admin Dashboard</b></button>';h+='<button onclick="closeModal();openAbout()"><span>ⓘ</span><b>About</b></button><button class="sg-logout" onclick="logout()"><span></span><b>Logout</b></button></div>';modal(h)}
-function go(p){if(p==='admin'&&!isAdmin())return toast('Admin access आवश्यक है');if(p==='teacher'&&!isTeacher())return toast('Teacher access आवश्यक है');page=p;document.querySelectorAll('.bottomnav button').forEach(b=>{const a=b.dataset.page===p;b.classList.toggle('active',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});closeModal();render();window.scrollTo({top:0,behavior:'smooth'})}
-function updateRoleNav(){document.querySelectorAll('.role-nav').forEach(x=>x.remove())}
-async function coursesDashboard(){
- main.innerHTML='<div class="dash-section-heading"><div><span class="dash-eyebrow">STUDY LIBRARY</span><h2>Courses</h2><p class="muted">अपनी कक्षा और विषय चुनें।</p></div></div><div class="panel" id="courseCatalog"><div class="empty">Courses लोड हो रहे हैं…</div></div>';
- const box=document.getElementById('courseCatalog');
- const showLocalCatalog=()=>{if(!box)return;box.innerHTML=['10','11','12'].map(c=>'<section class="course-group"><div class="row" style="justify-content:space-between;align-items:center"><h3>Class '+c+'</h3><span class="pill">'+subjects[c].length+' Subjects</span></div><div class="tiles">'+subjects[c].map(sub=>'<button class="tile course-tile" onclick="openCatalogSubject(\''+c+'\',\''+esc(sub)+'\')"><h3>'+esc(sub)+'</h3><p>Chapters • Revision • Practice</p><span class="pill">Open course →</span></button>').join('')+'</div></section>').join('')};
- try{let q=db.collection('courses');if(!isAdmin()&&!isTeacher())q=q.where('active','==',true);else if(isTeacher())q=q.where('teacherId','==',currentUser.uid);const snap=await q.get();if(!box||!document.body.contains(box))return;if(snap.empty){showLocalCatalog();return}box.innerHTML=snap.docs.map(d=>{const c=d.data();return '<div class="listitem"><div><b>'+esc(c.title||'Course')+'</b><div class="muted">Class '+esc(c.class||'')+' • '+esc(c.subject||'')+'</div><p>'+esc(c.description||'')+'</p></div></div>'}).join('')}catch(e){console.warn('Courses Firestore unavailable; showing built-in curriculum.',e);showLocalCatalog()}
-}
-function openCatalogSubject(c,subject){currentUser.class=String(c);db.collection('users').doc(currentUser.uid).set({class:String(c)},{merge:true}).catch(e=>console.warn('Class preference sync:',e));go('study');openSubject(subject)}
-function teacherDashboard(){main.innerHTML='<div class="dash-section-heading"><div><span class="dash-eyebrow">TEACHER WORKSPACE</span><h2>Teacher Dashboard</h2><p class="muted">अपने Courses बनाएँ और व्यवस्थित करें।</p></div></div><div class="panel"><h3>नया Course बनाएँ</h3><label>Course का नाम</label><input id="tcTitle" class="field" maxlength="90" placeholder="जैसे Class 10 Science"><label>Class</label><select id="tcClass" class="field"><option>10</option><option>11</option><option>12</option></select><label>Subject</label><input id="tcSubject" class="field" maxlength="60" placeholder="Science"><label>विवरण</label><textarea id="tcDescription" class="field" rows="3" maxlength="500" placeholder="Course का छोटा परिचय"></textarea><button onclick="teacherCreateCourse()">Course Save करें</button></div><div class="sectionhead"><h3>आपके Courses</h3></div><div class="panel" id="teacherCourses">लोड हो रहा है…</div>';loadTeacherCourses()}
-async function loadTeacherCourses(){const box=document.getElementById('teacherCourses');try{const snap=await db.collection('courses').where('teacherId','==',currentUser.uid).get();if(box)box.innerHTML=snap.empty?'अभी आपने कोई Course नहीं बनाया।':snap.docs.map(d=>{const c=d.data();return '<div class="listitem"><div><b>'+esc(c.title)+'</b><div class="muted">Class '+esc(c.class)+' • '+esc(c.subject)+'</div></div><span class="pill">'+(c.active?'Published':'Draft')+'</span></div>'}).join('')}catch(e){if(box)box.textContent='Courses लोड नहीं हुए। Firestore Rules जाँचें।'}}
-async function teacherCreateCourse(){const title=document.getElementById('tcTitle').value.trim(),cl=document.getElementById('tcClass').value,subject=document.getElementById('tcSubject').value.trim(),description=document.getElementById('tcDescription').value.trim();if(!title||!subject){toast('Course का नाम और Subject भरें');return}try{await db.collection('courses').add({title:title,class:cl,subject:subject,description:description,teacherId:currentUser.uid,active:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});toast('Course Draft सेव हो गया');teacherDashboard()}catch(e){console.error(e);toast('Course सेव नहीं हुआ। Firestore Rules प्रकाशित करें।')}}
-function adminDashboard(){main.innerHTML='<div class="dash-section-heading"><div><span class="dash-eyebrow">PLATFORM CONTROL</span><h2>Admin Dashboard</h2><p class="muted">Users, Courses और Study Materials नियंत्रित करें।</p></div></div><div class="grid dash-stats"><div class="stat"><strong id="adminUserCount">—</strong><small>Registered Users</small></div><div class="stat"><strong id="adminCourseCount">—</strong><small>Courses</small></div></div><div class="panel"><h3>PDF और Video जोड़ें</h3><p class="muted">कक्षा, विषय और अध्याय चुनकर PDF या Video फ़ाइल अपलोड करें। केवल Admin सामग्री प्रकाशित कर सकता है।</p><label for="amClass">Class</label><select id="amClass" class="field" onchange="updateMaterialSubjects()"><option value="10">Class 10</option><option value="11">Class 11</option><option value="12">Class 12</option></select><label for="amSubject">Subject</label><select id="amSubject" class="field"></select><label for="amChapter">Chapter / Topic</label><input id="amChapter" class="field" maxlength="100" placeholder="जैसे: Light – Reflection"><label for="amTitle">Material का नाम</label><input id="amTitle" class="field" maxlength="120" placeholder="जैसे: Chapter 1 Notes"><label for="amType">Material Type</label><select id="amType" class="field" onchange="updateMaterialFileType()"><option value="pdf">PDF</option><option value="video">Video</option></select><label for="amFile">File चुनें</label><input id="amFile" class="field" type="file" accept=".pdf,application/pdf"><p class="muted" id="amFileHint">PDF अधिकतम 25 MB</p><button id="amUploadBtn" onclick="uploadAdminMaterial()">Upload & Publish</button><div id="amUploadStatus" class="muted" aria-live="polite"></div></div><div class="panel"><h3>Uploaded Materials</h3><div id="adminMaterials">लोड हो रहा है…</div></div><div class="panel"><h3>User Role Management</h3><p class="muted">नए अकाउंट Student होते हैं। भरोसेमंद शिक्षक को ही Teacher role दें।</p><div id="adminUsers">Users लोड हो रहे हैं…</div></div><div class="panel"><h3>Course Approval</h3><div id="adminCourses">Courses लोड हो रहे हैं…</div></div>';updateMaterialSubjects();loadAdminData();loadAdminMaterials()}
-function updateMaterialSubjects(){const c=document.getElementById('amClass')?.value||'10',sel=document.getElementById('amSubject');if(!sel)return;sel.innerHTML=subjects[c].map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('')}
-function updateMaterialFileType(){const t=document.getElementById('amType')?.value||'pdf',file=document.getElementById('amFile'),hint=document.getElementById('amFileHint');if(!file)return;file.accept=t==='pdf'?'.pdf,application/pdf':'video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov';if(hint)hint.textContent=t==='pdf'?'PDF अधिकतम 25 MB':'Video MP4 / WebM / MOV अधिकतम 200 MB'}
-async function uploadAdminMaterial(){if(!isAdmin())return toast('केवल Admin सामग्री अपलोड कर सकता है');const cl=document.getElementById('amClass').value,sub=document.getElementById('amSubject').value,chapter=document.getElementById('amChapter').value.trim(),title=document.getElementById('amTitle').value.trim(),type=document.getElementById('amType').value,file=document.getElementById('amFile').files[0],btn=document.getElementById('amUploadBtn'),status=document.getElementById('amUploadStatus');if(!title||!chapter||!file)return toast('Title, Chapter और File भरें');const isPdf=type==='pdf',allowed=isPdf?(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')):(['video/mp4','video/webm','video/quicktime'].includes(file.type)||/\.(mp4|webm|mov)$/i.test(file.name)),limit=isPdf?25*1024*1024:200*1024*1024;if(!allowed)return toast(isPdf?'केवल PDF फ़ाइल चुनें':'केवल MP4, WebM या MOV Video चुनें');if(file.size>limit)return toast(isPdf?'PDF 25 MB से छोटी होनी चाहिए':'Video 200 MB से छोटी होनी चाहिए');const safe=(v)=>String(v).normalize('NFKD').replace(/[^a-zA-Z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,70)||'file';const path='study-materials/'+cl+'/'+safe(sub)+'/'+Date.now()+'-'+safe(file.name);btn.disabled=true;status.textContent='Upload हो रहा है…';try{const ref=storage.ref().child(path),task=ref.put(file,{contentType:file.type||(isPdf?'application/pdf':'video/mp4'),customMetadata:{uploadedBy:currentUser.uid}});await new Promise((resolve,reject)=>task.on('state_changed',snap=>{const pct=Math.round(snap.bytesTransferred/snap.totalBytes*100);status.textContent='Upload हो रहा है: '+pct+'%'},reject,resolve));const url=await ref.getDownloadURL();await db.collection('studyMaterials').add({title,class:cl,subject:sub,chapter,type,fileName:file.name,filePath:path,fileUrl:url,active:true,uploadedBy:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});status.textContent='Upload और Publish सफल हुआ।';document.getElementById('amTitle').value='';document.getElementById('amChapter').value='';document.getElementById('amFile').value='';toast('Study material publish हो गया');loadAdminMaterials()}catch(e){console.error('Material upload failed:',e);status.textContent='Upload नहीं हुआ: '+(e.message||'Firebase Storage/Firestore Rules जाँचें');toast(e.code==='storage/unauthorized'||e.code==='permission-denied'?'Firebase Storage और Firestore Rules Publish करें।':'Upload विफल हुआ।')}finally{btn.disabled=false}}
-async function loadAdminMaterials(){if(!isAdmin())return;const box=document.getElementById('adminMaterials');if(!box)return;try{const snap=await db.collection('studyMaterials').get();if(!document.body.contains(box))return;box.innerHTML=snap.empty?'<div class="empty">अभी कोई PDF या Video upload नहीं है।</div>':snap.docs.map(d=>{const x=d.data();return '<div class="listitem"><div><b>'+esc(x.title||x.fileName||'Material')+'</b><div class="muted">Class '+esc(x.class)+' • '+esc(x.subject)+' • '+esc(x.chapter)+' • '+(x.type==='video'?'Video':'PDF')+'</div><span class="pill">'+(x.active?'Published':'Hidden')+'</span></div><div class="row"><button class="secondary" onclick="adminToggleMaterial(\''+esc(d.id)+'\','+(!x.active)+')">'+(x.active?'Hide':'Publish')+'</button><button class="secondary" onclick="adminDeleteMaterial(\''+esc(d.id)+'\')">Delete</button></div></div>'}).join('')}catch(e){console.error(e);box.innerHTML='<div class="empty">Materials लोड नहीं हुए। Firestore Rules जाँचें।</div>'}}
-async function adminToggleMaterial(id,active){if(!isAdmin())return;try{await db.collection('studyMaterials').doc(id).update({active});toast(active?'Material Published':'Material Hidden');loadAdminMaterials()}catch(e){toast('Material update नहीं हुआ। Firestore Rules जाँचें।')}}
-async function adminDeleteMaterial(id){if(!isAdmin())return;const d=await db.collection('studyMaterials').doc(id).get();if(!d.exists)return;const x=d.data();if(!confirm('इस PDF/Video को Delete करना है?'))return;try{await db.collection('studyMaterials').doc(id).delete();if(x.filePath)await storage.ref().child(x.filePath).delete().catch(e=>console.warn('Storage file delete:',e));toast('Material Delete हो गया');loadAdminMaterials()}catch(e){console.error(e);toast('Delete नहीं हुआ। Rules जाँचें।')}}
-async function loadAdminData(){try{const pair=await Promise.all([db.collection('users').get(),db.collection('courses').get()]);const us=pair[0],cs=pair[1],uc=document.getElementById('adminUserCount'),cc=document.getElementById('adminCourseCount');if(uc)uc.textContent=us.size;if(cc)cc.textContent=cs.size;const ub=document.getElementById('adminUsers');if(ub)ub.innerHTML=us.empty?'कोई User नहीं मिला।':us.docs.map(d=>{const u=d.data(),r=u.role||'student';return '<div class="listitem"><div><b>'+esc(u.name||'Student')+'</b><div class="muted">'+esc(u.email||'')+'</div></div><select class="field role-select" id="role-'+esc(d.id)+'"><option value="student" '+(r==='student'?'selected':'')+'>Student</option><option value="teacher" '+(r==='teacher'?'selected':'')+'>Teacher</option></select><button class="secondary" onclick="adminSetRole(\''+esc(d.id)+'\')">Save</button></div>'}).join('');const cb=document.getElementById('adminCourses');if(cb)cb.innerHTML=cs.empty?'कोई Course नहीं।':cs.docs.map(d=>{const c=d.data();return '<div class="listitem"><div><b>'+esc(c.title||'Course')+'</b><div class="muted">Class '+esc(c.class||'')+' • '+esc(c.subject||'')+'</div></div><button class="secondary" onclick="adminToggleCourse(\''+esc(d.id)+'\','+(!c.active)+')">'+(c.active?'Unpublish':'Publish')+'</button></div>'}).join('')}catch(e){console.error(e);toast('Admin data लोड नहीं हुआ। Firestore Rules प्रकाशित करें।')}}
-async function adminSetRole(uid){if(!isAdmin())return toast('केवल Admin यह कर सकता है');if(uid===currentUser.uid)return toast('अपने Admin Role को यहाँ से बदलना सुरक्षित नहीं है');const role=document.getElementById('role-'+uid)?.value;if(!['student','teacher'].includes(role))return toast('मान्य Role चुनें');try{await db.collection('users').doc(uid).update({role:role,roleUpdatedAt:firebase.firestore.FieldValue.serverTimestamp(),roleUpdatedBy:currentUser.uid});toast(role==='teacher'?'Teacher access दिया गया':'Student access सेट किया गया');loadAdminData()}catch(e){console.error('Role update failed:',e);toast(e.code==='permission-denied'?'Firestore Rules में Admin role-update अनुमति Publish करें।':'Role अपडेट नहीं हुआ। '+(e.message||''))}}
-async function adminToggleCourse(id,active){if(!isAdmin())return;try{await db.collection('courses').doc(id).update({active:active});toast(active?'Course Published':'Course Unpublished');loadAdminData()}catch(e){toast('Course update नहीं हुआ। Firestore Rules जाँचें।')}}
-function render(){if(page==='home')main.innerHTML=homeHTML();if(page==='study')main.innerHTML=studyHTML();if(page==='library')libraryHTML();if(page==='tests')main.innerHTML=testsHTML();if(page==='profile')profileHTML();if(page==='admin'&&isAdmin())adminDashboard();if(page==='teacher'&&isTeacher())teacherDashboard();if(page==='courses')coursesDashboard()}
-function homeHTML(){if(isAdmin())return '<div class="dash-welcome"><div class="dash-welcome-copy"><span class="dash-tag"> ADMIN WORKSPACE</span><h1>Welcome, Admin</h1><p>StudyGuru के users, teacher roles और course approvals manage करें।</p><button onclick="go(&quot;admin&quot;)">Open Admin Dashboard →</button></div></div>';if(isTeacher())return '<div class="dash-welcome"><div class="dash-welcome-copy"><span class="dash-tag"> TEACHER WORKSPACE</span><h1>Welcome, '+esc(currentUser.name)+'</h1><p>अपने courses बनाएँ और उन्हें Admin approval के लिए भेजें।</p><button onclick="go(&quot;teacher&quot;)">Open Teacher Dashboard →</button></div></div>';let c=currentUser.class||'10',notes=getNotes(),scores=getScores(),latest=scores[0];return `<div class="dash-topline"><div><span class="dash-eyebrow">STUDYGURU • STUDENT SPACE</span><div class="dash-subtitle">आपकी पढ़ाई, आपकी रफ़्तार</div></div><div class="dash-user"><span>${esc((currentUser.name||'S')[0].toUpperCase())}</span></div></div><section class="dash-welcome"><div class="dash-welcome-copy"><span class="dash-tag"> आपका learning dashboard</span><h1>नमस्ते, ${esc(currentUser.name)}! </h1><p>आज का छोटा लक्ष्य पूरा करें। सही तैयारी, नियमित अभ्यास और रिविज़न से अपने लक्ष्य की ओर बढ़ें।</p><div class="row dash-hero-actions"><button onclick="go('study')">पढ़ाई शुरू करें →</button><button class="dash-light-btn" onclick="go('tests')">टेस्ट दें</button></div></div><div class="dash-illustration"><div class="dash-orbit"></div><div class="dash-book"></div><div class="dash-cap"></div><span class="dash-spark spark-one"></span><span class="dash-spark spark-two"></span></div></section><div class="dash-section-heading"><div><span class="dash-eyebrow">YOUR OVERVIEW</span><h2>आपकी तैयारी एक नज़र में</h2></div><span class="dash-class-pill">Class ${c}</span></div><div class="grid dash-stats"><div class="stat"><span class="dash-stat-icon orange"></span><strong>${subjects[c].length}</strong><small>आपके विषय</small></div><div class="stat"><span class="dash-stat-icon blue"></span><strong>${notes.length}</strong><small>सेव किए नोट्स</small></div><div class="stat"><span class="dash-stat-icon green">✓</span><strong>${scores.length}</strong><small>दिए गए टेस्ट</small></div><div class="stat"><span class="dash-stat-icon purple"></span><strong>${latest?latest.score+'/'+latest.total:'—'}</strong><small>पिछला टेस्ट स्कोर</small></div></div><div class="dash-section-heading"><div><span class="dash-eyebrow">LEARN & PRACTICE</span><h2>आपके Learning Tools</h2></div></div><div class="dash-learning-grid"><button class="dash-learning-card" onclick="go('study')"><span class="dash-card-icon icon-blue"></span><span><b>Study Material</b><small>विषय और अध्याय</small></span><i>›</i></button><button class="dash-learning-card" onclick="go('library')"><span class="dash-card-icon icon-orange"></span><span><b>PDF Library</b><small>Notes और PDFs</small></span><i>›</i></button><button class="dash-learning-card" onclick="go('tests')"><span class="dash-card-icon icon-green"></span><span><b>Mock Tests</b><small>अपनी तैयारी जाँचें</small></span><i>›</i></button><button class="dash-learning-card" onclick="openNotes()"><span class="dash-card-icon icon-purple"></span><span><b>My Notes</b><small>अपने नोट्स सेव करें</small></span><i>›</i></button><button class="dash-learning-card" onclick="go('profile')"><span class="dash-card-icon icon-yellow"></span><span><b>My Profile</b><small>अकाउंट और कक्षा</small></span><i>›</i></button><button class="dash-learning-card" onclick="toast('Live Classes जल्द उपलब्ध होंगी')"><span class="dash-card-icon icon-pink"></span><span><b>Live Classes</b><small>जल्द उपलब्ध • Coming soon</small></span><i>›</i></button></div><div class="dash-bottom-grid"><section class="dash-subject-panel"><div class="dash-panel-heading"><div><span class="dash-eyebrow">KEEP LEARNING</span><h2>आपके विषय</h2></div><button onclick="go('study')">सभी देखें →</button></div><div class="dash-subject-list">${subjects[c].slice(0,4).map((s,i)=>`<button onclick="openSubject('${s}')"><span>${['','','',''][i%4]}</span><b>${s}</b><i>›</i></button>`).join('')}</div></section><section class="dash-live-panel"><span class="dash-live-icon"></span><span class="dash-coming-pill">COMING SOON</span><h2>Live Learning</h2><p>Live classes और scheduled batches को अगले development phase में जोड़ा जाएगा। अभी Study Material और Practice Tests से तैयारी जारी रखें।</p><button class="secondary" onclick="go('study')">अभी पढ़ें</button></section></div>
-<div class="dash-section-heading"><div><span class="dash-eyebrow">COMPLETE LEARNING EXPERIENCE</span><h2>StudyGuru की सुविधाएँ</h2><p class="muted">पढ़ाई से लेकर तैयारी के विश्लेषण तक — सब एक जगह।</p></div></div>
-<div class="sg-platform-grid">
-<section class="sg-platform-card"><span></span><h3>Courses & Batches</h3><p>Class-wise courses और learning paths। Batch scheduling आगे जोड़ी जाएगी।</p><button onclick="openCoursesCatalog()">Courses देखें →</button></section>
-<section class="sg-platform-card"><span></span><h3>Recorded Lessons</h3><p>अध्याय के अनुसार वीडियो लेक्चर की सुविधा।</p><small>Coming soon</small></section>
-<section class="sg-platform-card"><span></span><h3>Live Classes</h3><p>Teacher-led live sessions और attendance।</p><small>Coming soon</small></section>
-<section class="sg-platform-card"><span></span><h3>Chapter-wise Tests</h3><p>अभी sample practice quiz उपलब्ध है। विस्तृत question bank आगे बनेगा।</p><button onclick="go('tests')">Practice करें →</button></section>
-<section class="sg-platform-card"><span></span><h3>Progress Analytics</h3><p>Scores और learning progress का विस्तृत विश्लेषण।</p><small>Coming soon</small></section>
-<section class="sg-platform-card"><span></span><h3>Doubt Support</h3><p>अपने सवाल भेजें और शिक्षक से सहायता पाएँ।</p><small>Coming soon</small></section>
-<section class="sg-platform-card"><span></span><h3>Notifications</h3><p>Class, test और course updates की सूचनाएँ।</p><small>Coming soon</small></section>
-<section class="sg-platform-card"><span></span><h3>Offline Study</h3><p>कम नेटवर्क में पढ़ाई के लिए सीमित offline access।</p><small>Coming soon</small></section>
-</div>`}
-function studyHTML(){let c=currentUser.class||'10';return `<div class="dash-section-heading"><div><span class="dash-eyebrow">STUDY SPACE</span><h2>अपनी पढ़ाई चुनें</h2><p class="muted">कक्षा के अनुसार विषय और अध्याय देखें।</p></div><span class="dash-class-pill">Class ${c}</span></div><div class="panel"><b>अपनी कक्षा चुनें</b><div class="row" style="margin-top:12px">${['10','11','12'].map(x=>`<button class="${c===x?'':'secondary'}" onclick="changeClass('${x}')">Class ${x}</button>`).join('')}</div></div><div class="dash-section-heading"><div><span class="dash-eyebrow">SUBJECT LIBRARY</span><h2>Class ${c} के विषय</h2></div><span class="pill">${subjects[c].length} Subjects</span></div><div class="tiles">${subjects[c].map((s,i)=>`<div class="tile" onclick="openSubject('${s}')"><div class="emoji">${['','','','',''][i%5]}</div><h3>${s}</h3><p>अध्याय • Quick revision • Practice</p><div class="row" style="margin-top:13px"><span class="pill">Open subject →</span></div></div>`).join('')}</div>`}
-async function changeClass(c){currentUser.class=String(c);render();try{await db.collection('users').doc(currentUser.uid).set({class:String(c)},{merge:true})}catch(e){console.warn('Class preference sync:',e)}}
-function openSubject(s){let c=currentUser.class||'10',ch=chapters[s]||['Introduction','Important Concepts','Practice Questions'];modal(`<h2>${s} — Class ${c}</h2><p class="muted">Chapter चुनें</p>${ch.map((x,i)=>`<div class="listitem"><b>${i+1}. ${x}</b><button class="secondary" onclick="showChapter('${s}','${x}')">Open</button></div>`).join('')}<div id="subjectMaterialList" class="panel"><div class="empty">Study materials लोड हो रहे हैं…</div></div><button class="ghost" onclick="closeModal()">Close</button>`);loadSubjectMaterials(s,c)}
-async function loadSubjectMaterials(subject,cl){const box=document.getElementById('subjectMaterialList');try{const snap=await db.collection('studyMaterials').where('active','==',true).get();if(!box||!document.body.contains(box))return;const items=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.class)===String(cl)&&x.subject===subject);box.innerHTML='<h3>Study Materials</h3>'+(items.length?items.map(x=>'<div class="listitem"><div><b>'+esc(x.title)+'</b><div class="muted">'+esc(x.chapter)+' • '+(x.type==='video'?'Video':'PDF')+'</div></div><button class="secondary" onclick="openStudyMaterial(\''+esc(x.id)+'\')">'+(x.type==='video'?'Watch':'Read')+'</button></div>').join(''):'<div class="empty">इस Subject के लिए अभी PDF या Video उपलब्ध नहीं है।</div>')}catch(e){console.error(e);if(box)box.innerHTML='<div class="empty">Study materials लोड नहीं हुए।</div>'}}
-function showChapter(s,ch){const cl=currentUser.class||'10';modal(`<h2>${ch}</h2><span class="pill">${s} • Class ${cl}</span><div class="panel"><h3>Quick Revision</h3><p>मुख्य परिभाषाएँ, सूत्र और उदाहरण लिखें। Textbook के साथ topic पढ़ें और अंत में exercise के प्रश्न हल करें।</p><label><input type="checkbox"> Concept समझ लिया</label><br><label><input type="checkbox"> Examples हल किए</label><br><label><input type="checkbox"> Exercise पूरी की</label></div><div id="chapterMaterials" class="panel"><div class="empty">PDF और Videos लोड हो रहे हैं…</div></div><button onclick="closeModal();openNotes('${esc(ch)}')">इस chapter के notes लिखें</button>`);loadChapterMaterials(s,ch,cl)}
-async function loadChapterMaterials(subject,chapter,cl){const box=document.getElementById('chapterMaterials');try{const snap=await db.collection('studyMaterials').where('active','==',true).get();if(!box||!document.body.contains(box))return;const items=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>String(x.class)===String(cl)&&x.subject===subject&&x.chapter===chapter);box.innerHTML='<h3>PDFs और Video Lectures</h3>'+(items.length?items.map(x=>'<div class="listitem"><div><b>'+esc(x.title)+'</b><div class="muted">'+(x.type==='video'?'Video Lecture':'PDF Notes')+'</div></div><button class="secondary" onclick="openStudyMaterial(\''+esc(x.id)+'\')">'+(x.type==='video'?'Watch Video':'Read PDF')+'</button></div>').join(''):'<div class="empty">इस Chapter के लिए अभी कोई PDF या Video उपलब्ध नहीं है।</div>')}catch(e){console.error(e);if(box)box.innerHTML='<div class="empty">Materials लोड नहीं हुए।</div>'}}
-async function openStudyMaterial(id){try{const d=await db.collection('studyMaterials').doc(id).get();if(!d.exists)return toast('Material नहीं मिला');const x=d.data();if(!x.active&&!isAdmin())return toast('यह Material अभी उपलब्ध नहीं है');const url=safePdfUrl(x.fileUrl);if(!url)return toast('File URL सही नहीं है');if(x.type==='video')modal('<h2>'+esc(x.title)+'</h2><video class="study-video" controls playsinline preload="metadata" src="'+url+'"></video><p class="muted">'+esc(x.chapter||'')+'</p><button class="secondary" onclick="closeModal()">Close</button>');else modal('<h2>'+esc(x.title)+'</h2><iframe class="reader" src="'+url+'" title="'+esc(x.title)+'"></iframe><div class="row"><button onclick="window.open(\''+url+'\',\'_blank\',\'noopener\')">Open PDF</button><button class="secondary" onclick="closeModal()">Close</button></div>')}catch(e){console.error(e);toast('Material खुल नहीं पाया')}}
-function safePdfUrl(value){try{const u=new URL(String(value||''));return u.protocol==='https:'?u.href:''}catch(e){return ''}}
-const PDF_LIBRARY_URL='https://raw.githubusercontent.com/devoloperprince07-eng/StudyGuru/main/pdf-library.json';
-const PDF_LIBRARY_EDIT_URL='https://github.com/devoloperprince07-eng/StudyGuru/edit/main/pdf-library.json';
-let pdfItems=[];
-function safePdfUrl(value){try{const u=new URL(String(value||''));return u.protocol==='https:'?u.href:''}catch(e){return ''}}
-async function loadPdfIndex(){const res=await fetch(PDF_LIBRARY_URL+'?v='+Date.now(),{cache:'no-store'});if(!res.ok)throw new Error('PDF सूची लोड नहीं हुई ('+res.status+')');const data=await res.json();if(!Array.isArray(data))throw new Error('pdf-library.json में JSON Array होना चाहिए');return data.filter(x=>x&&typeof x.title==='string'&&['10','11','12','All'].includes(String(x.class))&&safePdfUrl(x.url)).map((x,i)=>({...x,id:String(x.id||i),class:String(x.class),url:safePdfUrl(x.url)}))}
-async function libraryHTML(){main.innerHTML='<div class="sectionhead"><h2>PDF Library</h2></div><div class="panel" id="pdfList"><div class="empty">PDFs लोड हो रही हैं…</div></div>';const list=document.getElementById('pdfList');try{const snap=await db.collection('studyMaterials').where('active','==',true).get();if(!list||!document.body.contains(list))return;const docs=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.type==='pdf'&&(String(x.class)===String(currentUser.class||'10')||x.class==='All')).sort((a,b)=>String(a.title).localeCompare(String(b.title)));list.innerHTML=docs.length?docs.map(x=>'<div class="listitem"><div><b>'+esc(x.title)+'</b><div class="muted">Class '+esc(x.class)+' • '+esc(x.subject)+' • '+esc(x.chapter)+'</div></div><button class="secondary" onclick="openStudyMaterial(\''+esc(x.id)+'\')">Read PDF</button></div>').join(''):'<div class="empty">इस Class के लिए अभी कोई PDF उपलब्ध नहीं है।</div>'}catch(e){console.error(e);if(list)list.innerHTML='<div class="empty">PDF Library लोड नहीं हुई। Firestore Rules जाँचें।</div>'}}
-function findPdf(id){return pdfItems.find(x=>String(x.id)===String(id))}
-function openPdf(id){const item=findPdf(id);if(!item){toast('PDF नहीं मिली। Library refresh करें');return}const url=safePdfUrl(item.url);if(!url){toast('PDF का URL सही नहीं है');return}modal(`<h3>${esc(item.title)}</h3><iframe class="reader" src="${url}" title="${esc(item.title)}"></iframe><div class="row"><button onclick="window.open('${url}','_blank','noopener')">Open in Chrome</button><button class="secondary" onclick="closeModal()">Close</button></div>`)}
-function downloadPdf(id){const item=findPdf(id);if(!item){toast('PDF नहीं मिली');return}const url=safePdfUrl(item.url);if(!url){toast('PDF का URL सही नहीं है');return}window.open(url,'_blank','noopener')}
-function testsHTML(){return `<div class="dash-section-heading"><div><span class="dash-eyebrow">TEST & IMPROVE</span><h2>Practice Tests</h2><p class="muted">छोटे क्विज़ से अपनी समझ जाँचें।</p></div><span class="pill">Practice Zone</span></div><section class="panel" style="background:linear-gradient(120deg,#fff7ed,#fff);border-color:#ffdfc2"><div class="row"><span style="font-size:34px"></span><div><h3 style="margin:0">Science Quick Quiz</h3><p class="muted" style="margin:4px 0">3 सवाल • तुरंत परिणाम • अभ्यास के लिए</p></div></div><button style="margin-top:14px" onclick="startTest()">Start Practice Test →</button></section><div class="dash-section-heading"><div><span class="dash-eyebrow">YOUR PERFORMANCE</span><h2>पिछले परिणाम</h2></div><span class="pill">${getScores().length} Attempts</span></div><div class="panel">${getScores().map((x,i)=>`<div class="listitem"><div><b>Attempt ${getScores().length-i}</b><div class="muted">${x.date}</div></div><strong>${x.score}/${x.total}</strong></div>`).join('')||'<div class="empty">अभी कोई टेस्ट नहीं दिया गया। पहला टेस्ट देकर शुरुआत करें!</div>'}</div><div class="notice" style="margin-top:14px">नोट: अभी उपलब्ध Science Quiz एक शुरुआती sample practice test है। Chapter-wise question bank और timed test series अगले चरण में जोड़े जाएँगे।</div>`}
-function startTest(){let qs=[['पौधों में भोजन बनाने की प्रक्रिया क्या कहलाती है?',['श्वसन','प्रकाश संश्लेषण','वाष्पोत्सर्जन'],1],['बल की SI इकाई क्या है?',['जूल','न्यूटन','वाट'],1],['पानी का रासायनिक सूत्र क्या है?',['CO₂','O₂','H₂O'],2]];modal(`<h2>Science Practice Test</h2>${qs.map((q,i)=>`<div class="q"><b>${i+1}. ${q[0]}</b>${q[1].map((v,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${v}</label>`).join('')}</div>`).join('')}<button onclick="submitTest()">Submit Answers</button>`)}
-function submitTest(){let score=0;[1,1,2].forEach((a,i)=>{let v=document.querySelector('input[name=q'+i+']:checked');if(v&&Number(v.value)===a)score++});let a=getScores();a.unshift({score,total:3,date:new Date().toLocaleDateString('hi-IN')});localStorage['sgScores_'+currentUser.uid]=JSON.stringify(a);modal(`<h2>Test Complete </h2><div class="hero"><div><h1>${score}/3</h1><p>आपका score</p></div></div><button onclick="closeModal();go('tests')">Done</button>`)}
-function profileHTML(){main.innerHTML=`<div class="dash-section-heading"><div><span class="dash-eyebrow">ACCOUNT SETTINGS</span><h2>My Profile</h2><p class="muted">अपनी जानकारी और learning class अपडेट करें।</p></div></div><div class="panel"><div class="row"><div class="avatar" style="width:58px;height:58px;font-size:23px;background:#fff0e2;color:#b6530a">${esc((currentUser.name||'S')[0].toUpperCase())}</div><div><h3 style="margin:0">${esc(currentUser.name)}</h3><div class="muted">${esc(currentUser.email)}</div><span class="pill">${roleLabel()}</span></div></div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><label for="profileName">पूरा नाम</label><input id="profileName" class="field" value="${esc(currentUser.name)}"><label for="profileClass">आपकी कक्षा</label><select id="profileClass" class="field">${['10','11','12'].map(x=>`<option ${currentUser.class===x?'selected':''}>${x}</option>`).join('')}</select><button onclick="saveProfile()">Save Changes</button><button class="danger" style="margin-left:8px" onclick="logout()">Logout</button></div><div class="notice" style="margin-top:14px">आपका अकाउंट Firebase Authentication से जुड़ा है। अपना पासवर्ड किसी के साथ साझा न करें।</div>`}
-async function saveProfile(){let name=profileName.value.trim()||currentUser.name,c=profileClass.value;try{await auth.currentUser.updateProfile({displayName:name});await db.collection('users').doc(currentUser.uid).set({name,class:c},{merge:true});currentUser.name=name;currentUser.class=c;topName.textContent=name;topAvatar.textContent=name[0].toUpperCase();toast('Profile saved');render()}catch(e){toast(friendlyError(e))}}
-function getNotes(){try{return JSON.parse(localStorage['sgNotes_'+currentUser.uid]||'[]')}catch{return[]}}function getScores(){try{return JSON.parse(localStorage['sgScores_'+currentUser.uid]||'[]')}catch{return[]}}
-function openNotes(ch=''){let a=getNotes();modal(`<h2>My Notes</h2><label>Title</label><input id="noteTitle" class="field" value="${esc(ch)}" placeholder="Note title"><label>Notes</label><textarea id="noteBody" class="field" rows="5" placeholder="अपने notes लिखें…"></textarea><button onclick="saveNote()">Save Note</button><div class="sectionhead"><h3>Saved Notes</h3></div>${a.map(n=>`<div class="listitem"><div><b>${esc(n.title)}</b><div class="muted">${esc(n.body.slice(0,75))}</div></div><button class="danger" onclick="deleteNote(${n.id})">Delete</button></div>`).join('')||'<p class="muted">No notes yet.</p>'}`)}
-function saveNote(){let t=noteTitle.value.trim(),b=noteBody.value.trim();if(!t||!b){toast('Title और notes लिखें');return}let a=getNotes();a.unshift({id:Date.now(),title:t,body:b});localStorage['sgNotes_'+currentUser.uid]=JSON.stringify(a);openNotes()}
-function deleteNote(id){localStorage['sgNotes_'+currentUser.uid]=JSON.stringify(getNotes().filter(n=>n.id!==id));openNotes()}
-function modal(s){modalRoot.innerHTML=`<div class="modalback" onclick="if(event.target===this)closeModal()"><div class="modal">${s}</div></div>`}function closeModal(){modalRoot.innerHTML=''}
-function toast(s){if(/इस सुविधा को खोलने के लिए Login करें|Course खोलने के लिए पहले Login करें/.test(String(s)))return;toastRoot.innerHTML=`<div class="toast">${esc(s)}</div>`;setTimeout(()=>toastRoot.innerHTML='',3000)}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function friendlyError(e){const c=e.code||'';if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found')return 'Email या password गलत है। Firebase Authentication → Users में यह email registered है या नहीं जाँचें।';if(c==='auth/invalid-email')return 'Email address सही नहीं है।';if(c==='auth/too-many-requests')return 'बहुत बार कोशिश हुई है। थोड़ी देर बाद फिर कोशिश करें।';if(c==='auth/network-request-failed')return 'Internet connection जाँचें और फिर कोशिश करें।';if(c==='auth/operation-not-allowed')return 'Firebase Console → Authentication → Sign-in method में Email/Password चालू करें।';if(c==='auth/unauthorized-domain')return 'Firebase Authentication → Settings → Authorized domains में इस site का domain जोड़ें।';if(c==='permission-denied'||c==='firestore/permission-denied')return 'Firestore Rules ने users profile पढ़ने/लिखने से रोका है। Rules जाँचें।';if(c==='auth/email-already-in-use')return 'यह email पहले से registered है। Login टैब चुनें।';if(c==='auth/weak-password')return 'Password कम से कम 6 अक्षर का रखें।';return (e.message||'कुछ समस्या आई। Firebase setup जाँचें।')+' ('+c+')'}
+const SUPABASE_URL='https://mdzkwgtrhoklmapkjhhf.supabase.co';
+const SUPABASE_KEY='sb_publishable_7FxlPBdcgKAb0ZypW-iB9w_-SyW3TWd';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let signupMode=false,profile=null,classes=[],subjects=[],chapters=[],currentTab='library';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function status(id,msg,type=''){const e=$(id);if(e){e.textContent=msg;e.className='status '+type}}
+function toggleMode(){signupMode=!signupMode;$('nameField').classList.toggle('hidden',!signupMode);$('authButton').textContent=signupMode?'Account बनाएँ':'Login करें';$('modeButton').textContent=signupMode?'पहले से account है? Login':'नया account बनाएँ';$('password').autocomplete=signupMode?'new-password':'current-password';status('authStatus','')}
+async function submitAuth(){const email=$('email').value.trim().toLowerCase(),password=$('password').value,name=$('fullName').value.trim();if(!email||password.length<8){status('authStatus','Valid email और कम से कम 8 अक्षर का password भरें।','error');return}if(signupMode&&!name){status('authStatus','अपना नाम लिखें।','error');return}$('authButton').disabled=true;status('authStatus','कृपया प्रतीक्षा करें…');try{if(signupMode){const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name}}});if(error)throw error;if(data.session){status('authStatus','Account बन गया।','ok')}else{status('authStatus','Verification email भेजा गया है। Email verify करके Login करें।','ok')}}else{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error}}catch(e){status('authStatus',e.message||'Authentication failed','error')}finally{$('authButton').disabled=false}}
+async function logout(){await db.auth.signOut();profile=null;showAuth()}
+function showAuth(){ $('authView').classList.remove('hidden');$('appView').classList.add('hidden');$('userArea').classList.add('hidden')}
+async function enterApp(user){const {data,error}=await db.from('profiles').select('full_name,role').eq('id',user.id).single();if(error)throw error;profile={...data,id:user.id,email:user.email};$('authView').classList.add('hidden');$('appView').classList.remove('hidden');$('userArea').classList.remove('hidden');$('userName').textContent=user.email;$('welcome').textContent='नमस्ते, '+(profile.full_name||user.email);$('roleText').textContent=profile.role==='admin'?'Admin workspace':'Student account';$('adminTab').classList.toggle('hidden',profile.role!=='admin');await refreshAll()}
+async function refreshAll(){await loadStructure();await loadSubjects();await loadLibrary();if(profile?.role==='admin')await loadAdminMaterials()}
+async function loadStructure(){const {data,error}=await db.from('classes').select('*').eq('is_active',true).order('sort_order').order('name');if(error)throw error;classes=data||[];['classFilter','manageClass'].forEach(id=>{const el=$(id);if(!el)return;const prev=el.value;el.innerHTML=(id==='classFilter'?'<option value="">सभी Classes</option>':'')+classes.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('');if([...el.options].some(o=>o.value===prev))el.value=prev})}
+async function loadSubjects(){const classId=$('classFilter').value;let q=db.from('subjects').select('*,classes(name)').eq('is_active',true).order('sort_order').order('name');if(classId)q=q.eq('class_id',classId);const {data,error}=await q;if(error)throw error;subjects=data||[];$('subjectFilter').innerHTML='<option value="">सभी Subjects</option>'+subjects.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('');await loadLibrary();if(profile?.role==='admin')await loadManageSubjects()}
+async function loadLibrary(){const box=$('libraryList');box.innerHTML='<div class="empty">लोड हो रहा है…</div>';let q=db.from('learning_materials').select('id,title,description,material_type,storage_bucket,storage_path,external_url,chapter_id,chapters(name,subjects(name,class_id))').eq('is_published',true).order('created_at',{ascending:false});const subjectId=$('subjectFilter').value;if(subjectId)q=q.eq('chapters.subject_id',subjectId);const classId=$('classFilter').value;if(classId)q=q.eq('chapters.subjects.class_id',classId);const {data,error}=await q;if(error){box.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}await renderMaterials(box,data||[],false)}
+async function signedLink(m){if(m.external_url)return m.external_url;const {data,error}=await db.storage.from(m.storage_bucket).createSignedUrl(m.storage_path,3600);if(error)throw error;return data.signedUrl}
+async function renderMaterials(box,items,admin){if(!items.length){box.innerHTML='<div class="empty">अभी कोई '+(admin?'material upload नहीं हुआ।':'published study material उपलब्ध नहीं है।')+'</div>';return}const cards=await Promise.all(items.map(async m=>{let link='';try{link=await signedLink(m)}catch(e){}const chapter=m.chapters?.name||'Chapter';const subject=m.chapters?.subjects?.name||'';return '<article class="item"><h3>'+esc(m.title)+'</h3><p>'+esc(subject)+' · '+esc(chapter)+' · '+m.material_type.toUpperCase()+'</p><p>'+esc(m.description||'')+'</p><div class="actions">'+(link?'<button onclick="window.open('+JSON.stringify(link)+',\'_blank\',\'noopener\')">'+(m.material_type==='pdf'?'PDF खोलें':'Video खोलें')+'</button>':'<span class="small">File link unavailable</span>')+(admin?'<button class="secondary" onclick="togglePublish(\''+m.id+'\','+(!m.is_published)+')">'+(m.is_published?'Unpublish':'Publish')+'</button><button class="danger" onclick="deleteMaterial(\''+m.id+'\')">Delete</button>':'')+'</div></article>'}));box.innerHTML=cards.join('')}
+async function loadManageSubjects(){const id=$('manageClass').value;const {data,error}=await db.from('subjects').select('*').eq('class_id',id).eq('is_active',true).order('sort_order').order('name');if(error)throw error;subjects=data||[];$('manageSubject').innerHTML=subjects.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('');await loadManageChapters()}
+async function loadManageChapters(){const id=$('manageSubject').value;if(!id){$('uploadChapter').innerHTML='';return}const {data,error}=await db.from('chapters').select('*').eq('subject_id',id).eq('is_active',true).order('sort_order').order('name');if(error)throw error;chapters=data||[];$('uploadChapter').innerHTML=chapters.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('')}
+async function addClass(){const name=$('newClass').value.trim();if(!name)return status('structureStatus','Class का नाम लिखें।','error');const {error}=await db.from('classes').insert({name});if(error)return status('structureStatus',error.message,'error');$('newClass').value='';status('structureStatus','Class जोड़ दी गई।','ok');await refreshAll()}
+async function addSubject(){const class_id=$('manageClass').value,name=$('newSubject').value.trim();if(!class_id||!name)return status('structureStatus','Class और Subject चुनें/लिखें।','error');const {error}=await db.from('subjects').insert({class_id,name});if(error)return status('structureStatus',error.message,'error');$('newSubject').value='';status('structureStatus','Subject जोड़ दिया गया।','ok');await loadManageSubjects()}
+async function addChapter(){const subject_id=$('manageSubject').value,name=$('newChapter').value.trim();if(!subject_id||!name)return status('structureStatus','Subject और Chapter चुनें/लिखें।','error');const {error}=await db.from('chapters').insert({subject_id,name});if(error)return status('structureStatus',error.message,'error');$('newChapter').value='';status('structureStatus','Chapter जोड़ दिया गया।','ok');await loadManageChapters()}
+async function uploadMaterial(){const chapter_id=$('uploadChapter').value,title=$('materialTitle').value.trim(),type=$('materialType').value,file=$('materialFile').files[0],url=$('materialUrl').value.trim();if(!chapter_id||!title)return status('uploadStatus','Chapter और title जरूरी हैं।','error');if(!file&&!url)return status('uploadStatus','File upload करें या external URL दें।','error');if(file&&file.size>50*1024*1024)return status('uploadStatus','File 50 MB से बड़ी है।','error');if(file&&type==='pdf'&&file.type!=='application/pdf')return status('uploadStatus','PDF type की file चुनें।','error');if(file&&type==='video'&&file.type!=='video/mp4')return status('uploadStatus','MP4 video चुनें।','error');if(url&&!/^https:\/\//i.test(url))return status('uploadStatus','URL https:// से शुरू होना चाहिए।','error');const btn=$('uploadButton');btn.disabled=true;status('uploadStatus','Upload हो रहा है…');let path='',bucket=type==='pdf'?'study-pdfs':'study-videos';try{if(file){path=profile.id+'/'+crypto.randomUUID()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error}const {error}=await db.from('learning_materials').insert({chapter_id,title,description:$('materialDescription').value.trim()||null,material_type:type,storage_bucket:bucket,storage_path:file?path:'',external_url:file?null:url,is_published:$('publishNow').checked,created_by:profile.id});if(error){if(file)await db.storage.from(bucket).remove([path]);throw error}status('uploadStatus','Material सफलतापूर्वक save हो गया।','ok');$('materialTitle').value='';$('materialDescription').value='';$('materialFile').value='';$('materialUrl').value='';await loadAdminMaterials();await loadLibrary()}catch(e){status('uploadStatus',e.message||'Upload failed','error')}finally{btn.disabled=false}}
+async function loadAdminMaterials(){const {data,error}=await db.from('learning_materials').select('*,chapters(name,subjects(name))').order('created_at',{ascending:false});if(error){$('adminMaterials').innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}await renderMaterials($('adminMaterials'),data||[],true)}
+async function togglePublish(id,value){const {error}=await db.from('learning_materials').update({is_published:value,updated_at:new Date().toISOString()}).eq('id',id);if(error)alert(error.message);else{await loadAdminMaterials();await loadLibrary()}}
+async function deleteMaterial(id){if(!confirm('इस material को delete करना है?'))return;const {data,error}=await db.from('learning_materials').select('storage_bucket,storage_path,external_url').eq('id',id).single();if(error)return alert(error.message);const {error:delError}=await db.from('learning_materials').delete().eq('id',id);if(delError)return alert(delError.message);if(data.storage_path)await db.storage.from(data.storage_bucket).remove([data.storage_path]);await loadAdminMaterials();await loadLibrary()}
+function showTab(tab){currentTab=tab;$('libraryPanel').classList.toggle('hidden',tab!=='library');$('adminPanel').classList.toggle('hidden',tab!=='admin');$('studentTab').classList.toggle('active',tab==='library');$('adminTab').classList.toggle('active',tab==='admin');if(tab==='admin'&&profile?.role==='admin'){loadManageSubjects().then(loadAdminMaterials).catch(e=>status('structureStatus',e.message,'error'))}}
+db.auth.onAuthStateChange(async(_event,session)=>{if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}else showAuth()});
+(async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}})();
 </script></body></html>
