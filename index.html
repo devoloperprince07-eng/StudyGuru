@@ -51,7 +51,20 @@
 <button id="uploadButton" onclick="uploadMaterial()">Upload material</button><div id="uploadStatus" class="status"></div>
 </div>
 <h2 class="section-title">Manage uploaded materials</h2><div id="adminMaterials" class="grid"></div>
+
 </section>
+<section id="coursesPanel" class="hidden">
+<div class="topline"><h2 class="section-title">Courses</h2><button class="plain" onclick="loadCourses()">Refresh</button></div>
+<div id="courseCreate" class="panel hidden"><h3>Create course</h3><label>Title</label><input id="courseTitle" class="field"><label>Class</label><select id="courseClass" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="courseSubject" class="field"><label>Description</label><textarea id="courseDescription" class="field"></textarea><button onclick="createCourse()">Save draft</button><div id="courseStatus" class="status"></div></div><div id="courseList" class="grid"></div>
+</section>
+<section id="testsPanel" class="hidden">
+<div class="topline"><h2 class="section-title">Practice Tests</h2><button class="plain" onclick="loadTests()">Refresh</button></div>
+<div id="testCreate" class="panel hidden"><h3>Create test</h3><label>Title</label><input id="testTitle" class="field"><label>Class</label><select id="testClass" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="testSubject" class="field"><label>Description</label><textarea id="testDescription" class="field"></textarea><button onclick="createTest()">Create draft</button><div id="testCreateStatus" class="status"></div><div id="questionBuilder" class="hidden"><h3>Add question</h3><input id="questionText" class="field" placeholder="Question"><input id="option0" class="field" placeholder="Option 1"><input id="option1" class="field" placeholder="Option 2"><input id="option2" class="field" placeholder="Option 3"><input id="option3" class="field" placeholder="Option 4"><label>Correct option</label><select id="correctOption" class="field"><option value="0">Option 1</option><option value="1">Option 2</option><option value="2">Option 3</option><option value="3">Option 4</option></select><button onclick="addQuestion()">Add question</button><button class="secondary" onclick="publishTest()">Publish test</button><div id="questionStatus" class="status"></div></div></div>
+<div id="testList" class="grid"></div><div id="testRunner" class="panel hidden"></div><div id="attemptList" class="panel"></div>
+</section>
+<section id="notesPanel" class="hidden"><h2 class="section-title">My Notes</h2><div class="panel"><label>Title</label><input id="noteTitle" class="field"><label>Notes</label><textarea id="noteBody" class="field" rows="5"></textarea><button onclick="saveNote()">Save note</button><div id="noteStatus" class="status"></div></div><div id="noteList" class="grid"></div></section>
+<section id="livePanel" class="hidden"><div class="topline"><h2 class="section-title">Live Classes</h2><button class="plain" onclick="loadLiveClasses()">Refresh</button></div>
+<div id="liveCreate" class="panel hidden"><h3>Schedule live class</h3><label>Title</label><input id="liveTitle" class="field"><label>Class</label><select id="liveClassName" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="liveSubject" class="field"><label>Instructor</label><input id="liveInstructor" class="field"><label>Start time</label><input id="liveStarts" type="datetime-local" class="field"><label>Meeting URL (HTTPS)</label><input id="liveUrl" type="url" class="field"><label>Description</label><textarea id="liveDescription" class="field"></textarea><button onclick="createLiveClass()">Schedule class</button><div id="liveStatus" class="status"></div></div><div id="liveList" class="grid"></div></section>
 </section>
 </main><footer>StudyGuru · Secure learning workspace</footer>
 <script>
