@@ -11,6 +11,11 @@ service cloud.firestore {
     function validClass(value) {
       return value in ['10', '11', '12'];
     }
+    function isTeacher() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher';
+    }
 
     match /users/{uid} {
       // A student can read their own profile; Admin can read all profiles.
@@ -35,6 +40,7 @@ service cloud.firestore {
         ||
         // Admin can promote/demote users, but cannot grant admin via a profile field.
         (isAdmin()
+          && request.auth.uid != uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'roleUpdatedAt', 'roleUpdatedBy'])
           && request.resource.data.role in ['student', 'teacher']
           && request.resource.data.roleUpdatedBy == request.auth.uid)
@@ -52,6 +58,7 @@ service cloud.firestore {
 
       // Teachers may create only their own unpublished course drafts.
       allow create: if signedIn()
+        && isTeacher()
         && !isAdmin()
         && request.resource.data.teacherId == request.auth.uid
         && request.resource.data.active == false
