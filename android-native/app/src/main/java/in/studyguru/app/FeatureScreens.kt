@@ -39,16 +39,40 @@ internal fun MaterialsScreen(items: List<MaterialRow>, hindi: Boolean, onOpen: (
                 Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(14.dp)) {
                     Text(item.title, fontWeight = FontWeight.SemiBold)
                     Text(item.description ?: item.materialType.uppercase(), color = Color.Gray)
-                    Button(enabled = !busy, onClick = {
-                        scope.launch {
-                            busy = true
-                            runCatching {
-                                item.externalUrl?.takeIf { it.isNotBlank() }
-                                    ?: supabase.storage[item.storageBucket].createSignedUrl(item.storagePath, 15.minutes)
-                            }.onSuccess(onOpen).onFailure { onMessage(it.message ?: "सामग्री नहीं खुल सकी।") }
-                            busy = false
-                        }
-                    }) { Text(if (hindi) "खोलें" else "Open") }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Button(enabled = !busy, onClick = {
+                            scope.launch {
+                                busy = true
+                                runCatching {
+                                    item.externalUrl?.takeIf { it.isNotBlank() }
+                                        ?: supabase.storage[item.storageBucket].createSignedUrl(item.storagePath, 15.minutes)
+                                }.onSuccess(onOpen).onFailure { onMessage(it.message ?: "सामग्री नहीं खुल सकी।") }
+                                busy = false
+                            }
+                        }) { Text(if (hindi) "खोलें" else "Open") }
+                        OutlinedButton(enabled = !busy, onClick = {
+                            scope.launch {
+                                busy = true
+                                runCatching {
+                                    item.externalUrl?.takeIf { it.isNotBlank() }
+                                        ?: supabase.storage[item.storageBucket].createSignedUrl(item.storagePath, 15.minutes)
+                                }.onSuccess { url ->
+                                    runCatching {
+                                        val filename = item.title.replace(Regex("[^A-Za-z0-9._-]"), "_").take(60) +
+                                            if (item.materialType == "pdf") ".pdf" else ".mp4"
+                                        val request = DownloadManager.Request(Uri.parse(url))
+                                            .setTitle(item.title)
+                                            .setDescription("StudyGuru offline study download")
+                                            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                                            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+                                        (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
+                                    }.onSuccess { onMessage("डाउनलोड शुरू हुआ। पूरा होने पर फ़ाइल Downloads फ़ोल्डर में मिलेगी।") }
+                                        .onFailure { onMessage(it.message ?: "डाउनलोड शुरू नहीं हो सका।") }
+                                }.onFailure { onMessage(it.message ?: "फ़ाइल URL नहीं मिला।") }
+                                busy = false
+                            }
+                        }) { Text(if (hindi) "ऑफलाइन डाउनलोड" else "Download") }
+                    }
                 } }
             }
         }
