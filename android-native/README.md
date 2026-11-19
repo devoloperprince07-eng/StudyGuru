@@ -1,29 +1,36 @@
 # StudyGuru Native Android
 
-A separate Kotlin + Jetpack Compose Android project in `android-native/`. It is isolated from the existing website source and deployment branch.
+Separate Kotlin + Jetpack Compose Android project in `android-native/`. All work remains isolated on the `android-native` branch; the existing website's `main` branch and Vercel deployment are not changed.
 
-## Implemented scaffold
+## Current implementation
 
-- Hindi/English Compose dashboard using StudyGuru Coral Orange, Dark and White theme.
-- Supabase client wiring for Auth, PostgREST and Storage.
-- Initial screens/data loading for courses, learning materials, tests, live classes, notes and profile.
-- Email/password and Google OAuth entry points with Android deep-link intent handling.
-- GitHub Actions debug APK build workflow.
+- Hindi/English Compose interface with StudyGuru Coral Orange, Dark and White theme.
+- Supabase Auth, PostgREST and Storage client.
+- Email/password and Google OAuth entry points with Android deep-link callback handling.
+- Published course, material, practice test and live-class data loading.
+- Private Storage signed URLs for PDF/video opening in a compatible installed app.
+- PDF/video download to the device Downloads folder through Android DownloadManager.
+- Student notes: create, list and delete.
+- Practice tests: load questions for the selected test, select options and submit through the database scoring RPC.
+- Teacher/Admin: create course and test drafts, subject to existing Supabase RLS policies.
+- GitHub Actions builds a debug APK and an unsigned release AAB.
 
-## Not yet production-complete
+## Still required before production
 
-- End-to-end Google/email login verification and redirect allowlist configuration.
-- PDF/video viewing and downloads.
-- Create/edit notes, test-taking/results, course detail and admin CRUD.
-- Parent/child account linking and role-aware policies.
-- Offline storage, push notifications, release signing, AAB and store listing assets.
+- Verify Google and email login on a real Android device. Native redirect `studyguru://login-callback` must be added to Supabase Auth redirect allowlist.
+- Verify PDF/video open and offline download on-device.
+- Add note editing, test-question authoring, material upload/publishing, course lesson management and full Admin CRUD.
+- Implement parent/student linking only after a reviewed schema and RLS design.
+- Configure Firebase Cloud Messaging using the app owner's Firebase project before remote push notifications can work.
+- Add robust offline metadata/cache and playback handling; current offline material action downloads files to the public Downloads folder.
+- Review the SECURITY DEFINER test submission function and enable leaked-password protection in Supabase Auth.
+- Create a signed release AAB using securely managed signing credentials. The workflow's release AAB is unsigned and is not store-ready.
+- Complete device QA, accessibility, privacy policy, data safety declaration and store listing review. Store publisher registration/KYC must be handled by the responsible adult account owner where required.
 
-These are tracked as remaining implementation and verification work. The app must not be described as release-ready until these are completed and tested.
+## Build artifacts
 
-## Build
+GitHub Actions workflow `.github/workflows/studyguru-android-build.yml` uploads:
+- `studyguru-debug-apk` — installable debug build.
+- `studyguru-release-unsigned-aab` — unsigned bundle for subsequent secure signing; not publishable as-is.
 
-GitHub Actions builds a debug APK on pushes to this branch. A signed release AAB requires an adult publisher/guardian to manage store registration where required, plus secure signing configuration. Never commit signing keys, passwords, Supabase service-role keys or OAuth client secrets.
-
-## Website safety
-
-Keep native Android work on `android-native`. Do not merge this branch into `main` as part of Android development; the existing Vercel website remains on `main`.
+Never commit signing keys, passwords, OAuth client secrets or Supabase service-role keys.
