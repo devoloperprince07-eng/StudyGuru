@@ -34,3 +34,6 @@ GitHub Actions workflow `.github/workflows/studyguru-android-build.yml` uploads:
 - `studyguru-release-unsigned-aab` — unsigned bundle for subsequent secure signing; not publishable as-is.
 
 Never commit signing keys, passwords, OAuth client secrets or Supabase service-role keys.
+
+
+Build workflow also creates an unsigned release AAB artifact when dependency resolution and compilation pass.
