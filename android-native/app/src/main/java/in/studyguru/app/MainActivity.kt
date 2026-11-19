@@ -5,6 +5,12 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -280,6 +286,7 @@ private fun StudyGuruApp() {
 
                 when (tab) {
                     0 -> {
+                        TempleHero(hindi)
                         Text(if (hindi) "आज क्या पढ़ना चाहेंगे?" else "What would you like to study?", color = Ink, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                         SummaryCard(if (hindi) "कोर्स" else "Courses", courses.size.toString())
                         SummaryCard(if (hindi) "प्रैक्टिस टेस्ट" else "Practice tests", tests.size.toString())
@@ -359,6 +366,77 @@ private fun StudyGuruApp() {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+
+@androidx.compose.runtime.Composable
+private fun TempleHero(hindi: Boolean) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF0E5)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Column {
+            Canvas(modifier = Modifier.fillMaxWidth().height(142.dp)) {
+                val cx = size.width * 0.5f
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color(0xFFFFDDB8), Color(0xFFFFF3E8))
+                    )
+                )
+                drawCircle(
+                    color = Color(0xFFFFC66D),
+                    radius = 25.dp.toPx(),
+                    center = Offset(size.width * 0.82f, size.height * 0.25f)
+                )
+                // Temple platform and steps
+                drawRect(Color(0xFFC66A4D), Offset(cx - 100.dp.toPx(), size.height * 0.82f), Size(200.dp.toPx(), 12.dp.toPx()))
+                drawRect(Color(0xFFE5A078), Offset(cx - 88.dp.toPx(), size.height * 0.73f), Size(176.dp.toPx(), 12.dp.toPx()))
+                // Main sanctum
+                drawRect(Color(0xFFE9A06F), Offset(cx - 62.dp.toPx(), size.height * 0.48f), Size(124.dp.toPx(), size.height * 0.27f))
+                // Sloping roof
+                val roof = Path().apply {
+                    moveTo(cx - 78.dp.toPx(), size.height * 0.49f)
+                    lineTo(cx, size.height * 0.31f)
+                    lineTo(cx + 78.dp.toPx(), size.height * 0.49f)
+                    close()
+                }
+                drawPath(roof, Color(0xFFB9573D))
+                // Central shikhara
+                val tower = Path().apply {
+                    moveTo(cx - 25.dp.toPx(), size.height * 0.34f)
+                    lineTo(cx - 15.dp.toPx(), size.height * 0.12f)
+                    lineTo(cx, size.height * 0.035f)
+                    lineTo(cx + 15.dp.toPx(), size.height * 0.12f)
+                    lineTo(cx + 25.dp.toPx(), size.height * 0.34f)
+                    close()
+                }
+                drawPath(tower, Color(0xFFD47A4F))
+                drawLine(Color(0xFFFFD7A6), Offset(cx, size.height * 0.04f), Offset(cx, size.height * 0.12f), 2.dp.toPx())
+                drawCircle(Color(0xFFFFC66D), 4.dp.toPx(), Offset(cx, size.height * 0.025f))
+                // Door and pillars
+                drawRoundRect(Color(0xFF754338), Offset(cx - 15.dp.toPx(), size.height * 0.57f), Size(30.dp.toPx(), size.height * 0.18f), androidx.compose.ui.geometry.CornerRadius(15.dp.toPx(), 15.dp.toPx()))
+                drawLine(Color(0xFFFFE0B8), Offset(cx - 45.dp.toPx(), size.height * 0.51f), Offset(cx - 45.dp.toPx(), size.height * 0.74f), 3.dp.toPx())
+                drawLine(Color(0xFFFFE0B8), Offset(cx + 45.dp.toPx(), size.height * 0.51f), Offset(cx + 45.dp.toPx(), size.height * 0.74f), 3.dp.toPx())
+                // Decorative base line
+                drawLine(Color(0xFFB9573D), Offset(cx - 110.dp.toPx(), size.height * 0.92f), Offset(cx + 110.dp.toPx(), size.height * 0.92f), 2.dp.toPx())
+            }
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
+                Text(
+                    if (hindi) "ज्ञान, शांति और सफलता" else "Knowledge, peace and success",
+                    color = Ink,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                Text(
+                    if (hindi) "हर दिन सीखें, आगे बढ़ें।" else "Learn every day. Keep growing.",
+                    color = Color(0xFF76564B),
+                    fontSize = 12.sp
+                )
             }
         }
     }
