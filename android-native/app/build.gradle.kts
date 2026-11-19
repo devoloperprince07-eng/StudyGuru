@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "in.studyguru.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "in.studyguru.app"
