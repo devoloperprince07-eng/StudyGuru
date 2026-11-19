@@ -1,17 +1,25 @@
 package `in`.studyguru.app
 
+import android.app.DownloadManager
+import android.content.Context
+import android.net.Uri
+import android.os.Environment
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.rpc
+import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.storage.storage
+import io.github.jan.supabase.storage.from
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -30,6 +38,7 @@ import kotlin.time.Duration.Companion.minutes
 @Composable
 internal fun MaterialsScreen(items: List<MaterialRow>, hindi: Boolean, onOpen: (String) -> Unit, onMessage: (String) -> Unit) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     var busy by remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(if (hindi) "स्टडी मटेरियल" else "Study materials", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
@@ -144,7 +153,7 @@ internal fun TestsScreen(tests: List<TestRow>, signedIn: Boolean, hindi: Boolean
                             busy = true; answers = emptyMap(); scoreText = ""
                             runCatching {
                                 supabase.from("test_questions").select().decodeList<QuestionItem>().also { list ->
-                                    questions = list
+                                    questions = list.filter { it.testId == test.id }
                                 }
                             }.onSuccess { active = test }.onFailure { onMessage(it.message ?: "प्रश्न लोड नहीं हुए।") }
                             busy = false
