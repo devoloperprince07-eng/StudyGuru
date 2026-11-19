@@ -48,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.jan.supabase.createSupabaseClient
@@ -69,7 +70,7 @@ private val Paper = Color(0xFFFFFFFF)
 private const val SUPABASE_URL = "https://mdzkwgtrhoklmapkjhhf.supabase.co"
 private const val SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7FxlPBdcgKAb0ZypW-iB9w_-SyW3TWd"
 
-private val supabase = createSupabaseClient(
+internal val supabase = createSupabaseClient(
     supabaseUrl = SUPABASE_URL,
     supabaseKey = SUPABASE_PUBLISHABLE_KEY
 ) {
@@ -167,6 +168,7 @@ class MainActivity : ComponentActivity() {
 
 @androidx.compose.runtime.Composable
 private fun StudyGuruApp() {
+    val context = LocalContext.current
     var hindi by remember { mutableStateOf(true) }
     var tab by remember { mutableIntStateOf(0) }
     var email by remember { mutableStateOf("") }
@@ -287,7 +289,7 @@ private fun StudyGuruApp() {
                     }
                     1 -> DataList(if (hindi) "कोर्स" else "Courses", courses.map { "${it.title} • ${it.className} • ${it.subject}" }, hindi)
                     2 -> MaterialsScreen(materials, hindi, onOpen = { url ->
-                        runCatching { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
+                        runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
                             .onFailure { message = "इस सामग्री को खोलने के लिए ऐप उपलब्ध नहीं है।" }
                     }, onMessage = { message = it })
                     3 -> TestsScreen(tests, signedIn, hindi, onRefresh = { refreshData() }, onMessage = { message = it })
