@@ -309,7 +309,7 @@ private fun StudyGuruApp() {
                             }
                             OutlinedButton(onClick = {
                                 scope.launch {
-                                    runCatching { supabase.gotrue.signOut() }
+                                    runCatching { supabase.auth.signOut() }
                                     signedIn = false
                                     profile = null
                                     notes = emptyList()
@@ -325,7 +325,7 @@ private fun StudyGuruApp() {
                                     loading = true
                                     message = ""
                                     runCatching {
-                                        supabase.gotrue.signInWith(Email) {
+                                        supabase.auth.signInWith(Email) {
                                             this.email = email.trim()
                                             this.password = password
                                         }
@@ -344,7 +344,7 @@ private fun StudyGuruApp() {
                             Button(onClick = {
                                 scope.launch {
                                     loading = true
-                                    runCatching { supabase.gotrue.loginWith(Google) }
+                                    runCatching { supabase.auth.signInWith(Google) }
                                         .onFailure { message = it.message ?: "Google sign-in could not start." }
                                     loading = false
                                 }
