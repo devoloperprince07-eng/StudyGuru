@@ -286,16 +286,13 @@ private fun StudyGuruApp() {
                         OutlinedButton(onClick = { refreshData() }) { Text(if (hindi) "डेटा रीफ्रेश करें" else "Refresh data") }
                     }
                     1 -> DataList(if (hindi) "कोर्स" else "Courses", courses.map { "${it.title} • ${it.className} • ${it.subject}" }, hindi)
-                    2 -> DataList(if (hindi) "स्टडी मटेरियल" else "Study materials", materials.map { "${it.title} • ${it.materialType.uppercase()}" }, hindi)
-                    3 -> DataList(if (hindi) "प्रैक्टिस टेस्ट" else "Practice tests", tests.map { "${it.title} • ${it.subject} • ${it.durationMinutes} min" }, hindi)
+                    2 -> MaterialsScreen(materials, hindi, onOpen = { url ->
+                        runCatching { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
+                            .onFailure { message = "इस सामग्री को खोलने के लिए ऐप उपलब्ध नहीं है।" }
+                    }, onMessage = { message = it })
+                    3 -> TestsScreen(tests, signedIn, hindi, onRefresh = { refreshData() }, onMessage = { message = it })
                     4 -> DataList(if (hindi) "लाइव क्लासेस" else "Live classes", liveClasses.map { "${it.title} • ${it.instructorName ?: it.subject} • ${it.startsAt}" }, hindi)
-                    5 -> {
-                        if (!signedIn) {
-                            Text(if (hindi) "अपने नोट्स देखने के लिए लॉगिन करें।" else "Sign in to view your notes.")
-                        } else {
-                            DataList(if (hindi) "मेरे नोट्स" else "My Notes", notes.map { "${it.title} • ${it.subject ?: ""}" }, hindi)
-                        }
-                    }
+                    5 -> NotesScreen(signedIn, notes, hindi, onRefresh = { refreshData() }, onMessage = { message = it })
                     else -> {
                         Text(if (hindi) "अकाउंट और प्रोफाइल" else "Account and profile", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Ink)
                         if (signedIn) {
@@ -306,6 +303,9 @@ private fun StudyGuruApp() {
                                 SummaryCard(if (hindi) "एडमिन पैनल" else "Admin panel", if (hindi) "एडमिन अकाउंट सक्रिय" else "Admin account active")
                             } else if (profile?.role == "teacher") {
                                 SummaryCard(if (hindi) "टीचर डैशबोर्ड" else "Teacher dashboard", if (hindi) "टीचर अकाउंट सक्रिय" else "Teacher account active")
+                            }
+                            if (profile?.role == "admin" || profile?.role == "teacher") {
+                                AdminToolsScreen(hindi, onMessage = { message = it })
                             }
                             OutlinedButton(onClick = {
                                 scope.launch {
