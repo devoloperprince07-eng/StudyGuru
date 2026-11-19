@@ -1,4 +1,4 @@
-package in.studyguru.app
+package `in`.studyguru.app
 
 import android.content.Intent
 import android.net.Uri
@@ -51,14 +51,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.gotrue.GoTrue
-import io.github.jan.supabase.gotrue.handleDeeplinks
-import io.github.jan.supabase.gotrue.providers.Google
-import io.github.jan.supabase.gotrue.providers.builtin.Email
-import io.github.jan.supabase.gotrue.gotrue
+import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.handleDeeplinks
+import io.github.jan.supabase.auth.providers.Google
+import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.decodeList
 import io.github.jan.supabase.storage.Storage
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerialName
@@ -74,7 +73,7 @@ private val supabase = createSupabaseClient(
     supabaseUrl = SUPABASE_URL,
     supabaseKey = SUPABASE_PUBLISHABLE_KEY
 ) {
-    install(GoTrue) {
+    install(Auth) {
         scheme = "studyguru"
         host = "login-callback"
     }
@@ -202,7 +201,7 @@ private fun StudyGuruApp() {
                     supabase.from("learning_materials").select().decodeList<MaterialRow>().filter { it.isPublished }
                 }.getOrDefault(emptyList())
 
-                val userId = runCatching { supabase.gotrue.currentUserOrNull()?.id }.getOrNull()
+                val userId = runCatching { supabase.auth.currentUserOrNull()?.id }.getOrNull()
                 if (userId != null) {
                     signedIn = true
                     profile = runCatching {
@@ -310,7 +309,7 @@ private fun StudyGuruApp() {
                             }
                             OutlinedButton(onClick = {
                                 scope.launch {
-                                    runCatching { supabase.gotrue.logout() }
+                                    runCatching { supabase.gotrue.signOut() }
                                     signedIn = false
                                     profile = null
                                     notes = emptyList()
@@ -326,7 +325,7 @@ private fun StudyGuruApp() {
                                     loading = true
                                     message = ""
                                     runCatching {
-                                        supabase.gotrue.loginWith(Email) {
+                                        supabase.gotrue.signInWith(Email) {
                                             this.email = email.trim()
                                             this.password = password
                                         }
