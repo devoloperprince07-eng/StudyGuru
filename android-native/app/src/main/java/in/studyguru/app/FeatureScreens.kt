@@ -21,7 +21,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlin.time.Duration.Companion.minutes
 
 @Serializable private data class NoteCreate(@SerialName("user_id") val userId: String, val title: String, val body: String, val subject: String? = null)
-@Serializable private data class QuestionItem(val id: String, @SerialName("question_text") val questionText: String, val options: List<String>)
+@Serializable private data class QuestionItem(val id: String, @SerialName("test_id") val testId: String, @SerialName("question_text") val questionText: String, val options: List<String>)
 @Serializable private data class TestSubmit(@SerialName("p_test_id") val testId: String, @SerialName("p_answers") val answers: JsonObject)
 @Serializable private data class TestScore(@SerialName("attempt_id") val attemptId: String, val score: Int, val total: Int)
 @Serializable private data class CourseDraft(val title: String, @SerialName("class_name") val className: String, val subject: String, val description: String = "", @SerialName("created_by") val createdBy: String, @SerialName("is_published") val isPublished: Boolean = false)
