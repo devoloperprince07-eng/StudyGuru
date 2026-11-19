@@ -33,6 +33,11 @@ jobs:
       - name: Build debug APK
         run: gradle :app:assembleDebug
       - name: Build release APK and bundle
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/studyguru-release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           gradle :app:assembleRelease
           gradle :app:bundleRelease
