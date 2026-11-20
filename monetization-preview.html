@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#FF6148">
+<title>StudyGuru — Paid Tests & Premium Preview</title>
+<style>
+:root{--orange:#ff6148;--dark:#1f2633;--muted:#667085;--line:#e8ebef;--bg:#f7f6f4;--green:#16865b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--dark);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}header{background:#fff;border-bottom:1px solid var(--line);padding:16px max(18px,calc((100vw - 1080px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:20px;font-weight:800}.mark{display:inline-grid;place-items:center;background:var(--orange);color:#fff;width:34px;height:34px;border-radius:10px;margin-right:8px}.tag{font-size:12px;background:#fff1ed;color:#b84330;padding:7px 10px;border-radius:20px;font-weight:700}main{max-width:1080px;margin:auto;padding:24px 18px 70px}.hero{background:linear-gradient(120deg,#ff744f,#ffad70);color:#fff;padding:28px;border-radius:20px}.hero h1{margin:0 0 8px;font-size:clamp(25px,4vw,36px)}.hero p{margin:0;line-height:1.6}.notice{margin:16px 0;padding:13px 15px;background:#fff7e8;border:1px solid #f4dfb4;border-radius:12px;color:#75521a;font-size:13px;line-height:1.6}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tabs button,button{border:0;border-radius:11px;padding:11px 15px;background:var(--orange);color:white;font-weight:700;cursor:pointer;min-height:42px}.tabs button{background:#fff;color:var(--dark);border:1px solid var(--line)}.tabs button.active{background:var(--orange);color:#fff;border-color:var(--orange)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.card,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.card h3,.panel h2{margin:0 0 8px}.muted{color:var(--muted);font-size:13px;line-height:1.6}.price{font-size:24px;font-weight:800;margin:14px 0}.pill{display:inline-block;font-size:11px;padding:5px 8px;border-radius:20px;background:#eef7f2;color:#16724e;font-weight:700}.locked{background:#f2f4f7;color:#596273}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.secondary{background:#f2f4f7;color:var(--dark)}.hidden{display:none!important}label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}select,input{width:100%;padding:12px;border:1px solid #dfe3e8;border-radius:10px;font:inherit;background:#fff}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #ff614855;outline-offset:2px}.method{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:11px;margin:8px 0}.method input{width:auto}.status{margin-top:12px;font-size:13px;line-height:1.6}.good{color:var(--green)}footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}.list{padding-left:19px;line-height:1.9;font-size:14px}@media(max-width:560px){header{padding:13px}.tag{font-size:10px}main{padding:16px 12px 50px}.hero{padding:22px}.card,.panel{padding:15px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="mark">S</span>StudyGuru</div><span class="tag">STAGING PREVIEW · DEMO ONLY</span></header>
+<main>
+<section class="hero"><h1>Practice smarter. Achieve more.</h1><p>Paid practice tests, detailed results और Premium learning का प्रस्तावित अनुभव।</p></section>
+<div class="notice"><strong>महत्वपूर्ण:</strong> यह केवल Staging UI preview है। कोई वास्तविक भुगतान, UPI request, card charge, membership activation या paid-test unlock नहीं होता। अभी यह मौजूदा student database/payment gateway से जुड़ा नहीं है।</div>
+<nav class="tabs" aria-label="Preview sections"><button class="active" data-tab="tests">Paid Tests</button><button data-tab="premium">Premium Plan</button><button data-tab="checkout">Checkout Preview</button><button data-tab="admin">Admin Setup</button></nav>
+<section id="tests">
+<h2>Paid Practice Tests</h2><p class="muted">ये sample test cards हैं। असली टेस्ट, प्रश्न और मूल्य Admin द्वारा verified backend से प्रकाशित होंगे।</p>
+<div class="grid">
+<article class="card"><span class="pill">Class 10 · Mathematics</span><h3>Board Exam Mock Test 01</h3><p class="muted">50 प्रश्न · 60 मिनट · उत्तर और explanation सहित परिणाम</p><div class="price">₹19</div><span class="pill locked">Paid · Locked in preview</span><div class="actions"><button onclick="choose('Board Exam Mock Test 01','19')">View checkout</button></div></article>
+<article class="card"><span class="pill">Class 10 · Science</span><h3>Science Chapter Test Pack</h3><p class="muted">5 chapter tests · प्रत्येक टेस्ट के बाद score report</p><div class="price">₹29</div><span class="pill locked">Paid · Locked in preview</span><div class="actions"><button onclick="choose('Science Chapter Test Pack','29')">View checkout</button></div></article>
+<article class="card"><span class="pill">Class 12 · Physics</span><h3>Physics Full Syllabus Test</h3><p class="muted">75 प्रश्न · 90 मिनट · performance breakdown</p><div class="price">₹39</div><span class="pill locked">Paid · Locked in preview</span><div class="actions"><button onclick="choose('Physics Full Syllabus Test','39')">View checkout</button></div></article>
+</div>
+</section>
+<section id="premium" class="hidden">
+<div class="panel"><span class="pill">Monthly membership</span><h2>StudyGuru Premium</h2><div class="price">₹29 <span class="muted">/ month</span></div><ul class="list"><li>Premium test collection तक access</li><li>Detailed score और answer explanations</li><li>Premium study material और revision packs</li><li>Membership status और renewal history</li></ul><p class="muted">Membership benefits, renewal, cancellation और refund terms final launch से पहले स्पष्ट किए जाएंगे।</p><button onclick="choose('StudyGuru Premium · 1 month','29')">View checkout</button></div>
+</section>
+<section id="checkout" class="hidden">
+<div class="panel"><h2>Checkout Preview</h2><p class="muted">केवल payment method selection का demo। यहाँ कोई payment details न डालें।</p>
+<label for="itemName">Selected item</label><input id="itemName" readonly value="कोई item selected नहीं">
+<label>भविष्य में उपलब्ध कराए जाने वाले payment options</label>
+<label class="method"><input type="radio" name="method" value="UPI" checked> UPI (approved payment provider के माध्यम से)</label>
+<label class="method"><input type="radio" name="method" value="Cards"> Debit / Credit Cards</label>
+<label class="method"><input type="radio" name="method" value="Net Banking"> Net Banking</label>
+<label class="method"><input type="radio" name="method" value="Wallet"> Supported Wallets</label>
+<div class="notice">असली checkout provider-hosted secure page पर होगा। StudyGuru कभी भी card PIN, UPI PIN, OTP या banking password नहीं मांगेगा।</div>
+<button onclick="demoOrder()">Simulate demo order</button><div id="checkoutStatus" class="status" role="status"></div>
+</div></section>
+<section id="admin" class="hidden">
+<div class="panel"><h2>Admin Setup Checklist</h2><p class="muted">यह checklist है, live admin console नहीं। किसी भी visitor को role बदलने का control नहीं दिया गया है। Admin access केवल server-verified role और database policies से होना चाहिए।</p><ul class="list"><li>Test create/edit, price, duration और publish/unpublish</li><li>Question bank, answer key और explanation</li><li>Payment webhook से verified order status</li><li>Successful payment के बाद server-side entitlement</li><li>Refund, cancellation और support workflow</li><li>Order history और reconciliation</li><li>Audit log और role-based access controls</li></ul><p class="notice">Payment provider, merchant account और settlement bank details Parent/Guardian या अधिकृत वयस्क के नियंत्रण में होने चाहिए।</p></div>
+</section>
+</main>
+<footer>StudyGuru Team · Support: professionalswork31@gmail.com · Preview only</footer>
+<script>
+let selectedItem='';
+function choose(name,price){selectedItem=name+' — ₹'+price;document.getElementById('itemName').value=selectedItem;document.querySelector('[data-tab="checkout"]').click();document.getElementById('checkoutStatus').textContent='';}
+function demoOrder(){const method=document.querySelector('input[name="method"]:checked').value;document.getElementById('checkoutStatus').innerHTML='<span class="good">Demo only:</span> '+(selectedItem||'कोई item selected नहीं')+' · '+method+' चुना गया। कोई पैसा नहीं लिया गया और कोई access unlock नहीं हुआ।';}
+document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));['tests','premium','checkout','admin'].forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==btn.dataset.tab));}));
+</script>
+</body></html>
