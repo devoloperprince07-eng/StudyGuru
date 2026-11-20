@@ -50,6 +50,36 @@ footer{padding:28px 16px;color:#87909e}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 
+
+/* Distinct StudyGuru dashboard layout: desktop sidebar + content canvas */
+@media(min-width:761px){
+ #appView{display:grid;grid-template-columns:228px minmax(0,1fr);column-gap:24px;row-gap:0;align-items:start}
+ #appView>.hero{grid-column:2;grid-row:1;margin:0 0 18px;min-height:190px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(125deg,#FF6148 0%,#ff806a 55%,#ffad8e 100%);box-shadow:0 16px 35px rgba(255,97,72,.18)}
+ #appView>.hero:after{content:"";position:absolute;right:35px;top:-95px;width:300px;height:300px;border:48px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+ #appView>.hero{position:relative;isolation:isolate;overflow:hidden}
+ #appView>.hero h1{font-size:34px;max-width:600px}
+ #appView>.hero p{color:rgba(255,255,255,.9);max-width:540px}
+ #appView>.topline{grid-column:2;grid-row:2;padding:4px 2px 16px;border-bottom:1px solid var(--line);margin-bottom:8px}
+ #appView>.tabs{grid-column:1;grid-row:1 / span 9;position:sticky;top:88px;display:flex;flex-direction:column;align-items:stretch;gap:7px;margin:0;padding:13px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(31,38,51,.045)}
+ #appView>.tabs button{width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:11px;background:transparent;border:0;color:#586273;font-weight:650}
+ #appView>.tabs button:before{content:"";display:block;width:8px;height:8px;border-radius:3px;background:#d4d8df;flex:0 0 8px}
+ #appView>.tabs button.active{background:#fff0ed;color:#d94f38}
+ #appView>.tabs button.active:before{background:var(--orange);box-shadow:0 0 0 4px rgba(255,97,72,.12)}
+ #appView>section{grid-column:2;min-width:0}
+ #appView>section>.panel:first-child{margin-top:10px}
+ #libraryPanel>.row.panel{background:#fff;border:1px solid var(--line);box-shadow:0 5px 20px rgba(31,38,51,.035)}
+ #libraryList .item,#courseList .item,#testList .item,#noteList .item,#liveList .item{min-height:150px}
+}
+@media(max-width:760px){
+ #appView{display:block}
+ #appView>.hero{margin-bottom:16px;background:linear-gradient(125deg,#FF6148,#ff896f);padding:24px 21px}
+ #appView>.hero h1{font-size:27px}
+ #appView>.tabs{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;position:sticky;top:64px;z-index:4;padding:8px;margin:0 -1px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-radius:13px}
+ #appView>.tabs button{flex:0 0 auto;width:auto;padding:10px 13px}
+ #appView>.tabs button:before{display:none}
+ #appView>.topline{padding:8px 2px 13px}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
