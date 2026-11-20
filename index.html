@@ -321,6 +321,15 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
  .profile-stat-grid{grid-template-columns:minmax(0,1fr)}
 }
 
+
+/* Sandbox monetization preview only */
+#premiumPanel .profile-cover{margin-bottom:14px}
+#premiumPanel .grid{margin-top:12px}
+#premiumPanel .item{min-height:112px}
+#premiumPanel .topline{align-items:center;flex-wrap:wrap}
+#premiumPanel #demoPayButton:disabled{background:#16865b;cursor:default}
+#premiumPanel .notice{line-height:1.6}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -343,7 +352,7 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
 <section id="appView" class="hidden">
 <div class="hero"><h1>Learn • Practice • Excel</h1><p>अपनी कक्षा, विषय और अध्याय के अनुसार study material पढ़ें।</p></div>
 <div class="topline"><div><strong id="welcome"></strong><div id="roleText" class="small"></div></div><button class="plain" onclick="refreshAll()">Refresh</button></div>
-<div class="tabs"><button id="studentTab" class="active" onclick="showTab('library')">Study Library</button><button id="coursesTab" onclick="showTab('courses')">Courses</button><button id="testsTab" onclick="showTab('tests')">Practice Tests</button><button id="notesTab" onclick="showTab('notes')">My Notes</button><button id="liveTab" onclick="showTab('live')">Live Classes</button><button id="profileTab" onclick="showTab('profile')">My Profile</button><button id="adminTab" class="hidden" onclick="showTab('admin')">Admin Manager</button></div>
+<div class="tabs"><button id="studentTab" class="active" onclick="showTab('library')">Study Library</button><button id="coursesTab" onclick="showTab('courses')">Courses</button><button id="testsTab" onclick="showTab('tests')">Practice Tests</button><button id="notesTab" onclick="showTab('notes')">My Notes</button><button id="liveTab" onclick="showTab('live')">Live Classes</button><button id="profileTab" onclick="showTab('profile')">My Profile</button><button id="premiumTab" onclick="showTab('premium')">Premium</button><button id="adminTab" class="hidden" onclick="showTab('admin')">Admin Manager</button></div>
 <section id="libraryPanel">
 <div class="row panel">
 <div><label>Class</label><select id="classFilter" class="field" onchange="loadSubjects()"><option value="">सभी Classes</option></select></div>
@@ -385,6 +394,39 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
 <section id="profilePanel" class="hidden">
  <div class="profile-cover"><div class="profile-cover-copy"><span class="profile-eyebrow">STUDYGURU ACCOUNT</span><h2>Your learning profile</h2><p>अपनी account जानकारी और learning workspace details यहाँ देखें।</p></div><div class="profile-cover-orb" aria-hidden="true"></div></div>
  <div id="profileContent" class="profile-content"><div class="empty">Profile लोड हो रहा है…</div></div>
+
+<section id="premiumPanel" class="hidden">
+ <div class="profile-cover"><div class="profile-cover-copy"><span class="profile-eyebrow">STUDYGURU PREMIUM</span><h2>Learn without limits</h2><p>Premium learning tools — demo preview only.</p></div><div class="profile-cover-orb" aria-hidden="true"></div></div>
+ <div class="panel">
+  <div class="topline"><div><span class="profile-kicker">MONTHLY MEMBERSHIP</span><h2 class="section-title" style="font-size:28px;margin:6px 0">₹29 <span class="small">/ month</span></h2><p class="muted">Demo plan • No real payment will be collected</p></div><span class="profile-status" id="premiumState">Free plan</span></div>
+  <div class="grid">
+   <article class="item"><h3>Premium Notes & PDFs</h3><p>Extra revision material and downloadable learning resources.</p></article>
+   <article class="item"><h3>Premium Tests</h3><p>Additional mock tests and practice sets.</p></article>
+   <article class="item"><h3>Video Courses</h3><p>Structured subject-wise course access.</p></article>
+   <article class="item"><h3>Performance Reports</h3><p>Detailed learning progress and test summaries.</p></article>
+   <article class="item"><h3>Ad-free learning</h3><p>No demo ad placements in the Premium experience.</p></article>
+  </div>
+  <div class="notice">Sandbox only: यह बटन केवल इस browser session में demo membership चालू करता है। कोई UPI, card, bank या payment gateway इस्तेमाल नहीं होता।</div>
+  <button id="demoPayButton" onclick="simulateDemoMembership()">Activate demo membership</button>
+  <button class="plain" onclick="resetDemoMembership()">Reset demo</button>
+  <div id="premiumStatus" class="status" role="status"></div>
+ </div>
+ <div class="panel">
+  <h2 class="section-title">Free learning</h2>
+  <p class="muted">School learning content remains free. Demo ad placements are shown only on eligible free-learning pages; never on Login, active tests, checkout, or Premium.</p>
+  <div class="item" id="freeAdDemo"><span class="small">ADVERTISEMENT · DEMO PLACEHOLDER</span><h3>Free learning support space</h3><p>This is a visual placeholder only. No ad network or tracking script is loaded.</p></div>
+ </div>
+ <div id="monetizationAdminDemo" class="panel hidden">
+  <h2 class="section-title">Admin · Monetization demo</h2>
+  <div class="grid">
+   <article class="item"><span class="small">DEMO MEMBERS</span><h3 id="demoMemberCount">0</h3><p>Browser-session activations</p></article>
+   <article class="item"><span class="small">DEMO ORDERS</span><h3 id="demoOrderCount">0</h3><p>No real orders created</p></article>
+   <article class="item"><span class="small">DEMO REVENUE</span><h3 id="demoRevenue">₹0</h3><p>Not actual revenue</p></article>
+  </div>
+  <h3 class="section-title">Demo order log</h3><div id="demoOrderList" class="empty">No demo orders yet.</div>
+  <p class="small">Admin reports here are local-only preview data. This panel does not grant or change backend roles, subscriptions, or access controls.</p>
+ </div>
+</section>
 </section>
 </section>
 </main><footer>StudyGuru · Secure learning workspace</footer>
@@ -458,7 +500,34 @@ function renderProfilePage(){
  '<div class="profile-details-card"><div class="profile-section-heading"><div><span class="profile-kicker">ACCOUNT DETAILS</span><h3>Personal information</h3></div><span class="profile-detail-mark">SG</span></div><div class="profile-detail-row"><span class="profile-detail-label">Full name</span><strong>'+esc(name)+'</strong></div><div class="profile-detail-row"><span class="profile-detail-label">Email address</span><strong>'+esc(email)+'</strong></div><div class="profile-detail-row"><span class="profile-detail-label">Account role</span><strong>'+esc(role)+'</strong></div><div class="profile-detail-row"><span class="profile-detail-label">Sign-in method</span><strong>'+esc(provider)+'</strong></div></div>'+
  '<div class="profile-help-card"><div class="profile-help-symbol">i</div><div><strong>Your account is protected</strong><p>Login और permissions StudyGuru के सुरक्षित account system से manage होते हैं। Profile page पर आपकी जानकारी दिखाई जाती है; यहाँ backend settings में कोई बदलाव नहीं होता।</p></div></div>';
 }
-function showTab(tab){currentTab=tab;['library','admin','courses','tests','notes','live','profile'].forEach(t=>{const el=$(t+'Panel');if(el)el.classList.toggle('hidden',tab!==t);const b=$(t==='library'?'studentTab':t+'Tab');if(b)b.classList.toggle('active',tab===t)});if(tab==='profile')renderProfilePage();if(tab==='admin'&&profile?.role==='admin'){loadManageSubjects().then(loadAdminMaterials).then(loadAdminUsers).catch(e=>status('structureStatus',e.message,'error'))}if(tab==='courses'){if(canTeach())$('courseCreate').classList.remove('hidden');loadCourses()}if(tab==='tests'){if(canTeach())$('testCreate').classList.remove('hidden');loadTests()}if(tab==='notes')loadNotes();if(tab==='live'){if(profile?.role==='admin')$('liveCreate').classList.remove('hidden');loadLiveClasses()}}
+
+let demoMembershipActive=false;
+let demoOrders=[];
+function updateDemoMonetization(){
+ const active=demoMembershipActive;
+ const state=$('premiumState'),button=$('demoPayButton'),admin=$('monetizationAdminDemo');
+ if(state){state.textContent=active?'Demo Premium active':'Free plan';state.className=active?'profile-status':'profile-role'}
+ if(button){button.textContent=active?'Demo membership active':'Activate demo membership';button.disabled=active}
+ if(admin)admin.classList.toggle('hidden',profile?.role!=='admin');
+ $('demoMemberCount').textContent=active?'1':'0';
+ $('demoOrderCount').textContent=String(demoOrders.length);
+ $('demoRevenue').textContent='₹'+(demoOrders.length*29)+' (demo)';
+ $('demoOrderList').innerHTML=demoOrders.length?demoOrders.map(o=>'<div class="item"><b>'+esc(o.id)+'</b><p>'+esc(o.label)+' · ₹29 · '+esc(o.status)+'</p><span class="small">'+esc(o.time)+'</span></div>').join(''):'<div class="empty">No demo orders yet.</div>';
+}
+function simulateDemoMembership(){
+ if(demoMembershipActive)return;
+ demoMembershipActive=true;
+ demoOrders.unshift({id:'DEMO-'+String(demoOrders.length+1).padStart(4,'0'),label:'Sandbox Premium monthly',status:'SIMULATED — NOT PAID',time:new Date().toLocaleString('en-IN')});
+ updateDemoMonetization();
+ status('premiumStatus','Demo Premium चालू हुआ। कोई असली भुगतान नहीं हुआ।','ok');
+}
+function resetDemoMembership(){
+ demoMembershipActive=false;demoOrders=[];
+ updateDemoMonetization();
+ status('premiumStatus','Demo reset हो गया।','ok');
+}
+
+function showTab(tab){currentTab=tab;['library','admin','courses','tests','notes','live','profile','premium'].forEach(t=>{const el=$(t+'Panel');if(el)el.classList.toggle('hidden',tab!==t);const b=$(t==='library'?'studentTab':t+'Tab');if(b)b.classList.toggle('active',tab===t)});if(tab==='profile')renderProfilePage();if(tab==='premium')updateDemoMonetization();if(tab==='admin'&&profile?.role==='admin'){loadManageSubjects().then(loadAdminMaterials).then(loadAdminUsers).catch(e=>status('structureStatus',e.message,'error'))}if(tab==='courses'){if(canTeach())$('courseCreate').classList.remove('hidden');loadCourses()}if(tab==='tests'){if(canTeach())$('testCreate').classList.remove('hidden');loadTests()}if(tab==='notes')loadNotes();if(tab==='live'){if(profile?.role==='admin')$('liveCreate').classList.remove('hidden');loadLiveClasses()}}
 db.auth.onAuthStateChange((_event,session)=>{Promise.resolve().then(async()=>{if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}else showAuth()})});
 (async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}})();
 </script></body></html>
