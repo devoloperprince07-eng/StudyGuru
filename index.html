@@ -244,6 +244,83 @@ button{border-radius:9px}
  .profile-help-card{padding:12px;gap:9px}
  .profile-help-card p{font-size:10px}
 }
+
+/* Final adaptive layout: phone, tablet and desktop */
+html{width:100%;max-width:100%;overflow-x:hidden}
+body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}
+header{width:100%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(12px,3vw,32px);height:auto;min-height:64px}
+header .brand{min-width:0}
+header .user{min-width:0;max-width:55%;overflow-wrap:anywhere;text-align:right}
+main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.5vw,30px)}
+#appView{width:100%;min-width:0}
+#appView>section{min-width:0;width:100%}
+#appView .row,#appView .grid,#appView .panel{min-width:0;max-width:100%}
+#appView .field,#appView input,#appView select,#appView textarea{max-width:100%;min-width:0}
+#appView .grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.profile-content,.profile-stat-grid,.profile-main-card,.profile-details-card{min-width:0;max-width:100%}
+.profile-details-card,.profile-main-card{overflow-wrap:anywhere}
+@media(min-width:1024px){
+ main{padding:26px clamp(22px,3vw,42px) 64px}
+ #appView{display:grid;grid-template-columns:minmax(190px,230px) minmax(0,1fr);column-gap:clamp(18px,2vw,28px);row-gap:0;align-items:start}
+ #appView>.tabs{grid-column:1;grid-row:1 / span 30;position:sticky;top:82px;display:flex;flex-direction:column;align-items:stretch;overflow:visible;white-space:normal}
+ #appView>.hero,#appView>.topline,#appView>section{grid-column:2;min-width:0}
+ #appView>.hero{grid-row:1}
+ #appView>.topline{grid-row:2}
+ #appView>section>.panel:first-child{margin-top:10px}
+}
+@media(max-width:1023px){
+ main{padding:16px clamp(12px,2.5vw,22px) 48px}
+ #appView{display:flex;flex-direction:column;gap:0}
+ #appView>.hero{order:0;width:100%;min-height:clamp(112px,18vw,150px);padding:clamp(17px,3vw,25px);margin:0 0 12px}
+ #appView>.topline{order:1;width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
+ #appView>.tabs{order:2;width:100%;position:sticky;top:0;z-index:10;display:flex;flex-direction:row;align-items:center;gap:6px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;flex-wrap:nowrap;margin:0 0 14px;padding:7px;background:rgba(255,255,255,.97);border:1px solid #f0e9e2;border-radius:12px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+ #appView>.tabs:before{display:none}
+ #appView>.tabs button{width:auto;min-width:max-content;flex:0 0 auto;min-height:40px;padding:9px 13px;font-size:12px;text-align:center;white-space:nowrap}
+ #appView>.tabs button:before{display:none}
+ #appView>section{order:3;width:100%;grid-column:auto}
+ #appView>section>.panel:first-child{margin-top:8px}
+ #appView .grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+}
+@media(max-width:640px){
+ header{min-height:56px;padding:9px 12px}
+ header .brand{font-size:17px}
+ header .mark{width:32px;height:32px}
+ header .user{font-size:10px;max-width:48%}
+ main{padding:12px 12px 38px}
+ #appView>.hero{min-height:112px;padding:18px 16px;border-radius:13px}
+ #appView>.hero h1{font-size:clamp(19px,5vw,24px);line-height:1.2}
+ #appView>.hero p{font-size:11px;line-height:1.5}
+ #appView>.topline{font-size:12px;align-items:flex-start}
+ #appView>.topline button{min-height:34px;padding:7px 10px;font-size:11px}
+ #appView>.tabs{top:0;padding:6px;gap:5px}
+ #appView>.tabs button{min-height:38px;padding:8px 11px;font-size:11px}
+ #appView .row.panel{display:grid;grid-template-columns:minmax(0,1fr);gap:9px}
+ #appView .grid{grid-template-columns:minmax(0,1fr);gap:10px}
+ #appView .panel{padding:12px;border-radius:12px}
+ #appView .item{padding:12px}
+ .profile-cover{min-height:125px;padding:18px}
+ .profile-cover h2{font-size:20px}
+ .profile-cover-orb{width:150px;height:150px;right:-35px;top:-55px;border-width:23px}
+ .profile-main-card{align-items:flex-start;flex-wrap:wrap;gap:12px;padding:14px}
+ .profile-avatar{width:58px;height:58px;flex-basis:58px;border-radius:16px}
+ .profile-identity{flex:1 1 calc(100% - 75px)}
+ .profile-identity h2{font-size:17px}
+ .profile-identity p{font-size:11px}
+ .profile-main-card .profile-logout{margin-left:auto}
+ .profile-stat-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+ .profile-details-card{padding:13px}
+}
+@media(min-width:641px) and (max-width:1023px){
+ #appView .row.panel{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #appView .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .profile-stat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:360px){
+ main{padding-inline:9px}
+ #appView>.tabs button{font-size:10px;padding-inline:9px}
+ .profile-stat-grid{grid-template-columns:minmax(0,1fr)}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
