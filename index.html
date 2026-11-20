@@ -152,18 +152,18 @@ button{border-radius:9px}
 .field{background:#fff;border-color:#e9e2dc}
 .empty{background:#fff;border:1px solid #f0e9e2;border-radius:13px}
 @media(max-width:760px){
- main{padding:14px 10px 44px}
- #appView{grid-template-columns:94px minmax(0,1fr);gap:0 10px}
- #appView>.tabs{grid-column:1;grid-row:1 / span 20;top:74px;padding:9px 5px;gap:4px;border-radius:12px}
- #appView>.tabs:before{font-size:8px;padding:4px 6px 8px}
- #appView>.tabs button{min-height:44px;justify-content:center;text-align:center;padding:7px 3px;font-size:10px;white-space:normal;line-height:1.15}
- #appView>.hero{grid-column:2;grid-row:1;min-height:112px;padding:17px 15px;margin-bottom:10px;border-radius:12px}
- #appView>.hero:after{width:140px;height:140px;right:-75px;top:-50px;border-width:20px}
- #appView>.hero h1{font-size:20px;line-height:1.2}
- #appView>.hero p{font-size:11px;line-height:1.45}
- #appView>.topline{grid-column:2;grid-row:2;gap:6px;align-items:flex-start;font-size:12px;padding:5px 0 9px;margin-bottom:5px}
- #appView>.topline button{padding:8px 10px;min-height:34px;font-size:11px}
- #appView>section{grid-column:2}
+ main{padding:14px 12px 48px}
+ #appView{display:block;width:100%}
+ #appView>.hero{display:block;min-height:132px;padding:20px 18px;margin:0 0 12px;border-radius:14px}
+ #appView>.hero:after{width:150px;height:150px;right:-72px;top:-48px;border-width:21px}
+ #appView>.hero h1{font-size:22px;line-height:1.25}
+ #appView>.hero p{font-size:11px;line-height:1.5;max-width:95%}
+ #appView>.topline{display:flex;grid-column:auto;gap:8px;align-items:center;justify-content:space-between;font-size:12px;padding:7px 1px 11px;margin:0 0 8px}
+ #appView>.topline button{padding:8px 10px;min-height:38px;font-size:11px;flex:0 0 auto}
+ #appView>.tabs{display:flex;grid-column:auto;grid-row:auto;position:sticky;top:64px;z-index:4;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;margin:0 -2px 12px;padding:8px;background:rgba(255,255,255,.97);border:1px solid #f0e9e2;border-radius:12px;box-shadow:0 5px 15px rgba(50,40,30,.05)}
+ #appView>.tabs:before{display:none}
+ #appView>.tabs button{display:flex;flex:0 0 auto;width:auto;min-height:42px;justify-content:center;text-align:center;white-space:nowrap;padding:9px 12px;font-size:11px;line-height:1.2}
+ #appView>section{grid-column:auto;min-width:0;width:100%}
  #appView>section>.panel:first-child{margin-top:8px}
  #libraryPanel>.row.panel{grid-template-columns:1fr;gap:8px;padding:12px}
  #libraryPanel label{margin:5px 0}
