@@ -80,6 +80,50 @@ footer{padding:28px 16px;color:#87909e}
  #appView>.topline{padding:8px 2px 13px}
 }
 
+
+/* Screenshot-inspired StudyGuru learning dashboard refresh */
+:root{--bg:#f7f6f4;--surface:#fff;--line:#eee8e3;--orange:#ff6148;--dark:#252a35;--muted:#7a7d86}
+body{background:#f7f6f4;color:#252a35}
+header{height:68px;background:#fff;border-bottom:1px solid #f0ece8;box-shadow:none}
+.brand{font-size:18px;letter-spacing:-.035em}.mark{border-radius:10px}
+main{max-width:1440px;padding:24px 26px 64px}
+#appView{gap:0 22px}
+@media(min-width:761px){
+ #appView{grid-template-columns:218px minmax(0,1fr);column-gap:24px}
+ #appView>.tabs{top:84px;grid-row:1 / span 12;padding:15px 12px;border:1px solid #f0ebe7;border-radius:17px;box-shadow:0 5px 20px rgba(46,39,33,.035)}
+ #appView>.tabs:before{content:"STUDY MENU";display:block;padding:5px 12px 11px;color:#9a9692;font-size:10px;font-weight:800;letter-spacing:.12em}
+ #appView>.tabs button{min-height:43px;padding:11px 12px;font-size:12px;border-radius:10px}
+ #appView>.hero{grid-column:2;grid-row:1;min-height:142px;margin:0 0 17px;padding:25px 30px;border-radius:17px;background:linear-gradient(110deg,#ff8a3d 0%,#ff9b4d 58%,#ffb06d 100%);box-shadow:0 10px 25px rgba(255,133,62,.13)}
+ #appView>.hero:after{right:36px;top:-110px;width:290px;height:290px;border-width:42px;border-color:rgba(255,255,255,.17);box-shadow:0 0 0 28px rgba(255,255,255,.06),0 0 0 58px rgba(255,255,255,.035)}
+ #appView>.hero h1{font-size:27px;letter-spacing:-.04em}
+ #appView>.hero p{font-size:13px;color:rgba(255,255,255,.94)}
+ #appView>.topline{grid-column:2;grid-row:2;margin:0 0 10px;padding:3px 2px 13px;border-bottom:1px solid #eee9e4}
+ #appView>section{grid-column:2}
+ #appView>section>.panel:first-child{margin-top:12px}
+}
+.section-title{font-size:18px;letter-spacing:-.035em}
+.panel{border:1px solid #f0ebe7;border-radius:15px;box-shadow:0 4px 16px rgba(46,39,33,.035);padding:17px}
+#libraryPanel>.row.panel{background:#fff;border-color:#f0ebe7}
+.grid{gap:14px}
+.item{border:1px solid #f0ebe7;border-radius:14px;background:#fff;padding:16px;box-shadow:0 3px 12px rgba(46,39,33,.025)}
+.item:hover{transform:translateY(-2px);border-color:#ffd4c8;box-shadow:0 9px 20px rgba(46,39,33,.07)}
+.item h3{font-size:14px;line-height:1.5}
+.item p{font-size:12px;line-height:1.55}
+button{border-radius:9px}
+.tabs button.active{background:#fff0e9;color:#d95a35;border-color:#ffe0d5;box-shadow:none}
+.field{background:#fff;border-color:#e9e5e1}
+.auth{border:1px solid #f0ebe7;box-shadow:0 12px 35px rgba(46,39,33,.06)}
+.empty{border-color:#e9e3dd;background:#fff}
+@media(max-width:760px){
+ main{padding:16px 13px 56px}
+ #appView>.hero{min-height:140px;margin:0 0 13px;border-radius:15px;background:linear-gradient(110deg,#ff8a3d,#ffad69);padding:22px 20px}
+ #appView>.hero h1{font-size:24px}
+ #appView>.tabs{top:64px;border:1px solid #f0ebe7;box-shadow:0 5px 15px rgba(46,39,33,.05);gap:5px}
+ #appView>.tabs button{font-size:12px}
+ #appView>.topline{margin:0 0 10px}
+ .panel{padding:14px}.item{padding:14px}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
