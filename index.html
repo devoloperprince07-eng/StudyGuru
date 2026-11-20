@@ -322,6 +322,13 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
 }
 
 
+
+/* AdSense-ready demo placements: placeholders only; no Google ad requests */
+.demo-ad-slot{display:flex;align-items:center;justify-content:center;min-height:104px;margin:16px 0;padding:18px;border:1px dashed #d8dce3;border-radius:14px;background:linear-gradient(135deg,#fff,#fafbfc);color:#667085;text-align:center}
+.demo-ad-slot strong{display:block;color:#344054;font-size:13px;margin-bottom:5px}
+.demo-ad-slot span{font-size:12px;line-height:1.5}
+@media(min-width:761px){.demo-ad-slot{min-height:118px}}
+
 /* Sandbox monetization preview only */
 #premiumPanel .profile-cover{margin-bottom:14px}
 #premiumPanel .grid{margin-top:12px}
@@ -358,6 +365,7 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
 <div><label>Class</label><select id="classFilter" class="field" onchange="loadSubjects()"><option value="">सभी Classes</option></select></div>
 <div><label>Subject</label><select id="subjectFilter" class="field" onchange="loadLibrary()"><option value="">सभी Subjects</option></select></div>
 </div>
+<div class="demo-ad-slot" aria-label="Demo advertisement placeholder"><div><strong>Demo Ad · AdSense integration pending</strong><span>यहाँ free learning content के साथ विज्ञापन दिखेगा — अभी कोई वास्तविक ad या tracking नहीं है।</span></div></div>
 <div id="libraryList" class="grid"><div class="empty">Study material लोड हो रहा है…</div></div>
 </section>
 <section id="adminPanel" class="hidden">
@@ -381,7 +389,8 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
 </section>
 <section id="coursesPanel" class="hidden">
 <div class="topline"><h2 class="section-title">Courses</h2><button class="plain" onclick="loadCourses()">Refresh</button></div>
-<div id="courseCreate" class="panel hidden"><h3>Create course</h3><label>Title</label><input id="courseTitle" class="field"><label>Class</label><select id="courseClass" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="courseSubject" class="field"><label>Description</label><textarea id="courseDescription" class="field"></textarea><button onclick="createCourse()">Save draft</button><div id="courseStatus" class="status"></div></div><div id="courseList" class="grid"></div>
+<div id="courseCreate" class="panel hidden"><h3>Create course</h3><label>Title</label><input id="courseTitle" class="field"><label>Class</label><select id="courseClass" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="courseSubject" class="field"><label>Description</label><textarea id="courseDescription" class="field"></textarea><button onclick="createCourse()">Save draft</button><div id="courseStatus" class="status"></div></div><div class="demo-ad-slot" aria-label="Demo advertisement placeholder"><div><strong>Demo Ad · AdSense integration pending</strong><span>यहाँ free learning content के साथ विज्ञापन दिखेगा — अभी कोई वास्तविक ad या tracking नहीं है।</span></div></div>
+<div id="courseList" class="grid"></div>
 </section>
 <section id="testsPanel" class="hidden">
 <div class="topline"><h2 class="section-title">Practice Tests</h2><button class="plain" onclick="loadTests()">Refresh</button></div>
@@ -390,7 +399,8 @@ main{width:100%;max-width:1500px;margin-inline:auto;padding-inline:clamp(12px,2.
 </section>
 <section id="notesPanel" class="hidden"><h2 class="section-title">My Notes</h2><div class="panel"><label>Title</label><input id="noteTitle" class="field"><label>Notes</label><textarea id="noteBody" class="field" rows="5"></textarea><button onclick="saveNote()">Save note</button><div id="noteStatus" class="status"></div></div><div id="noteList" class="grid"></div></section>
 <section id="livePanel" class="hidden"><div class="topline"><h2 class="section-title">Live Classes</h2><button class="plain" onclick="loadLiveClasses()">Refresh</button></div>
-<div id="liveCreate" class="panel hidden"><h3>Schedule live class</h3><label>Title</label><input id="liveTitle" class="field"><label>Class</label><select id="liveClassName" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="liveSubject" class="field"><label>Instructor</label><input id="liveInstructor" class="field"><label>Start time</label><input id="liveStarts" type="datetime-local" class="field"><label>Meeting URL (HTTPS)</label><input id="liveUrl" type="url" class="field"><label>Description</label><textarea id="liveDescription" class="field"></textarea><button onclick="createLiveClass()">Schedule class</button><div id="liveStatus" class="status"></div></div><div id="liveList" class="grid"></div></section>
+<div id="liveCreate" class="panel hidden"><h3>Schedule live class</h3><label>Title</label><input id="liveTitle" class="field"><label>Class</label><select id="liveClassName" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="liveSubject" class="field"><label>Instructor</label><input id="liveInstructor" class="field"><label>Start time</label><input id="liveStarts" type="datetime-local" class="field"><label>Meeting URL (HTTPS)</label><input id="liveUrl" type="url" class="field"><label>Description</label><textarea id="liveDescription" class="field"></textarea><button onclick="createLiveClass()">Schedule class</button><div id="liveStatus" class="status"></div></div><div class="demo-ad-slot" aria-label="Demo advertisement placeholder"><div><strong>Demo Ad · AdSense integration pending</strong><span>यहाँ free learning content के साथ विज्ञापन दिखेगा — अभी कोई वास्तविक ad या tracking नहीं है।</span></div></div>
+<div id="liveList" class="grid"></div></section>
 <section id="profilePanel" class="hidden">
  <div class="profile-cover"><div class="profile-cover-copy"><span class="profile-eyebrow">STUDYGURU ACCOUNT</span><h2>Your learning profile</h2><p>अपनी account जानकारी और learning workspace details यहाँ देखें।</p></div><div class="profile-cover-orb" aria-hidden="true"></div></div>
  <div id="profileContent" class="profile-content"><div class="empty">Profile लोड हो रहा है…</div></div>
