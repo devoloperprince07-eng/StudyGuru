@@ -1,387 +1,482 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#FF6148">
-<title>StudyGuru — Learn • Practice • Excel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FF6148">
+<meta name="robots" content="noindex,nofollow">
+<title>StudyGuru — Monetization Staging Preview</title>
 <style>
-:root{--orange:#FF6148;--dark:#1F2633;--white:#fff;--bg:#f6f7f9;--muted:#6b7280;--line:#e7e9ed;--green:#16865b;--red:#c33d3d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--dark);font-family:Inter,system-ui,sans-serif}button,input,select,textarea{font:inherit}button{border:0;border-radius:11px;padding:11px 15px;background:var(--orange);color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.55;cursor:wait}.secondary{background:#fff0ed;color:#d94f38}.plain{background:#f0f1f3;color:var(--dark)}.danger{background:#fff0f0;color:var(--red)}.hidden{display:none!important}header{height:66px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(18px,calc((100vw - 1120px)/2));position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}.mark{width:35px;height:35px;border-radius:11px;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800}.user{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}main{max-width:1120px;margin:auto;padding:28px 18px 70px}.auth{max-width:430px;margin:7vh auto;background:#fff;padding:28px;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 35px #1f26330a}.auth h1{margin:0 0 8px;font-size:26px}.muted{color:var(--muted)}label{display:block;font-size:13px;font-weight:650;margin:14px 0 7px}.field{width:100%;border:1px solid #dfe2e7;border-radius:10px;padding:12px;background:#fff;color:var(--dark);outline-color:var(--orange)}.auth button{width:100%;margin-top:14px}.auth .google-btn{min-height:52px;display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:10px;font-weight:650;box-shadow:0 1px 2px #00000012}.auth .google-btn:hover{background:#f8faff;border-color:#c7d2e2}.google-icon{width:22px;height:22px;flex:0 0 22px}.auth .forgot-btn{min-height:50px;background:var(--dark);color:#fff;border:1px solid var(--dark)}.auth .forgot-btn:hover{background:#303b4d}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.hero{background:var(--dark);color:white;padding:26px;border-radius:18px;margin-bottom:20px}.hero h1{margin:0 0 8px;font-size:clamp(24px,4vw,34px)}.hero p{margin:0;color:#d5d9df}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tabs button{background:#fff;color:var(--dark);border:1px solid var(--line)}.tabs button.active{background:var(--orange);border-color:var(--orange);color:white}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.item{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fff}.item h3{margin:0 0 7px;font-size:16px}.item p{margin:0 0 12px;font-size:13px;color:var(--muted)}.item .actions{display:flex;gap:8px;flex-wrap:wrap}.item button{padding:9px 12px;font-size:13px}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.notice{padding:12px 14px;border-radius:11px;background:#fff4ed;color:#8c3e2e;font-size:13px;margin:12px 0}.status{font-size:13px;margin-top:10px;min-height:18px}.status.error{color:var(--red)}.status.ok{color:var(--green)}.section-title{font-size:19px;margin:22px 0 12px}.empty{padding:25px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #d7dbe1;border-radius:14px}.small{font-size:12px;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}@media(max-width:600px){main{padding:18px 13px 55px}.row{grid-template-columns:1fr}.hero{padding:21px}.auth{margin:4vh 13px;padding:22px}header{padding:0 13px}}
- .video-frame{position:relative;width:100%;aspect-ratio:16/9;margin:10px 0 13px;border-radius:12px;overflow:hidden;background:#111}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-/* StudyGuru refreshed template — visual-only layer; existing IDs and app logic stay intact */
-:root{--orange:#FF6148;--dark:#1F2633;--white:#fff;--bg:#f4f6f8;--muted:#667085;--line:#e8ebef;--green:#16865b;--surface:#fff;--shadow:0 10px 30px rgba(31,38,51,.06)}
-body{background:var(--bg);color:var(--dark);letter-spacing:-.01em}
-header{height:72px;box-shadow:0 2px 14px rgba(31,38,51,.035);padding-inline:max(20px,calc((100vw - 1180px)/2))}
-.brand{font-size:21px;letter-spacing:-.04em}.mark{width:38px;height:38px;border-radius:12px;box-shadow:0 5px 12px rgba(255,97,72,.22)}
-main{max-width:1180px;padding:30px 20px 76px}
-.hero{position:relative;overflow:hidden;isolation:isolate;min-height:178px;padding:32px 34px;border-radius:22px;background:linear-gradient(115deg,#1F2633 0%,#303d50 72%,#3c4b5e 100%);box-shadow:0 14px 32px rgba(31,38,51,.12)}
-.hero:after{content:"";position:absolute;z-index:-1;width:260px;height:260px;right:-55px;top:-105px;border:38px solid rgba(255,97,72,.22);border-radius:50%;box-shadow:0 0 0 34px rgba(255,255,255,.035),0 0 0 70px rgba(255,255,255,.025)}
-.hero h1{font-size:clamp(26px,4vw,36px);letter-spacing:-.045em;max-width:650px}
-.hero p{font-size:14px;line-height:1.7;max-width:560px}
-.topline{margin:18px 0;align-items:center}
-.tabs{gap:9px;padding:7px;margin:20px 0 22px;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 4px 16px rgba(31,38,51,.035);overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin}
-.tabs button{flex:0 0 auto;min-height:42px;padding:10px 16px;border:1px solid transparent;border-radius:10px;font-size:13px;white-space:nowrap;background:transparent;color:#596273}
-.tabs button.active{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 4px 10px rgba(255,97,72,.18)}
-.panel{border-color:var(--line);border-radius:17px;padding:20px;box-shadow:var(--shadow)}
-.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:15px}
-.item{border-color:var(--line);border-radius:16px;padding:18px;box-shadow:0 5px 18px rgba(31,38,51,.035);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-.item:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,38,51,.08);border-color:#ffd0c8}
-.item h3{font-size:16px;letter-spacing:-.025em;line-height:1.45}
-.item p{line-height:1.6}
-.item .actions{align-items:center}
-button{min-height:42px;border-radius:11px;transition:filter .15s ease,transform .15s ease}
-button:hover{filter:brightness(.98);transform:translateY(-1px)}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(255,97,72,.24);outline-offset:2px}
-.secondary{background:#fff0ed;color:#c94c37}.plain{background:#f2f4f7;color:var(--dark)}
-.field{min-height:46px;border-color:#dfe3e8;border-radius:11px;padding:12px 13px}
-.auth{border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 50px rgba(31,38,51,.08);padding:32px}
-.auth h1{letter-spacing:-.04em}.auth .google-btn{min-height:48px}
-.section-title{font-size:20px;letter-spacing:-.035em}
-.notice{border:1px solid #ffe0d9;border-radius:12px}
-.empty{border-radius:15px;border-color:#dce1e7;background:#fff}
-footer{padding:28px 16px;color:#87909e}
-@media(max-width:700px){
- header{height:64px;padding-inline:14px}.brand{font-size:19px}
- main{padding:18px 13px 60px}.hero{min-height:160px;padding:23px 21px;border-radius:18px}
- .hero:after{width:190px;height:190px;right:-90px;top:-60px;border-width:28px}
- .tabs{margin:16px -2px 18px;padding:6px;border-radius:13px}
- .tabs button{padding:9px 13px;min-height:40px}
- .panel{padding:15px}.item{padding:15px}.auth{margin:4vh 12px;padding:23px}
-}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
-
-
-/* Distinct StudyGuru dashboard layout: desktop sidebar + content canvas */
-@media(min-width:761px){
- #appView{display:grid;grid-template-columns:228px minmax(0,1fr);column-gap:24px;row-gap:0;align-items:start}
- #appView>.hero{grid-column:2;grid-row:1;margin:0 0 18px;min-height:190px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(125deg,#FF6148 0%,#ff806a 55%,#ffad8e 100%);box-shadow:0 16px 35px rgba(255,97,72,.18)}
- #appView>.hero:after{content:"";position:absolute;right:35px;top:-95px;width:300px;height:300px;border:48px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
- #appView>.hero{position:relative;isolation:isolate;overflow:hidden}
- #appView>.hero h1{font-size:34px;max-width:600px}
- #appView>.hero p{color:rgba(255,255,255,.9);max-width:540px}
- #appView>.topline{grid-column:2;grid-row:2;padding:4px 2px 16px;border-bottom:1px solid var(--line);margin-bottom:8px}
- #appView>.tabs{grid-column:1;grid-row:1 / span 9;position:sticky;top:88px;display:flex;flex-direction:column;align-items:stretch;gap:7px;margin:0;padding:13px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(31,38,51,.045)}
- #appView>.tabs button{width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:11px;background:transparent;border:0;color:#586273;font-weight:650}
- #appView>.tabs button:before{content:"";display:block;width:8px;height:8px;border-radius:3px;background:#d4d8df;flex:0 0 8px}
- #appView>.tabs button.active{background:#fff0ed;color:#d94f38}
- #appView>.tabs button.active:before{background:var(--orange);box-shadow:0 0 0 4px rgba(255,97,72,.12)}
- #appView>section{grid-column:2;min-width:0}
- #appView>section>.panel:first-child{margin-top:10px}
- #libraryPanel>.row.panel{background:#fff;border:1px solid var(--line);box-shadow:0 5px 20px rgba(31,38,51,.035)}
- #libraryList .item,#courseList .item,#testList .item,#noteList .item,#liveList .item{min-height:150px}
-}
-@media(max-width:760px){
- #appView{display:block}
- #appView>.hero{margin-bottom:16px;background:linear-gradient(125deg,#FF6148,#ff896f);padding:24px 21px}
- #appView>.hero h1{font-size:27px}
- #appView>.tabs{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;position:sticky;top:64px;z-index:4;padding:8px;margin:0 -1px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-radius:13px}
- #appView>.tabs button{flex:0 0 auto;width:auto;padding:10px 13px}
- #appView>.tabs button:before{display:none}
- #appView>.topline{padding:8px 2px 13px}
-}
-
-
-/* Screenshot-inspired StudyGuru learning dashboard refresh */
-:root{--bg:#f7f6f4;--surface:#fff;--line:#eee8e3;--orange:#ff6148;--dark:#252a35;--muted:#7a7d86}
-body{background:#f7f6f4;color:#252a35}
-header{height:68px;background:#fff;border-bottom:1px solid #f0ece8;box-shadow:none}
-.brand{font-size:18px;letter-spacing:-.035em}.mark{border-radius:10px}
-main{max-width:1440px;padding:24px 26px 64px}
-#appView{gap:0 22px}
-@media(min-width:761px){
- #appView{grid-template-columns:218px minmax(0,1fr);column-gap:24px}
- #appView>.tabs{top:84px;grid-row:1 / span 12;padding:15px 12px;border:1px solid #f0ebe7;border-radius:17px;box-shadow:0 5px 20px rgba(46,39,33,.035)}
- #appView>.tabs:before{content:"STUDY MENU";display:block;padding:5px 12px 11px;color:#9a9692;font-size:10px;font-weight:800;letter-spacing:.12em}
- #appView>.tabs button{min-height:43px;padding:11px 12px;font-size:12px;border-radius:10px}
- #appView>.hero{grid-column:2;grid-row:1;min-height:142px;margin:0 0 17px;padding:25px 30px;border-radius:17px;background:linear-gradient(110deg,#ff8a3d 0%,#ff9b4d 58%,#ffb06d 100%);box-shadow:0 10px 25px rgba(255,133,62,.13)}
- #appView>.hero:after{right:36px;top:-110px;width:290px;height:290px;border-width:42px;border-color:rgba(255,255,255,.17);box-shadow:0 0 0 28px rgba(255,255,255,.06),0 0 0 58px rgba(255,255,255,.035)}
- #appView>.hero h1{font-size:27px;letter-spacing:-.04em}
- #appView>.hero p{font-size:13px;color:rgba(255,255,255,.94)}
- #appView>.topline{grid-column:2;grid-row:2;margin:0 0 10px;padding:3px 2px 13px;border-bottom:1px solid #eee9e4}
- #appView>section{grid-column:2}
- #appView>section>.panel:first-child{margin-top:12px}
-}
-.section-title{font-size:18px;letter-spacing:-.035em}
-.panel{border:1px solid #f0ebe7;border-radius:15px;box-shadow:0 4px 16px rgba(46,39,33,.035);padding:17px}
-#libraryPanel>.row.panel{background:#fff;border-color:#f0ebe7}
-.grid{gap:14px}
-.item{border:1px solid #f0ebe7;border-radius:14px;background:#fff;padding:16px;box-shadow:0 3px 12px rgba(46,39,33,.025)}
-.item:hover{transform:translateY(-2px);border-color:#ffd4c8;box-shadow:0 9px 20px rgba(46,39,33,.07)}
-.item h3{font-size:14px;line-height:1.5}
-.item p{font-size:12px;line-height:1.55}
-button{border-radius:9px}
-.tabs button.active{background:#fff0e9;color:#d95a35;border-color:#ffe0d5;box-shadow:none}
-.field{background:#fff;border-color:#e9e5e1}
-.auth{border:1px solid #f0ebe7;box-shadow:0 12px 35px rgba(46,39,33,.06)}
-.empty{border-color:#e9e3dd;background:#fff}
-@media(max-width:760px){
- main{padding:16px 13px 56px}
- #appView>.hero{min-height:140px;margin:0 0 13px;border-radius:15px;background:linear-gradient(110deg,#ff8a3d,#ffad69);padding:22px 20px}
- #appView>.hero h1{font-size:24px}
- #appView>.tabs{top:64px;border:1px solid #f0ebe7;box-shadow:0 5px 15px rgba(46,39,33,.05);gap:5px}
- #appView>.tabs button{font-size:12px}
- #appView>.topline{margin:0 0 10px}
- .panel{padding:14px}.item{padding:14px}
-}
-
-
-/* Corrective responsive dashboard layout based on the supplied reference */
-:root{--orange:#ff7043;--dark:#252a35;--bg:#fffaf5;--line:#f0e8df}
-body{background:#fffaf5;color:#292d36}
-header{background:#fff;border-bottom:1px solid #f1e9e1;box-shadow:0 2px 12px rgba(40,30,20,.04)}
-main{max-width:1500px;padding:18px 20px 56px}
-#appView{display:grid;grid-template-columns:220px minmax(0,1fr);gap:0 22px;align-items:start}
-#appView>.tabs{grid-column:1;grid-row:1 / span 20;position:sticky;top:84px;display:flex;flex-direction:column;align-items:stretch;gap:5px;margin:0;padding:14px 10px;background:#fff;border:1px solid #f0e9e2;border-radius:16px;box-shadow:0 6px 22px rgba(50,40,30,.045)}
-#appView>.tabs:before{content:"MENU";display:block;padding:4px 10px 10px;color:#98918a;font-size:10px;font-weight:800;letter-spacing:.12em}
-#appView>.tabs button{width:100%;min-height:40px;text-align:left;display:flex;align-items:center;padding:10px 12px;border:0;border-radius:9px;background:transparent;color:#62636a;font-size:12px;font-weight:650}
-#appView>.tabs button.active{background:#fff0e8;color:#d95b35;box-shadow:none}
-#appView>.hero{grid-column:2;grid-row:1;position:relative;overflow:hidden;min-height:135px;margin:0 0 14px;padding:24px 28px;border-radius:15px;background:linear-gradient(110deg,#ff853d,#ffa45f);box-shadow:0 8px 22px rgba(255,132,61,.15)}
-#appView>.hero:after{content:"";position:absolute;right:25px;top:-100px;width:270px;height:270px;border:38px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
-#appView>.hero h1{font-size:27px;letter-spacing:-.04em}
-#appView>.hero p{font-size:13px;color:#fff;max-width:520px}
-#appView>.topline{grid-column:2;grid-row:2;margin:0 0 10px;padding:3px 2px 12px;border-bottom:1px solid #f0e9e2}
-#appView>section{grid-column:2;min-width:0}
-#appView>section.hidden{display:none!important}
-#libraryPanel>.row.panel{margin-top:10px;border:1px solid #f0e9e2;border-radius:13px;box-shadow:0 3px 12px rgba(50,40,30,.03)}
-.section-title{font-size:18px}
-.panel,.item{border-color:#f0e9e2;border-radius:14px;box-shadow:0 4px 14px rgba(50,40,30,.035)}
-.item{padding:15px;background:#fff}
-.item h3{font-size:14px}
-button{border-radius:9px}
-.tabs button.active{background:#fff0e8;color:#d95b35;border-color:#ffe0d2}
-.field{background:#fff;border-color:#e9e2dc}
-.empty{background:#fff;border:1px solid #f0e9e2;border-radius:13px}
-@media(max-width:760px){
- main{padding:14px 10px 44px}
- #appView{grid-template-columns:94px minmax(0,1fr);gap:0 10px}
- #appView>.tabs{grid-column:1;grid-row:1 / span 20;top:74px;padding:9px 5px;gap:4px;border-radius:12px}
- #appView>.tabs:before{font-size:8px;padding:4px 6px 8px}
- #appView>.tabs button{min-height:44px;justify-content:center;text-align:center;padding:7px 3px;font-size:10px;white-space:normal;line-height:1.15}
- #appView>.hero{grid-column:2;grid-row:1;min-height:112px;padding:17px 15px;margin-bottom:10px;border-radius:12px}
- #appView>.hero:after{width:140px;height:140px;right:-75px;top:-50px;border-width:20px}
- #appView>.hero h1{font-size:20px;line-height:1.2}
- #appView>.hero p{font-size:11px;line-height:1.45}
- #appView>.topline{grid-column:2;grid-row:2;gap:6px;align-items:flex-start;font-size:12px;padding:5px 0 9px;margin-bottom:5px}
- #appView>.topline button{padding:8px 10px;min-height:34px;font-size:11px}
- #appView>section{grid-column:2}
- #appView>section>.panel:first-child{margin-top:8px}
- #libraryPanel>.row.panel{grid-template-columns:1fr;gap:8px;padding:12px}
- #libraryPanel label{margin:5px 0}
- .section-title{font-size:16px}
- .panel{padding:12px;margin:9px 0}
- .grid{grid-template-columns:1fr;gap:9px}
- .item{padding:12px}
- .item h3{font-size:13px}
- .item p{font-size:11px}
-}
-@media(max-width:390px){
- #appView{grid-template-columns:78px minmax(0,1fr);gap:0 8px}
- #appView>.tabs button{font-size:9px;padding:6px 2px}
- #appView>.hero h1{font-size:18px}
- #appView>.hero p{font-size:10px}
-}
-
-
-/* My Profile page */
-.profile-cover{position:relative;overflow:hidden;min-height:155px;padding:24px 28px;border-radius:17px;background:linear-gradient(115deg,#ff7043 0%,#ff9252 62%,#ffb16e 100%);color:#fff;box-shadow:0 10px 24px rgba(255,112,67,.14)}
-.profile-cover-copy{position:relative;z-index:1;max-width:520px}
-.profile-eyebrow,.profile-kicker{font-size:9px;font-weight:800;letter-spacing:.16em;opacity:.82}
-.profile-kicker{color:#d86a45;opacity:1}
-.profile-cover h2{font-size:25px;letter-spacing:-.04em;margin:9px 0 5px}
-.profile-cover p{font-size:12px;margin:0;color:rgba(255,255,255,.94)}
-.profile-cover-orb{position:absolute;width:230px;height:230px;border:34px solid rgba(255,255,255,.17);border-radius:50%;right:30px;top:-88px;box-shadow:0 0 0 24px rgba(255,255,255,.06)}
-.profile-content{display:grid;gap:14px;margin-top:14px}
-.profile-main-card,.profile-details-card{background:#fff;border:1px solid #f0e9e2;border-radius:16px;box-shadow:0 5px 18px rgba(50,40,30,.04)}
-.profile-main-card{display:flex;align-items:center;gap:17px;padding:20px}
-.profile-avatar{width:76px;height:76px;flex:0 0 76px;border-radius:22px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#ff7043,#ffad70);color:#fff;font-size:24px;font-weight:800;box-shadow:0 7px 16px rgba(255,112,67,.2)}
-.profile-avatar img{width:100%;height:100%;object-fit:cover}
-.profile-identity{min-width:0;flex:1}
-.profile-identity h2{font-size:21px;margin:5px 0 3px;letter-spacing:-.035em;overflow-wrap:anywhere}
-.profile-identity p{font-size:12px;color:#777b84;margin:0;overflow-wrap:anywhere}
-.profile-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
-.profile-role,.profile-status{font-size:10px;font-weight:700;padding:5px 9px;border-radius:20px;background:#fff0e9;color:#c85b37}
-.profile-status{background:#edf8f1;color:#26824b}
-.profile-logout{border:1px solid #f0dcd4;background:#fff;color:#c85b37;padding:9px 13px;font-size:11px;font-weight:700}
-.profile-stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.profile-stat{background:#fff;border:1px solid #f0e9e2;border-radius:14px;padding:15px;min-width:0;box-shadow:0 4px 14px rgba(50,40,30,.025)}
-.profile-stat-icon{display:grid;place-items:center;width:29px;height:29px;border-radius:9px;background:#fff0e9;color:#d86a45;font-size:10px;font-weight:800;margin-bottom:12px}
-.profile-stat-label{display:block;color:#99939a;font-size:9px;letter-spacing:.1em;font-weight:800}
-.profile-stat strong{display:block;font-size:15px;margin-top:5px;overflow-wrap:anywhere}
-.profile-stat small{display:block;color:#8c8b91;font-size:10px;margin-top:4px}
-.profile-details-card{padding:19px}
-.profile-section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.profile-section-heading h3{font-size:17px;margin:5px 0 0}
-.profile-detail-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#fff0e9;color:#d86a45;font-size:12px;font-weight:900}
-.profile-detail-row{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-top:1px solid #f3eee9;font-size:12px}
-.profile-detail-label{color:#85838a}
-.profile-detail-row strong{text-align:right;overflow-wrap:anywhere}
-.profile-help-card{display:flex;gap:12px;align-items:flex-start;padding:15px 17px;border:1px solid #f0e9e2;border-radius:14px;background:#fffaf6}
-.profile-help-symbol{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:50%;background:#fff0e9;color:#d86a45;font-weight:800}
-.profile-help-card strong{font-size:12px}
-.profile-help-card p{font-size:11px;color:#777b84;line-height:1.6;margin:4px 0 0}
-@media(max-width:760px){
- .profile-cover{min-height:128px;padding:18px 15px;border-radius:12px}
- .profile-cover h2{font-size:19px}
- .profile-cover p{font-size:10px;max-width:230px}
- .profile-cover-orb{width:125px;height:125px;right:-58px;top:-35px;border-width:20px}
- .profile-content{gap:9px;margin-top:9px}
- .profile-main-card{padding:13px;gap:10px;flex-wrap:wrap}
- .profile-avatar{width:55px;height:55px;flex-basis:55px;border-radius:16px;font-size:19px}
- .profile-identity h2{font-size:16px}
- .profile-identity p{font-size:10px}
- .profile-tags{gap:5px;margin-top:7px}
- .profile-role,.profile-status{font-size:9px;padding:4px 7px}
- .profile-logout{margin-left:auto;padding:7px 10px;font-size:10px}
- .profile-stat-grid{grid-template-columns:1fr;gap:8px}
- .profile-stat{padding:11px;display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:9px;align-items:center}
- .profile-stat-icon{grid-row:1 / span 2;margin:0}
- .profile-stat-label{font-size:8px}
- .profile-stat strong{font-size:12px;margin-top:2px}
- .profile-stat small{grid-column:2;font-size:9px}
- .profile-details-card{padding:13px}
- .profile-section-heading h3{font-size:15px}
- .profile-detail-row{font-size:10px;padding:11px 0}
- .profile-help-card{padding:12px;gap:9px}
- .profile-help-card p{font-size:10px}
-}
+:root{--orange:#FF6148;--orange-dark:#e6533d;--dark:#1F2633;--muted:#697386;--bg:#f5f6f8;--line:#e8eaf0;--white:#fff;--green:#16865b;--green-bg:#e9f7f0;--amber:#946200;--amber-bg:#fff5dc;--red:#b93838;--shadow:0 10px 30px rgba(31,38,51,.06)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--dark);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.demo-strip{background:#242b39;color:#fff;text-align:center;padding:9px 14px;font-size:11px;font-weight:800;letter-spacing:.11em}
+.demo-strip span{color:#ff9a88;margin-left:8px}
+.topbar{height:70px;position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;font-size:19px;letter-spacing:-.5px}
+.brand-mark{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--orange);color:#fff;font-weight:900;font-size:18px;box-shadow:0 5px 12px #ff61483d}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:650;letter-spacing:.08em;margin-top:2px}
+.top-actions{display:flex;align-items:center;gap:12px}
+.role-switch{border:1px solid #ffd2ca;background:#fff4f1;color:#bb4b38;padding:10px 14px;min-height:42px;border-radius:10px;font-size:12px;font-weight:800}
+.user-chip{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:750}
+.avatar{width:34px;height:34px;border-radius:50%;background:#ffe5df;color:#b84b38;display:grid;place-items:center;font-size:11px;font-weight:900}
+.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:232px minmax(0,1fr);min-height:calc(100vh - 104px)}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 14px;display:flex;flex-direction:column;gap:5px}
+.nav-caption{font-size:10px;color:#9aa1ad;font-weight:850;letter-spacing:.12em;padding:9px 12px 8px}
+.nav-item{width:100%;display:flex;align-items:center;gap:11px;text-align:left;background:transparent;color:#616b7c;border:0;border-radius:10px;padding:12px 12px;font-size:13px;font-weight:700;min-height:46px}
+.nav-item:hover{background:#f8f8fa;color:var(--dark)}
+.nav-item.active{background:#fff0ed;color:#c94e39}
+.nav-ico{width:25px;height:25px;flex:0 0 25px;border-radius:8px;background:#f2f3f6;color:#697386;display:grid;place-items:center;font-size:9px;font-weight:900;letter-spacing:-.3px}
+.nav-item.active .nav-ico{background:#ffd9d2;color:#bd4c39}
+.sidebar-note{margin-top:auto;background:#fff7f4;border:1px solid #ffe1da;border-radius:12px;padding:13px;font-size:11px;line-height:1.55;color:#925140}
+.sidebar-note b{display:block;color:#a94330;margin-bottom:4px}
+main{padding:30px 34px 60px;min-width:0}
+.page{display:none;max-width:1120px;margin:0 auto}
+.page.active{display:block}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.eyebrow{font-size:10px;color:var(--orange-dark);font-weight:850;letter-spacing:.13em;margin-bottom:7px}
+h1{font-size:27px;letter-spacing:-.8px;margin:0 0 7px}
+.page-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.date-pill,.soft-pill,.status-pill{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:800;white-space:nowrap}
+.date-pill{background:#fff;border:1px solid var(--line);color:#697386}
+.soft-pill{background:#fff0ed;color:#c84e38}
+.status-pill.ok{background:var(--green-bg);color:var(--green)}
+.status-pill.warn{background:var(--amber-bg);color:var(--amber)}
+.status-pill.neutral{background:#eff1f5;color:#657084}
+.demo-note{background:#fff9e9;border:1px solid #f4e3b4;color:#76591a;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.55;margin:0 0 18px}
+.demo-note strong{color:#624700}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:18px}
+.metric,.panel,.plan-card,.content-card{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+.metric{padding:17px}
+.metric-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;font-weight:700}
+.metric-symbol{width:29px;height:29px;border-radius:9px;background:#fff0ed;color:#c64d39;display:grid;place-items:center;font-size:12px;font-weight:900}
+.metric-value{font-size:26px;font-weight:850;letter-spacing:-.8px;margin:12px 0 4px}
+.metric-foot{font-size:10px;color:var(--muted)}
+.metric-foot em{font-style:normal;color:var(--green);font-weight:800}
+.two-col{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:14px}
+.panel{padding:19px;margin-bottom:14px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.panel h2,.panel-head h2{font-size:15px;margin:0;letter-spacing:-.2px}
+.panel-sub{color:var(--muted);font-size:11px;margin-top:5px}
+.chart{height:190px;display:flex;align-items:flex-end;gap:13px;padding:12px 5px 0;border-bottom:1px solid var(--line)}
+.chart-col{height:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;min-width:0}
+.bar{width:min(100%,35px);border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#ff8d79,#ff6148);min-height:8px}
+.chart-label{font-size:10px;color:#838b99}
+.chart-legend{display:flex;gap:15px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:12px}
+.legend-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);display:inline-block;margin-right:5px}
+.quick-list{display:grid;gap:10px}
+.quick-row{display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #f0f1f4;font-size:11px}
+.quick-row:last-child{border:0;padding:0}
+.quick-row span{color:var(--muted)}
+.btn{border:0;border-radius:9px;padding:10px 14px;min-height:42px;font-size:11px;font-weight:800;background:var(--orange);color:#fff}
+.btn:hover{background:var(--orange-dark)}
+.btn.secondary{background:#fff0ed;color:#bd4a36}
+.btn.ghost{background:#f2f3f6;color:#465064}
+.btn.outline{background:#fff;border:1px solid var(--line);color:#4c5669}
+.btn.small{min-height:34px;padding:7px 10px;font-size:10px}
+.btn:focus-visible,.nav-item:focus-visible,.role-switch:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #ffb2a5;outline-offset:2px}
+.plan-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:16px}
+.plan-card{padding:24px;position:relative;overflow:hidden}
+.plan-card.featured{border:1px solid #ffb7aa;background:linear-gradient(145deg,#fff 55%,#fff4f1)}
+.plan-badge{display:inline-block;padding:6px 9px;border-radius:99px;background:#ffe5df;color:#b94d39;font-size:9px;font-weight:900;letter-spacing:.08em}
+.plan-price{font-size:39px;font-weight:900;letter-spacing:-1.6px;margin:15px 0 3px}
+.plan-price small{font-size:13px;color:var(--muted);font-weight:650;letter-spacing:0}
+.plan-card p{color:var(--muted);font-size:12px;line-height:1.6}
+.feature-list{list-style:none;padding:5px 0 0;margin:0 0 18px;display:grid;gap:11px}
+.feature-list li{font-size:12px;color:#455064;display:flex;gap:9px;align-items:flex-start}
+.tick{width:18px;height:18px;border-radius:50%;background:var(--green-bg);color:var(--green);display:grid;place-items:center;font-size:10px;font-weight:900;flex:0 0 18px}
+.mini-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px;margin-bottom:12px}
+.mini-card h3{font-size:13px;margin:0 0 7px}
+.mini-card p{font-size:11px;line-height:1.6;color:var(--muted);margin:0}
+.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.field{border:1px solid #dfe3e9;border-radius:9px;padding:10px 11px;min-height:41px;background:#fff;color:var(--dark);font-size:12px;max-width:100%}
+.field.search{min-width:220px;flex:1}
+.content-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.content-card{padding:15px;box-shadow:none}
+.content-type{font-size:9px;font-weight:900;color:#b84b37;letter-spacing:.1em}
+.content-card h3{font-size:13px;margin:10px 0 5px}
+.content-card p{font-size:11px;line-height:1.5;color:var(--muted);margin:0 0 12px}
+.content-meta{display:flex;justify-content:space-between;align-items:center;gap:7px;margin-bottom:12px}
+.tag{font-size:9px;padding:5px 7px;border-radius:7px;background:#f0f2f5;color:#586276;font-weight:800}
+.tag.premium{background:#fff0ed;color:#bd4b37}
+.content-actions{display:flex;gap:7px;flex-wrap:wrap}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:610px;background:#fff}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #eef0f3;font-size:11px;white-space:nowrap}
+th{background:#fafbfc;color:#798293;font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:900}
+td strong{font-size:11px}
+tr:last-child td{border-bottom:0}
+.member-name{display:flex;align-items:center;gap:9px}
+.member-avatar{width:28px;height:28px;background:#f0f2f6;color:#667085;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:900}
+.ad-list{display:grid;gap:10px}
+.ad-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:12px;border:1px solid var(--line);border-radius:11px}
+.ad-row strong{font-size:12px;display:block}
+.ad-row small{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.switch{width:42px;height:24px;border:0;border-radius:99px;background:#d6dbe3;padding:3px;flex:0 0 42px}
+.switch span{width:18px;height:18px;border-radius:50%;background:#fff;display:block;transition:transform .18s}
+.switch.on{background:#2b9c70}
+.switch.on span{transform:translateX(18px)}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.setting-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px}
+.setting-card h3{font-size:13px;margin:0 0 8px}
+.setting-card p{font-size:11px;color:var(--muted);line-height:1.55;margin:0 0 12px}
+.form-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.form-row .field{width:110px}
+.empty{padding:28px;text-align:center;border:1px dashed #d8dce4;border-radius:12px;color:var(--muted);font-size:12px}
+.toast{position:fixed;right:20px;bottom:20px;z-index:30;background:#202736;color:#fff;border-radius:11px;padding:12px 16px;font-size:12px;box-shadow:0 9px 28px #1f263333;max-width:min(360px,calc(100vw - 32px));display:none}
+.toast.show{display:block}
+.student-banner{padding:20px 22px;border-radius:15px;background:var(--dark);color:#fff;margin-bottom:16px}
+.student-banner h2{font-size:20px;margin:0 0 7px}
+.student-banner p{font-size:12px;color:#d9dce3;margin:0;line-height:1.5}
+.student-overview{display:none}
+body.student-mode .admin-overview{display:none}
+body.student-mode .student-overview{display:block}
+body.student-mode .admin-only{display:none!important}
+body.student-mode .student-only{display:block}
+footer{text-align:center;color:#9299a6;font-size:10px;padding:22px 10px 0}
+@media(max-width:1050px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:25px 22px 55px}}
+@media(max-width:760px){.topbar{height:62px;padding:0 14px}.layout{display:block}.sidebar{position:sticky;top:62px;z-index:8;display:flex;flex-direction:row;overflow-x:auto;gap:5px;padding:8px 10px;border-right:0;border-bottom:1px solid var(--line);scrollbar-width:none}.sidebar::-webkit-scrollbar{display:none}.nav-caption,.sidebar-note{display:none}.nav-item{width:auto;flex:0 0 auto;min-height:40px;padding:7px 10px;gap:7px;white-space:nowrap;font-size:11px}.nav-ico{width:22px;height:22px;flex-basis:22px}main{padding:20px 14px 45px}.page-head{margin-bottom:16px}h1{font-size:23px}.two-col,.plan-layout{grid-template-columns:1fr}.user-chip span:last-child{display:none}.role-switch{padding:9px 10px;font-size:10px}.brand{font-size:17px}.brand-mark{width:34px;height:34px}}
+@media(max-width:480px){.demo-strip{font-size:9px;padding:8px 7px}.metrics{gap:8px}.metric{padding:13px}.metric-value{font-size:22px}.metric-top{font-size:10px}.metric-foot{font-size:9px}.content-grid{grid-template-columns:1fr}.settings-grid{grid-template-columns:1fr}.panel{padding:15px}.plan-card{padding:19px}.page-head .date-pill{display:none}.chart{gap:7px}.chart-label{font-size:9px}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header><div class="brand"><span class="mark">S</span>StudyGuru</div><div id="userArea" class="user hidden"><span id="userName"></span><button class="plain" onclick="logout()">Logout</button></div></header>
-<main>
-<section id="authView" class="auth">
-<h1>पढ़ाई को बनाइए आसान</h1><p class="muted">अपने StudyGuru account में Login करें या नया account बनाएँ।</p>
-<div id="nameField" class="hidden"><label>आपका नाम</label><input id="fullName" class="field" maxlength="80" placeholder="पूरा नाम"></div>
-<label>Email</label><input id="email" class="field" type="email" autocomplete="email" placeholder="name@example.com">
-<label>Password</label><input id="password" class="field" type="password" autocomplete="current-password" minlength="8" placeholder="कम से कम 8 अक्षर">
-<button id="authButton" onclick="submitAuth()">Login करें</button>
-<button type="button" class="google-btn" id="googleAuthButton" onclick="loginWithGoogle()"><svg class="google-icon" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.8 6.1-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.6-5.1c-1.8 1.2-4 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.6 27.6a12 12 0 0 1 0-7.2v-5.3H5.8a20 20 0 0 0 0 17.8l6.8-5.3Z"/><path fill="#EA4335" d="M24 11.9c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 5.9 29.5 4 24 4A20 20 0 0 0 5.8 15.1l6.8 5.3c1.6-4.9 6.1-8.5 11.4-8.5Z"/></svg><span>Google से Login करें</span></button>
-<button class="secondary" id="modeButton" onclick="toggleMode()">नया account बनाएँ</button>
+<div class="demo-strip">STAGING PREVIEW <span>• DEMO DATA ONLY — NO REAL PAYMENTS OR ADS</span></div>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">S</div><div>StudyGuru<small>LEARN • PRACTICE • EXCEL</small></div></div>
+  <div class="top-actions">
+    <button class="role-switch" id="roleSwitch" type="button">Switch to Student View</button>
+    <div class="user-chip"><div class="avatar" id="avatar">AD</div><span id="roleName">Demo Admin</span></div>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="nav-caption">WORKSPACE</div>
+    <button class="nav-item active" data-page="overview"><span class="nav-ico">OV</span>Overview</button>
+    <button class="nav-item" data-page="plan"><span class="nav-ico">PL</span>Premium Plan</button>
+    <button class="nav-item" data-page="content"><span class="nav-ico">CT</span>Content</button>
+    <button class="nav-item admin-only" data-page="members"><span class="nav-ico">MB</span>Members</button>
+    <button class="nav-item admin-only" data-page="orders"><span class="nav-ico">OR</span>Orders & Refunds</button>
+    <button class="nav-item admin-only" data-page="ads"><span class="nav-ico">AD</span>Ads & Revenue</button>
+    <button class="nav-item admin-only" data-page="settings"><span class="nav-ico">ST</span>Settings</button>
+    <div class="sidebar-note"><b>Isolated staging mode</b>यह preview केवल sample data इस्तेमाल करता है। Production website और database इससे जुड़े नहीं हैं।</div>
+  </aside>
+  <main>
+    <section class="page active" id="page-overview">
+      <div class="page-head"><div><div class="eyebrow">STUDYGURU WORKSPACE</div><h1 id="welcomeTitle">Monetization Overview</h1><p id="welcomeText">अपने Premium plan, members और revenue का demo dashboard देखें।</p></div><span class="date-pill">STAGING · SAMPLE REPORT</span></div>
+      <div class="student-overview">
+        <div class="student-banner"><h2>आपकी पढ़ाई, आपकी रफ्तार</h2><p>Class 10, 11 और 12 के लिए notes, practice tests और video learning एक ही जगह।</p></div>
+        <div class="metrics">
+          <article class="metric"><div class="metric-top">आपका प्लान <span class="metric-symbol">PL</span></div><div class="metric-value" id="studentPlan">Free</div><div class="metric-foot">Demo account</div></article>
+          <article class="metric"><div class="metric-top">Free सामग्री <span class="metric-symbol">FR</span></div><div class="metric-value">School</div><div class="metric-foot">ज़रूरी learning resources</div></article>
+          <article class="metric"><div class="metric-top">Premium price <span class="metric-symbol">₹</span></div><div class="metric-value" id="studentPrice">₹29</div><div class="metric-foot">हर महीने · Demo only</div></article>
+          <article class="metric"><div class="metric-top">आपकी कक्षा <span class="metric-symbol">CL</span></div><div class="metric-value">Class 10</div><div class="metric-foot">Sample student profile</div></article>
+        </div>
+        <div class="panel"><div class="panel-head"><div><h2>आपके लिए सीखने के विकल्प</h2><div class="panel-sub">Free content हमेशा उपलब्ध रहेगा</div></div><button class="btn secondary" data-page="plan">Premium देखें</button></div><div class="quick-list"><div class="quick-row"><strong>Free school notes</strong><span>Available</span></div><div class="quick-row"><strong>Practice tests</strong><span>Free + Premium</span></div><div class="quick-row"><strong>Video courses</strong><span>Sample catalogue</span></div></div></div>
+      </div>
+      <div class="admin-overview">
+        <div class="demo-note"><strong>Demo report:</strong> नीचे के आँकड़े केवल preview के लिए sample हैं। 1,000 daily visitors आपकी पहले बताई planning figure है; इसे analytics से verify नहीं किया गया है।</div>
+        <div class="metrics">
+          <article class="metric"><div class="metric-top">Daily visitors <span class="metric-symbol">UV</span></div><div class="metric-value">1,000</div><div class="metric-foot">Planning figure · unverified</div></article>
+          <article class="metric"><div class="metric-top">Premium members <span class="metric-symbol">PM</span></div><div class="metric-value" id="memberMetric">128</div><div class="metric-foot"><em>+12</em> demo members this month</div></article>
+          <article class="metric"><div class="metric-top">Monthly recurring revenue <span class="metric-symbol">₹</span></div><div class="metric-value" id="revenueMetric">₹3,712</div><div class="metric-foot">128 × ₹29 · illustrative only</div></article>
+          <article class="metric"><div class="metric-top">Ad placements <span class="metric-symbol">AD</span></div><div class="metric-value" id="adMetric">3 / 3</div><div class="metric-foot">Free pages only · demo controls</div></article>
+        </div>
+        <div class="two-col">
+          <div class="panel"><div class="panel-head"><div><h2>Revenue trend</h2><div class="panel-sub">Illustrative monthly membership revenue</div></div><span class="soft-pill">DEMO</span></div>
+            <div class="chart" aria-label="Demo monthly revenue bar chart">
+              <div class="chart-col"><div class="bar" style="height:28%"></div><span class="chart-label">Jun</span></div>
+              <div class="chart-col"><div class="bar" style="height:37%"></div><span class="chart-label">Jul</span></div>
+              <div class="chart-col"><div class="bar" style="height:43%"></div><span class="chart-label">Aug</span></div>
+              <div class="chart-col"><div class="bar" style="height:58%"></div><span class="chart-label">Sep</span></div>
+              <div class="chart-col"><div class="bar" style="height:69%"></div><span class="chart-label">Oct</span></div>
+              <div class="chart-col"><div class="bar" style="height:86%"></div><span class="chart-label">Nov</span></div>
+            </div><div class="chart-legend"><span><i class="legend-dot"></i>Premium membership (sample)</span></div>
+          </div>
+          <div class="panel"><div class="panel-head"><div><h2>Quick status</h2><div class="panel-sub">Setup checklist</div></div></div>
+            <div class="quick-list">
+              <div class="quick-row"><strong>Premium plan</strong><span class="status-pill ok">Configured</span></div>
+              <div class="quick-row"><strong>Free school content</strong><span class="status-pill ok">Kept free</span></div>
+              <div class="quick-row"><strong>Payment gateway</strong><span class="status-pill warn">Not connected</span></div>
+              <div class="quick-row"><strong>Ad provider</strong><span class="status-pill warn">Not connected</span></div>
+              <div class="quick-row"><strong>Live database</strong><span class="status-pill neutral">Not linked</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<button type="button" class="forgot-btn" onclick="forgotPassword()">पासवर्ड भूल गए?</button>
-<div id="authStatus" class="status" role="status"></div>
-<p class="small">Admin access verified email और सुरक्षित server-side role से नियंत्रित होता है।</p>
-</section>
-<section id="appView" class="hidden">
-<div class="hero"><h1>Learn • Practice • Excel</h1><p>अपनी कक्षा, विषय और अध्याय के अनुसार study material पढ़ें।</p></div>
-<div class="topline"><div><strong id="welcome"></strong><div id="roleText" class="small"></div></div><button class="plain" onclick="refreshAll()">Refresh</button></div>
-<div class="tabs"><button id="studentTab" class="active" onclick="showTab('library')">Study Library</button><button id="coursesTab" onclick="showTab('courses')">Courses</button><button id="testsTab" onclick="showTab('tests')">Practice Tests</button><button id="notesTab" onclick="showTab('notes')">My Notes</button><button id="liveTab" onclick="showTab('live')">Live Classes</button><button id="profileTab" onclick="showTab('profile')">My Profile</button><button id="adminTab" class="hidden" onclick="showTab('admin')">Admin Manager</button></div>
-<section id="libraryPanel">
-<div class="row panel">
-<div><label>Class</label><select id="classFilter" class="field" onchange="loadSubjects()"><option value="">सभी Classes</option></select></div>
-<div><label>Subject</label><select id="subjectFilter" class="field" onchange="loadLibrary()"><option value="">सभी Subjects</option></select></div>
-</div>
-<div id="libraryList" class="grid"><div class="empty">Study material लोड हो रहा है…</div></div>
-</section>
-<section id="adminPanel" class="hidden">
-<div class="notice">Admin workspace: यहाँ से Classes, Subjects, Chapters और PDF/Video सामग्री manage करें। केवल verified Admin account को access मिलेगा।</div>
-<div class="panel"><h2 class="section-title">Academic structure</h2>
-<div class="row"><div><label>नई Class</label><input id="newClass" class="field" placeholder="जैसे Class 10"></div><div style="align-self:end"><button onclick="addClass()">Class जोड़ें</button></div></div>
-<div class="row"><div><label>Class चुनें</label><select id="manageClass" class="field" onchange="loadManageSubjects()"></select></div><div><label>नया Subject</label><input id="newSubject" class="field" placeholder="जैसे Mathematics"></div></div><button class="secondary" onclick="addSubject()">Subject जोड़ें</button>
-<div class="row"><div><label>Subject चुनें</label><select id="manageSubject" class="field" onchange="loadManageChapters()"></select></div><div><label>नया Chapter</label><input id="newChapter" class="field" placeholder="जैसे Real Numbers"></div></div><button class="secondary" onclick="addChapter()">Chapter जोड़ें</button>
-<div id="structureStatus" class="status"></div></div>
-<div class="panel"><h2 class="section-title">Upload study material</h2>
-<label>Chapter</label><select id="uploadChapter" class="field"></select>
-<div class="row"><div><label>Title</label><input id="materialTitle" class="field" maxlength="120" placeholder="PDF / Video का नाम"></div><div><label>Type</label><select id="materialType" class="field"><option value="pdf">PDF</option><option value="video">Video</option></select></div></div>
-<label>Description (optional)</label><textarea id="materialDescription" class="field" rows="2" maxlength="500" placeholder="छोटा विवरण"></textarea>
-<label>File upload (PDF या MP4, अधिकतम 50 MB)</label><input id="materialFile" class="field" type="file" accept=".pdf,application/pdf,video/mp4">
-<label>या external URL (optional)</label><input id="materialUrl" class="field" type="url" placeholder="https://...">
-<label style="display:flex;gap:9px;align-items:center"><input id="publishNow" type="checkbox" checked> Upload के बाद Students को दिखाएँ</label>
-<button id="uploadButton" onclick="uploadMaterial()">Upload material</button><div id="uploadStatus" class="status"></div>
-</div>
-<h2 class="section-title">Manage uploaded materials</h2><div id="adminMaterials" class="grid"></div><h2 class="section-title">User roles</h2><div id="adminUsers" class="grid"></div>
+    <section class="page" id="page-plan">
+      <div class="page-head"><div><div class="eyebrow">MEMBERSHIP</div><h1>Premium Plan</h1><p>Free school learning के साथ अतिरिक्त practice और learning tools।</p></div><span class="status-pill neutral">DEMO PLAN</span></div>
+      <div class="demo-note"><strong>Preview only:</strong> कोई payment gateway connected नहीं है। इस page पर किसी से payment या card details नहीं ली जातीं।</div>
+      <div class="plan-layout">
+        <div class="plan-card featured"><span class="plan-badge">STUDYGURU PREMIUM</span><div class="plan-price" id="planPrice">₹29 <small>/ month</small></div><p>Students के लिए अतिरिक्त study support। School की ज़रूरी free सामग्री free ही रहेगी।</p>
+          <ul class="feature-list">
+            <li><span class="tick">✓</span>Premium Notes और downloadable PDFs</li>
+            <li><span class="tick">✓</span>Premium Tests और Mock Tests</li>
+            <li><span class="tick">✓</span>Structured Video Courses</li>
+            <li><span class="tick">✓</span>Detailed Performance Reports</li>
+            <li><span class="tick">✓</span>Ad-free membership experience</li>
+          </ul>
+          <button class="btn" id="upgradeButton" data-action="upgrade-demo">Try Premium Demo</button>
+          <div class="panel-sub" style="margin-top:10px">Demo button केवल इस browser session में sample status बदलता है। कोई पैसा नहीं कटता।</div>
+        </div>
+        <div>
+          <div class="mini-card"><h3>Free learning</h3><p>Class 10, 11 और 12 की core school learning सामग्री free access में रहेगी।</p><span class="status-pill ok" style="margin-top:12px">Always free</span></div>
+          <div class="mini-card"><h3>Who manages payments?</h3><p>Real payment account, refunds और provider agreements किसी parent/guardian या authorised adult द्वारा setup और manage किए जाने चाहिए।</p></div>
+          <div class="mini-card"><h3>Membership rules</h3><p>Plan price, renewal terms, cancellation और refund policy live launch से पहले साफ़ दिखाई जानी चाहिए।</p></div>
+        </div>
+      </div>
+    </section>
 
-</section>
-<section id="coursesPanel" class="hidden">
-<div class="topline"><h2 class="section-title">Courses</h2><button class="plain" onclick="loadCourses()">Refresh</button></div>
-<div id="courseCreate" class="panel hidden"><h3>Create course</h3><label>Title</label><input id="courseTitle" class="field"><label>Class</label><select id="courseClass" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="courseSubject" class="field"><label>Description</label><textarea id="courseDescription" class="field"></textarea><button onclick="createCourse()">Save draft</button><div id="courseStatus" class="status"></div></div><div id="courseList" class="grid"></div>
-</section>
-<section id="testsPanel" class="hidden">
-<div class="topline"><h2 class="section-title">Practice Tests</h2><button class="plain" onclick="loadTests()">Refresh</button></div>
-<div id="testCreate" class="panel hidden"><h3>Create test</h3><label>Title</label><input id="testTitle" class="field"><label>Class</label><select id="testClass" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="testSubject" class="field"><label>Description</label><textarea id="testDescription" class="field"></textarea><button onclick="createTest()">Create draft</button><div id="testCreateStatus" class="status"></div><div id="questionBuilder" class="hidden"><h3>Add question</h3><input id="questionText" class="field" placeholder="Question"><input id="option0" class="field" placeholder="Option 1"><input id="option1" class="field" placeholder="Option 2"><input id="option2" class="field" placeholder="Option 3"><input id="option3" class="field" placeholder="Option 4"><label>Correct option</label><select id="correctOption" class="field"><option value="0">Option 1</option><option value="1">Option 2</option><option value="2">Option 3</option><option value="3">Option 4</option></select><button onclick="addQuestion()">Add question</button><button class="secondary" onclick="publishTest()">Publish test</button><div id="questionStatus" class="status"></div></div></div>
-<div id="testList" class="grid"></div><div id="testRunner" class="panel hidden"></div><div id="attemptList" class="panel"></div>
-</section>
-<section id="notesPanel" class="hidden"><h2 class="section-title">My Notes</h2><div class="panel"><label>Title</label><input id="noteTitle" class="field"><label>Notes</label><textarea id="noteBody" class="field" rows="5"></textarea><button onclick="saveNote()">Save note</button><div id="noteStatus" class="status"></div></div><div id="noteList" class="grid"></div></section>
-<section id="livePanel" class="hidden"><div class="topline"><h2 class="section-title">Live Classes</h2><button class="plain" onclick="loadLiveClasses()">Refresh</button></div>
-<div id="liveCreate" class="panel hidden"><h3>Schedule live class</h3><label>Title</label><input id="liveTitle" class="field"><label>Class</label><select id="liveClassName" class="field"><option>Class 10</option><option>Class 11</option><option>Class 12</option></select><label>Subject</label><input id="liveSubject" class="field"><label>Instructor</label><input id="liveInstructor" class="field"><label>Start time</label><input id="liveStarts" type="datetime-local" class="field"><label>Meeting URL (HTTPS)</label><input id="liveUrl" type="url" class="field"><label>Description</label><textarea id="liveDescription" class="field"></textarea><button onclick="createLiveClass()">Schedule class</button><div id="liveStatus" class="status"></div></div><div id="liveList" class="grid"></div></section>
-<section id="profilePanel" class="hidden">
- <div class="profile-cover"><div class="profile-cover-copy"><span class="profile-eyebrow">STUDYGURU ACCOUNT</span><h2>Your learning profile</h2><p>अपनी account जानकारी और learning workspace details यहाँ देखें।</p></div><div class="profile-cover-orb" aria-hidden="true"></div></div>
- <div id="profileContent" class="profile-content"><div class="empty">Profile लोड हो रहा है…</div></div>
-</section>
-</section>
-</main><footer>StudyGuru · Secure learning workspace</footer>
+    <section class="page" id="page-content">
+      <div class="page-head"><div><div class="eyebrow">LEARNING LIBRARY</div><h1>Content Management</h1><p>Notes, PDFs, Tests और Video Courses को Free या Premium के रूप में व्यवस्थित करें।</p></div><span class="soft-pill">SAMPLE CATALOGUE</span></div>
+      <div class="demo-note"><strong>Content rule:</strong> ज़रूरी school learning सामग्री Free रहेगी। Premium केवल अतिरिक्त resources और advanced practice के लिए है।</div>
+      <div class="panel admin-only">
+        <div class="panel-head"><div><h2>Add sample content</h2><div class="panel-sub">यह entry केवल preview में रहेगी; कोई database write नहीं होगा।</div></div></div>
+        <form id="contentForm" class="toolbar">
+          <input class="field" id="newContentTitle" maxlength="70" placeholder="Content title" aria-label="Content title" required>
+          <select class="field" id="newContentType" aria-label="Content type"><option>Notes</option><option>PDF</option><option>Test</option><option>Video Course</option></select>
+          <select class="field" id="newContentAccess" aria-label="Access level"><option value="Premium">Premium</option><option value="Free">Free</option></select>
+          <button class="btn" type="submit">+ Add to demo</button>
+        </form>
+      </div>
+      <div class="toolbar"><input class="field search" id="contentSearch" type="search" placeholder="Search sample content..." aria-label="Search sample content"><select class="field" id="contentFilter" aria-label="Filter content"><option value="All">All content</option><option value="Free">Free only</option><option value="Premium">Premium only</option></select></div>
+      <div class="content-grid" id="contentList"></div>
+    </section>
+
+    <section class="page admin-only" id="page-members">
+      <div class="page-head"><div><div class="eyebrow">CUSTOMERS</div><h1>Premium Members</h1><p>Sample membership status और account overview।</p></div><span class="status-pill neutral">FAKE SAMPLE RECORDS</span></div>
+      <div class="demo-note"><strong>Privacy:</strong> सभी नाम generated demo labels हैं। यहाँ कोई real student profile या contact detail नहीं है।</div>
+      <div class="panel"><div class="panel-head"><div><h2>Member list</h2><div class="panel-sub">Local demo actions only</div></div><span class="soft-pill" id="memberCount">4 sample members</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Member</th><th>Class</th><th>Plan</th><th>Joined</th><th>Action</th></tr></thead><tbody id="memberRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page admin-only" id="page-orders">
+      <div class="page-head"><div><div class="eyebrow">BILLING WORKSPACE</div><h1>Orders & Refunds</h1><p>Payment lifecycle की sample entries और refund review flow।</p></div><span class="status-pill warn">NO LIVE PAYMENT PROCESSING</span></div>
+      <div class="demo-note"><strong>Demo ledger:</strong> नीचे के orders काल्पनिक हैं। कोई real transaction, invoice या refund नहीं हुआ है।</div>
+      <div class="panel"><div class="panel-head"><div><h2>Sample orders</h2><div class="panel-sub">Amounts are illustrative</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Member</th><th>Plan</th><th>Amount</th><th>Status</th><th>Refund review</th></tr></thead><tbody id="orderRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page admin-only" id="page-ads">
+      <div class="page-head"><div><div class="eyebrow">ADVERTISING & REPORTS</div><h1>Ads & Revenue</h1><p>Eligible Free pages पर ad placement को control करें।</p></div><span class="status-pill warn">AD PROVIDER NOT CONNECTED</span></div>
+      <div class="demo-note"><strong>Student safety:</strong> बच्चों के लिए behavioural / personalised ad targeting नहीं। Real ads launch से पहले guardian-managed publisher account, privacy review और applicable child-safety rules की जाँच ज़रूरी है।</div>
+      <div class="two-col">
+        <div class="panel"><div class="panel-head"><div><h2>Ad placement controls</h2><div class="panel-sub">Toggle केवल इस preview में काम करता है</div></div></div><div class="ad-list" id="adList"></div></div>
+        <div class="panel"><div class="panel-head"><div><h2>Sample ad report</h2><div class="panel-sub">Illustrative values — not provider analytics</div></div></div>
+          <div class="quick-list">
+            <div class="quick-row"><span>Demo impressions</span><strong>18,400</strong></div>
+            <div class="quick-row"><span>Demo eligible pages</span><strong id="eligibleCount">3</strong></div>
+            <div class="quick-row"><span>Estimated ad revenue</span><strong>₹460</strong></div>
+            <div class="quick-row"><span>Premium pages with ads</span><strong>0</strong></div>
+          </div>
+          <div class="panel-sub" style="margin-top:15px">ये values किसी ad network से प्राप्त नहीं हुई हैं।</div>
+        </div>
+      </div>
+      <div class="panel"><div class="panel-head"><div><h2>Revenue summary</h2><div class="panel-sub">Demo-only illustration</div></div></div><div class="metrics">
+        <article class="metric"><div class="metric-top">Membership MRR <span class="metric-symbol">₹</span></div><div class="metric-value" id="adsMrr">₹3,712</div><div class="metric-foot">Premium members × monthly price</div></article>
+        <article class="metric"><div class="metric-top">Ad estimate <span class="metric-symbol">AD</span></div><div class="metric-value">₹460</div><div class="metric-foot">Illustrative only</div></article>
+        <article class="metric"><div class="metric-top">Total demo revenue <span class="metric-symbol">Σ</span></div><div class="metric-value" id="totalRevenue">₹4,172</div><div class="metric-foot">Not actual earnings</div></article>
+        <article class="metric"><div class="metric-top">Payment status <span class="metric-symbol">PG</span></div><div class="metric-value" style="font-size:17px">Not linked</div><div class="metric-foot">No checkout enabled</div></article>
+      </div></div>
+    </section>
+
+    <section class="page admin-only" id="page-settings">
+      <div class="page-head"><div><div class="eyebrow">CONFIGURATION</div><h1>Monetization Settings</h1><p>Staging में चुनी गई plan और safety settings।</p></div><span class="status-pill neutral">PREVIEW CONFIG</span></div>
+      <div class="settings-grid">
+        <div class="setting-card"><h3>Premium monthly price</h3><p>Current agreed demo price. This does not charge anyone.</p><div class="form-row"><span>₹</span><input id="priceInput" class="field" type="number" min="1" max="9999" value="29" aria-label="Premium monthly price"><button class="btn small" data-action="save-price">Save demo price</button></div></div>
+        <div class="setting-card"><h3>Free learning content</h3><p>School essentials for Classes 10, 11 and 12 remain available without membership.</p><span class="status-pill ok">Always Free</span></div>
+        <div class="setting-card"><h3>Payment provider</h3><p>Gateway and recurring billing are intentionally not connected in staging.</p><span class="status-pill warn">Not connected</span></div>
+        <div class="setting-card"><h3>Advertising provider</h3><p>Ad slots are visual controls only. No ad scripts, tracking pixels or personal targeting are installed.</p><span class="status-pill warn">Not connected</span></div>
+        <div class="setting-card"><h3>Database isolation</h3><p>This preview has no Supabase client and does not read or write production student, admin or content data.</p><span class="status-pill ok">Isolated demo</span></div>
+        <div class="setting-card"><h3>Go-live approval</h3><p>Real payment and advertising setup must be reviewed and managed by a parent/guardian or authorised adult.</p><span class="status-pill neutral">Not approved / not live</span></div>
+      </div>
+    </section>
+
+    <section class="page student-only" id="page-account">
+      <div class="page-head"><div><div class="eyebrow">DEMO ACCOUNT</div><h1>My Learning Profile</h1><p>Preview में इस्तेमाल होने वाला sample student account।</p></div><span class="status-pill neutral">LOCAL ONLY</span></div>
+      <div class="panel"><h2>Demo Student</h2><p class="panel-sub">Class 10 · Sample profile · कोई account या login आवश्यक नहीं।</p><div class="quick-list" style="margin-top:18px"><div class="quick-row"><strong>Current plan</strong><span id="accountPlan">Free</span></div><div class="quick-row"><strong>Membership price</strong><span id="accountPrice">₹29 / month</span></div><div class="quick-row"><strong>Payment method</strong><span>Not added</span></div></div></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
-const SUPABASE_URL='https://mdzkwgtrhoklmapkjhhf.supabase.co';
-const SUPABASE_KEY='sb_publishable_7FxlPBdcgKAb0ZypW-iB9w_-SyW3TWd';
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let signupMode=false,profile=null,classes=[],subjects=[],chapters=[],currentTab='library';
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function status(id,msg,type=''){const e=$(id);if(e){e.textContent=msg;e.className='status '+type}}
-function toggleMode(){signupMode=!signupMode;$('nameField').classList.toggle('hidden',!signupMode);$('authButton').textContent=signupMode?'Account बनाएँ':'Login करें';$('modeButton').textContent=signupMode?'पहले से account है? Login':'नया account बनाएँ';$('password').autocomplete=signupMode?'new-password':'current-password';status('authStatus','')}
-async function loginWithGoogle(){const btn=$('googleAuthButton');btn.disabled=true;status('authStatus','Google sign-in पर redirect किया जा रहा है…');try{const {error}=await db.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+'/',queryParams:{prompt:'select_account'}}});if(error)throw error}catch(e){status('authStatus',e.message||'Google sign-in शुरू नहीं हो सका। Chrome में वेबसाइट खोलकर फिर कोशिश करें।','error');btn.disabled=false}}
-async function forgotPassword(){const email=$('email').value.trim().toLowerCase();if(!email)return status('authStatus','पहले अपना Email लिखें।','error');try{const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin});if(error)throw error;status('authStatus','Password reset link भेजा गया। Inbox और Spam folder देखें।','ok')}catch(e){status('authStatus',e.message||'Password reset email नहीं भेजा जा सका।','error')}}
-async function submitAuth(){const email=$('email').value.trim().toLowerCase(),password=$('password').value,name=$('fullName').value.trim();if(!email||password.length<8){status('authStatus','Valid email और कम से कम 8 अक्षर का password भरें।','error');return}if(signupMode&&!name){status('authStatus','अपना नाम लिखें।','error');return}$('authButton').disabled=true;status('authStatus','कृपया प्रतीक्षा करें…');try{if(signupMode){const {data,error}=await db.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin,data:{full_name:name}}});if(error)throw error;if(data.session){status('authStatus','Account बन गया।','ok')}else{status('authStatus','Verification email भेजा गया है। Email verify करके Login करें।','ok')}}else{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error}}catch(e){const raw=String(e.message||'');let friendly=raw;if(/invalid login credentials/i.test(raw))friendly='Email या Password गलत है। यदि account पहले से बना है, नया account न बनाएँ—“पासवर्ड भूल गए?” से password reset करें।';else if(/email not confirmed/i.test(raw))friendly='पहले अपने Email में आया verification link खोलें, फिर Login करें।';else if(/user already registered/i.test(raw))friendly='इस Email का account पहले से मौजूद है। नया Signup करने के बजाय Login करें या Password reset करें।';status('authStatus',friendly||'Authentication failed','error')}finally{$('authButton').disabled=false}}
-async function logout(){await db.auth.signOut();profile=null;showAuth()}
-function showAuth(){ $('authView').classList.remove('hidden');$('appView').classList.add('hidden');$('userArea').classList.add('hidden')}
-async function enterApp(user){const {data,error}=await db.from('profiles').select('full_name,role').eq('id',user.id).single();if(error)throw error;profile={...data,id:user.id,email:user.email,createdAt:user.created_at||null,emailConfirmedAt:user.email_confirmed_at||null,authProvider:user.app_metadata?.provider||'email',avatarUrl:user.user_metadata?.avatar_url||user.user_metadata?.picture||null};$('authView').classList.add('hidden');$('appView').classList.remove('hidden');$('userArea').classList.remove('hidden');$('userName').textContent=user.email;$('welcome').textContent='नमस्ते, '+(profile.full_name||user.email);$('roleText').textContent=profile.role==='admin'?'Admin workspace':profile.role==='teacher'?'Teacher workspace':'Student account';$('adminTab').classList.toggle('hidden',profile.role!=='admin');$('courseCreate').classList.toggle('hidden',!canTeach());$('testCreate').classList.toggle('hidden',!canTeach());$('liveCreate').classList.toggle('hidden',profile.role!=='admin');await refreshAll()}
-async function refreshAll(){await loadStructure();await loadSubjects();await loadLibrary();if(profile?.role==='admin')await loadAdminMaterials()}
-async function loadStructure(){const {data,error}=await db.from('classes').select('*').eq('is_active',true).order('sort_order').order('name');if(error)throw error;classes=data||[];['classFilter','manageClass'].forEach(id=>{const el=$(id);if(!el)return;const prev=el.value;el.innerHTML=(id==='classFilter'?'<option value="">सभी Classes</option>':'')+classes.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('');if([...el.options].some(o=>o.value===prev))el.value=prev})}
-async function loadSubjects(){const classId=$('classFilter').value;let q=db.from('subjects').select('*,classes(name)').eq('is_active',true).order('sort_order').order('name');if(classId)q=q.eq('class_id',classId);const {data,error}=await q;if(error)throw error;subjects=data||[];$('subjectFilter').innerHTML='<option value="">सभी Subjects</option>'+subjects.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'</option>').join('');await loadLibrary();if(profile?.role==='admin')await loadManageSubjects()}
-async function loadLibrary(){const box=$('libraryList');box.innerHTML='<div class="empty">लोड हो रहा है…</div>';let q=db.from('learning_materials').select('id,title,description,material_type,storage_bucket,storage_path,external_url,chapter_id,chapters!inner(name,subjects!inner(name,class_id))').eq('is_published',true).order('created_at',{ascending:false});const subjectId=$('subjectFilter').value;if(subjectId)q=q.eq('chapters.subject_id',subjectId);const classId=$('classFilter').value;if(classId)q=q.eq('chapters.subjects.class_id',classId);const {data,error}=await q;if(error){box.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}await renderMaterials(box,data||[],false)}
-async function signedLink(m){if(m.external_url)return m.external_url;const {data,error}=await db.storage.from(m.storage_bucket).createSignedUrl(m.storage_path,3600);if(error)throw error;return data.signedUrl}
-function youtubeVideoId(url){try{const u=new URL(url);let id='';if(u.hostname==='youtu.be'||u.hostname.endsWith('.youtu.be'))id=u.pathname.split('/').filter(Boolean)[0]||'';else if(u.hostname.includes('youtube.com')){const parts=u.pathname.split('/').filter(Boolean);if(u.searchParams.get('v'))id=u.searchParams.get('v');else if(['live','embed','shorts'].includes(parts[0]))id=parts[1]||''}return /^[A-Za-z0-9_-]{11}$/.test(id)?id:''}catch(e){return ''}}
-async function renderMaterials(box,items,admin){if(!items.length){box.innerHTML='<div class="empty">अभी कोई '+(admin?'material upload नहीं हुआ।':'published study material उपलब्ध नहीं है।')+'</div>';return}const cards=await Promise.all(items.map(async m=>{let link='';try{link=await signedLink(m)}catch(e){}const chapter=m.chapters?.name||'Chapter';const subject=m.chapters?.subjects?.name||'';const ytId=m.material_type==='video'&&m.external_url?youtubeVideoId(m.external_url):'';const player=ytId?'<div class="video-frame"><iframe src="https://www.youtube.com/embed/'+ytId+'" title="'+esc(m.title)+'" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>':'';const openButton=ytId?'<button class="secondary" onclick="window.open('+JSON.stringify(m.external_url)+',\'_blank\',\'noopener\')">YouTube पर खोलें</button>':(link?'<button onclick="window.open('+JSON.stringify(link)+',\'_blank\',\'noopener\')">'+(m.material_type==='pdf'?'PDF खोलें':'Video खोलें')+'</button>':'<span class="small">File link unavailable</span>');return '<article class="item"><h3>'+esc(m.title)+'</h3><p>'+esc(subject)+' · '+esc(chapter)+' · '+m.material_type.toUpperCase()+'</p><p>'+esc(m.description||'')+'</p>'+player+'<div class="actions">'+openButton+(admin?'<button class="secondary" onclick="togglePublish(\''+m.id+'\','+(!m.is_published)+')">'+(m.is_published?'Unpublish':'Publish')+'</button><button class="danger" onclick="deleteMaterial(\''+m.id+'\')">Delete</button>':'')+'</div></article>'}));box.innerHTML=cards.join('')}
-async function loadManageSubjects(){const id=$('manageClass').value;const {data,error}=await db.from('subjects').select('*,chapters(id)').eq('class_id',id).eq('is_active',true).order('sort_order').order('name');if(error)throw error;subjects=data||[];subjects.sort((a,b)=>((b.chapters||[]).length>0)-((a.chapters||[]).length>0)||a.name.localeCompare(b.name));$('manageSubject').innerHTML=subjects.map(s=>'<option value="'+s.id+'">'+esc(s.name)+((s.chapters||[]).length?'':' (Chapter नहीं हैं)')+'</option>').join('');await loadManageChapters()}
-async function loadManageChapters(){const id=$('manageSubject').value;const select=$('uploadChapter');if(!id){select.innerHTML='<option value="">पहले Subject चुनें</option>';select.disabled=true;chapters=[];return}const {data,error}=await db.from('chapters').select('*').eq('subject_id',id).eq('is_active',true).order('sort_order').order('name');if(error)throw error;chapters=data||[];select.disabled=!chapters.length;select.innerHTML=chapters.length?'<option value="">-- Chapter चुनें --</option>'+chapters.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join(''):'<option value="">इस Subject में Chapter नहीं हैं — ऊपर नया Chapter जोड़ें</option>'}
-async function addClass(){const name=$('newClass').value.trim();if(!name)return status('structureStatus','Class का नाम लिखें।','error');const {error}=await db.from('classes').insert({name});if(error)return status('structureStatus',error.message,'error');$('newClass').value='';status('structureStatus','Class जोड़ दी गई।','ok');await refreshAll()}
-async function addSubject(){const class_id=$('manageClass').value,name=$('newSubject').value.trim().replace(/\\s+/g,' ');if(!class_id||!name)return status('structureStatus','Class और Subject चुनें/लिखें।','error');const {data:existing,error:checkError}=await db.from('subjects').select('id,name').eq('class_id',class_id).ilike('name',name).limit(1);if(checkError)return status('structureStatus',checkError.message,'error');if(existing?.length){await loadManageSubjects();$('manageSubject').value=existing[0].id;await loadManageChapters();return status('structureStatus','यह Subject इस Class में पहले से मौजूद है। उसे चुन लिया गया है।','error')}const {error}=await db.from('subjects').insert({class_id,name});if(error){if(error.code==='23505')return status('structureStatus','यह Subject पहले से मौजूद है।','error');return status('structureStatus',error.message,'error')}$('newSubject').value='';status('structureStatus','Subject जोड़ दिया गया।','ok');await loadManageSubjects()}
-async function addChapter(){const subject_id=$('manageSubject').value,name=$('newChapter').value.trim().replace(/\\s+/g,' ');if(!subject_id||!name)return status('structureStatus','Subject और Chapter चुनें/लिखें।','error');const {data:existing,error:checkError}=await db.from('chapters').select('id,name').eq('subject_id',subject_id).ilike('name',name).limit(1);if(checkError)return status('structureStatus',checkError.message,'error');if(existing?.length)return status('structureStatus','यह Chapter पहले से मौजूद है।','error');const {error}=await db.from('chapters').insert({subject_id,name});if(error){if(error.code==='23505')return status('structureStatus','यह Chapter पहले से मौजूद है।','error');return status('structureStatus',error.message,'error')}$('newChapter').value='';status('structureStatus','Chapter जोड़ दिया गया।','ok');await loadManageChapters()}
-async function uploadMaterial(){const chapter_id=$('uploadChapter').value,title=$('materialTitle').value.trim(),type=$('materialType').value,file=$('materialFile').files[0],url=$('materialUrl').value.trim();if(!chapter_id||!title)return status('uploadStatus','Chapter और title जरूरी हैं।','error');if(!file&&!url)return status('uploadStatus','File upload करें या external URL दें।','error');if(file&&file.size>50*1024*1024)return status('uploadStatus','File 50 MB से बड़ी है।','error');if(file&&type==='pdf'&&file.type!=='application/pdf')return status('uploadStatus','PDF type की file चुनें।','error');if(file&&type==='video'&&file.type!=='video/mp4')return status('uploadStatus','MP4 video चुनें।','error');if(url&&!/^https:\/\//i.test(url))return status('uploadStatus','URL https:// से शुरू होना चाहिए।','error');const btn=$('uploadButton');btn.disabled=true;status('uploadStatus','Upload हो रहा है…');let path='',bucket=type==='pdf'?'study-pdfs':'study-videos';try{if(file){path=profile.id+'/'+crypto.randomUUID()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error}const {error}=await db.from('learning_materials').insert({chapter_id,title,description:$('materialDescription').value.trim()||null,material_type:type,storage_bucket:bucket,storage_path:file?path:'',external_url:file?null:url,is_published:$('publishNow').checked,created_by:profile.id});if(error){if(file)await db.storage.from(bucket).remove([path]);throw error}status('uploadStatus','Material सफलतापूर्वक save हो गया।','ok');$('materialTitle').value='';$('materialDescription').value='';$('materialFile').value='';$('materialUrl').value='';await loadAdminMaterials();await loadLibrary()}catch(e){status('uploadStatus',e.message||'Upload failed','error')}finally{btn.disabled=false}}
-async function loadAdminMaterials(){const {data,error}=await db.from('learning_materials').select('*,chapters(name,subjects(name))').order('created_at',{ascending:false});if(error){$('adminMaterials').innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}await renderMaterials($('adminMaterials'),data||[],true)}
-async function togglePublish(id,value){const {error}=await db.from('learning_materials').update({is_published:value,updated_at:new Date().toISOString()}).eq('id',id);if(error)alert(error.message);else{await loadAdminMaterials();await loadLibrary()}}
-async function deleteMaterial(id){if(!confirm('इस material को delete करना है?'))return;const {data,error}=await db.from('learning_materials').select('storage_bucket,storage_path,external_url').eq('id',id).single();if(error)return alert(error.message);const {error:delError}=await db.from('learning_materials').delete().eq('id',id);if(delError)return alert(delError.message);if(data.storage_path)await db.storage.from(data.storage_bucket).remove([data.storage_path]);await loadAdminMaterials();await loadLibrary()}
-
-let activeTestId=null;
-function canTeach(){return !!profile&&['admin','teacher'].includes(profile.role)}
-async function loadCourses(){const {data,error}=await db.from('courses').select('*').order('created_at',{ascending:false});const box=$('courseList');if(error){box.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}box.innerHTML=(data||[]).length?data.map(c=>'<article class="item"><h3>'+esc(c.title)+'</h3><p>'+esc(c.class_name)+' · '+esc(c.subject)+'</p><p>'+esc(c.description||'')+'</p><div class="actions"><span class="small">'+(c.is_published?'Published':'Draft')+'</span>'+(profile.role==='admin'?'<button class="secondary" onclick="toggleCourse(\''+c.id+'\','+(!c.is_published)+')">'+(c.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></article>').join(''):'<div class="empty">अभी कोई course उपलब्ध नहीं है।</div>'}
-async function createCourse(){const title=$('courseTitle').value.trim(),subject=$('courseSubject').value.trim();if(!title||!subject)return status('courseStatus','Title और subject जरूरी हैं।','error');const {error}=await db.from('courses').insert({title,class_name:$('courseClass').value,subject,description:$('courseDescription').value.trim(),created_by:profile.id});if(error)return status('courseStatus',error.message,'error');status('courseStatus','Course draft बन गया।','ok');$('courseTitle').value='';$('courseSubject').value='';$('courseDescription').value='';loadCourses()}
-async function toggleCourse(id,value){const {error}=await db.from('courses').update({is_published:value,updated_at:new Date().toISOString()}).eq('id',id);if(error)alert(error.message);else loadCourses()}
-async function loadTests(){const {data,error}=await db.from('practice_tests').select('id,title,description,class_name,subject,duration_minutes,is_published,created_by').order('created_at',{ascending:false});const box=$('testList');if(error){box.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}box.innerHTML=(data||[]).length?data.map(t=>'<article class="item"><h3>'+esc(t.title)+'</h3><p>'+esc(t.class_name)+' · '+esc(t.subject)+' · '+t.duration_minutes+' min</p><p>'+esc(t.description||'')+'</p><div class="actions"><button onclick="startDbTest(\''+t.id+'\')">Start test</button>'+(canTeach()&&(t.created_by===profile.id||profile.role==='admin')?'<button class="secondary" onclick="editTest(\''+t.id+'\')">Add questions</button>':'')+(profile.role==='admin'?'<button class="secondary" onclick="toggleTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></article>').join(''):'<div class="empty">अभी कोई test उपलब्ध नहीं है।</div>';loadAttempts()}
-async function createTest(){const title=$('testTitle').value.trim(),subject=$('testSubject').value.trim();if(!title||!subject)return status('testCreateStatus','Title और subject जरूरी हैं।','error');const {data,error}=await db.from('practice_tests').insert({title,class_name:$('testClass').value,subject,description:$('testDescription').value.trim(),created_by:profile.id}).select('id').single();if(error)return status('testCreateStatus',error.message,'error');activeTestId=data.id;$('questionBuilder').classList.remove('hidden');status('testCreateStatus','Draft बन गया। अब questions जोड़ें।','ok')}
-function editTest(id){activeTestId=id;$('questionBuilder').classList.remove('hidden');status('questionStatus','Selected test: '+id)}
-async function addQuestion(){if(!activeTestId)return;const question_text=$('questionText').value.trim(),options=[0,1,2,3].map(i=>$('option'+i).value.trim());if(!question_text||options.some(x=>!x))return status('questionStatus','Question और चारों options भरें।','error');const {data,error}=await db.from('test_questions').insert({test_id:activeTestId,question_text,options}).select('id').single();if(error)return status('questionStatus',error.message,'error');const {error:keyError}=await db.from('test_answer_keys').insert({question_id:data.id,correct_option:Number($('correctOption').value)});if(keyError)return status('questionStatus',keyError.message,'error');$('questionText').value='';[0,1,2,3].forEach(i=>$('option'+i).value='');status('questionStatus','Question save हो गया।','ok')}
-async function publishTest(){if(!activeTestId)return;const {count,error}=await db.from('test_questions').select('*',{count:'exact',head:true}).eq('test_id',activeTestId);if(error)return status('questionStatus',error.message,'error');if(!count)return status('questionStatus','कम से कम एक question जोड़ें।','error');const {error:e}=await db.from('practice_tests').update({is_published:true}).eq('id',activeTestId);if(e)return status('questionStatus',e.message,'error');status('questionStatus','Test प्रकाशित हो गया।','ok');activeTestId=null;loadTests()}
-async function toggleTest(id,value){const {error}=await db.from('practice_tests').update({is_published:value}).eq('id',id);if(error)alert(error.message);else loadTests()}
-async function startDbTest(id){const {data,error}=await db.from('test_questions').select('id,question_text,options,sort_order').eq('test_id',id).order('sort_order');if(error)return alert(error.message);if(!data||!data.length)return alert('इस test में questions नहीं हैं।');$('testRunner').classList.remove('hidden');$('testRunner').dataset.testId=id;$('testRunner').innerHTML='<h3>Test in progress</h3>'+data.map((q,i)=>'<div class="panel"><b>'+(i+1)+'. '+esc(q.question_text)+'</b>'+q.options.map((o,j)=>'<label><input type="radio" name="ans_'+q.id+'" value="'+j+'"> '+esc(o)+'</label>').join('')+'</div>').join('')+'<button onclick="submitDbTest()">Submit answers</button>'}
-async function submitDbTest(){const id=$('testRunner').dataset.testId,answers={};$('testRunner').querySelectorAll('input[type=radio]:checked').forEach(i=>answers[i.name.slice(4)]=Number(i.value));const {data,error}=await db.rpc('submit_studyguru_test',{p_test_id:id,p_answers:answers});if(error)return alert(error.message);$('testRunner').innerHTML='<h3>Test completed</h3><p>Your score: <b>'+data.score+' / '+data.total+'</b></p>';loadAttempts()}
-async function loadAttempts(){const box=$('attemptList');const {data,error}=await db.from('test_attempts').select('id,score,total_questions,submitted_at,practice_tests(title)').order('submitted_at',{ascending:false}).limit(10);if(error){box.innerHTML='';return}box.innerHTML='<h3>Recent results</h3>'+((data||[]).map(a=>'<div class="item"><b>'+esc(a.practice_tests?.title||'Practice test')+'</b><p>'+a.score+'/'+a.total_questions+' · '+new Date(a.submitted_at).toLocaleString()+'</p></div>').join('')||'<p class="muted">अभी कोई attempt नहीं है।</p>')}
-async function loadNotes(){const {data,error}=await db.from('student_notes').select('*').order('updated_at',{ascending:false});if(error)return status('noteStatus',error.message,'error');$('noteList').innerHTML=(data||[]).length?data.map(n=>'<article class="item"><h3>'+esc(n.title)+'</h3><p style="white-space:pre-wrap">'+esc(n.body)+'</p><div class="actions"><button class="secondary" onclick="editNote(\''+n.id+'\')">Edit</button><button class="danger" onclick="deleteNoteDb(\''+n.id+'\')">Delete</button></div></article>').join(''):'<div class="empty">अभी कोई note save नहीं है।</div>'}
-async function saveNote(){const title=$('noteTitle').value.trim(),body=$('noteBody').value.trim();if(!title||!body)return status('noteStatus','Title और notes लिखें।','error');const {error}=await db.from('student_notes').insert({user_id:profile.id,title,body});if(error)return status('noteStatus',error.message,'error');$('noteTitle').value='';$('noteBody').value='';status('noteStatus','Note save हो गया।','ok');loadNotes()}
-async function editNote(id){const {data,error}=await db.from('student_notes').select('*').eq('id',id).single();if(error)return alert(error.message);const title=prompt('Note title',data.title);if(title===null)return;const body=prompt('Note text',data.body);if(body===null)return;const {error:e}=await db.from('student_notes').update({title,body,updated_at:new Date().toISOString()}).eq('id',id);if(e)alert(e.message);else loadNotes()}
-async function deleteNoteDb(id){if(!confirm('इस note को delete करें?'))return;const {error}=await db.from('student_notes').delete().eq('id',id);if(error)alert(error.message);else loadNotes()}
-async function loadLiveClasses(){const {data,error}=await db.from('live_classes').select('*').order('starts_at');if(error){$('liveList').innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}$('liveList').innerHTML=(data||[]).length?data.map(l=>'<article class="item"><h3>'+esc(l.title)+'</h3><p>'+esc(l.class_name)+' · '+esc(l.subject)+' · '+esc(l.instructor_name||'')+'</p><p>'+new Date(l.starts_at).toLocaleString()+'</p><p>'+esc(l.description||'')+'</p><div class="actions"><button onclick="window.open(\''+esc(l.join_url)+'\',\'_blank\',\'noopener\')">Join class</button>'+(profile.role==='admin'?'<button class="danger" onclick="deleteLiveClass(\''+l.id+'\')">Delete</button>':'')+'</div></article>').join(''):'<div class="empty">अभी कोई live class schedule नहीं है।</div>'}
-async function createLiveClass(){const title=$('liveTitle').value.trim(),subject=$('liveSubject').value.trim(),url=$('liveUrl').value.trim(),starts=$('liveStarts').value;if(!title||!subject||!url||!starts)return status('liveStatus','सभी जरूरी fields भरें।','error');try{if(new URL(url).protocol!=='https:')throw new Error('Meeting URL https:// होना चाहिए।')}catch(e){return status('liveStatus',e.message,'error')}const {error}=await db.from('live_classes').insert({title,class_name:$('liveClassName').value,subject,instructor_name:$('liveInstructor').value.trim(),starts_at:new Date(starts).toISOString(),join_url:url,description:$('liveDescription').value.trim(),created_by:profile.id,is_published:true});if(error)return status('liveStatus',error.message,'error');status('liveStatus','Live class schedule हो गई।','ok');loadLiveClasses()}
-async function deleteLiveClass(id){if(!confirm('इस live class को हटाएँ?'))return;const {error}=await db.from('live_classes').delete().eq('id',id);if(error)alert(error.message);else loadLiveClasses()}
-async function loadAdminUsers(){const {data,error}=await db.from('profiles').select('id,full_name,role,created_at').order('created_at',{ascending:false});if(error){$('adminUsers').textContent=error.message;return}$('adminUsers').innerHTML=(data||[]).map(p=>'<div class="item"><b>'+esc(p.full_name||'Student')+'</b><p>'+esc(p.role)+'</p>'+(p.id===profile.id?'<span class="small">Current Admin account</span>':'<select id="role_'+p.id+'" class="field"><option value="student" '+(p.role==='student'?'selected':'')+'>Student</option><option value="teacher" '+(p.role==='teacher'?'selected':'')+'>Teacher</option></select><button class="secondary" onclick="setUserRole(\''+p.id+'\')">Save role</button>')+'</div>').join('')}
-async function setUserRole(id){const role=$('role_'+id).value;const {error}=await db.from('profiles').update({role}).eq('id',id);if(error)alert(error.message);else loadAdminUsers()}
-
-function renderProfilePage(){
- const box=$('profileContent');if(!box||!profile)return;
- const name=profile.full_name||'StudyGuru Student',email=profile.email||'';
- const initials=(name.trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('')||email.slice(0,1)||'S').toUpperCase();
- const role=profile.role==='admin'?'Administrator':profile.role==='teacher'?'Teacher':'Student';
- const provider=profile.authProvider==='google'?'Google account':'Email and password';
- const emailState=profile.emailConfirmedAt?'Verified':'Not verified';
- const memberDate=profile.createdAt?new Date(profile.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'Not available';
- const avatar=profile.avatarUrl?'<img src="'+esc(profile.avatarUrl)+'" alt="Profile photo">':esc(initials);
- box.innerHTML='<div class="profile-main-card"><div class="profile-avatar">'+avatar+'</div><div class="profile-identity"><span class="profile-kicker">MY PROFILE</span><h2>'+esc(name)+'</h2><p>'+esc(email)+'</p><div class="profile-tags"><span class="profile-role">'+esc(role)+'</span><span class="profile-status">'+(profile.emailConfirmedAt?'Email verified':'Account active')+'</span></div></div><button class="profile-logout" onclick="logout()">Log out</button></div>'+
- '<div class="profile-stat-grid"><article class="profile-stat"><span class="profile-stat-icon">01</span><span class="profile-stat-label">ACCOUNT TYPE</span><strong>'+esc(role)+'</strong><small>Your StudyGuru access</small></article><article class="profile-stat"><span class="profile-stat-icon">02</span><span class="profile-stat-label">EMAIL STATUS</span><strong>'+esc(emailState)+'</strong><small>Sign-in email information</small></article><article class="profile-stat"><span class="profile-stat-icon">03</span><span class="profile-stat-label">MEMBER SINCE</span><strong>'+esc(memberDate)+'</strong><small>Your account creation date</small></article></div>'+
- '<div class="profile-details-card"><div class="profile-section-heading"><div><span class="profile-kicker">ACCOUNT DETAILS</span><h3>Personal information</h3></div><span class="profile-detail-mark">SG</span></div><div class="profile-detail-row"><span class="profile-detail-label">Full name</span><strong>'+esc(name)+'</strong></div><div class="profile-detail-row"><span class="profile-detail-label">Email address</span><strong>'+esc(email)+'</strong></div><div class="profile-detail-row"><span class="profile-detail-label">Account role</span><strong>'+esc(role)+'</strong></div><div class="profile-detail-row"><span class="profile-detail-label">Sign-in method</span><strong>'+esc(provider)+'</strong></div></div>'+
- '<div class="profile-help-card"><div class="profile-help-symbol">i</div><div><strong>Your account is protected</strong><p>Login और permissions StudyGuru के सुरक्षित account system से manage होते हैं। Profile page पर आपकी जानकारी दिखाई जाती है; यहाँ backend settings में कोई बदलाव नहीं होता।</p></div></div>';
-}
-function showTab(tab){currentTab=tab;['library','admin','courses','tests','notes','live','profile'].forEach(t=>{const el=$(t+'Panel');if(el)el.classList.toggle('hidden',tab!==t);const b=$(t==='library'?'studentTab':t+'Tab');if(b)b.classList.toggle('active',tab===t)});if(tab==='profile')renderProfilePage();if(tab==='admin'&&profile?.role==='admin'){loadManageSubjects().then(loadAdminMaterials).then(loadAdminUsers).catch(e=>status('structureStatus',e.message,'error'))}if(tab==='courses'){if(canTeach())$('courseCreate').classList.remove('hidden');loadCourses()}if(tab==='tests'){if(canTeach())$('testCreate').classList.remove('hidden');loadTests()}if(tab==='notes')loadNotes();if(tab==='live'){if(profile?.role==='admin')$('liveCreate').classList.remove('hidden');loadLiveClasses()}}
-db.auth.onAuthStateChange((_event,session)=>{Promise.resolve().then(async()=>{if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}else showAuth()})});
-(async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}})();
-</script></body></html>
+(function(){
+  var role = "admin";
+  var page = "overview";
+  var planPrice = 29;
+  var studentPremium = false;
+  var toastTimer = null;
+  var contents = [
+    {id:1,title:"Class 10 Mathematics — Real Numbers",type:"Notes",access:"Free",desc:"Chapter notes and school-level concepts."},
+    {id:2,title:"Class 10 Science — Quick Revision PDF",type:"PDF",access:"Premium",desc:"Extra revision sheets for exam preparation."},
+    {id:3,title:"Class 11 Physics — Motion Practice",type:"Test",access:"Premium",desc:"A sample timed practice test."},
+    {id:4,title:"Class 12 Chemistry — Core Notes",type:"Notes",access:"Free",desc:"Essential school learning notes."},
+    {id:5,title:"Mathematics Exam Masterclass",type:"Video Course",access:"Premium",desc:"A structured video learning path."},
+    {id:6,title:"Class 12 Biology — Chapter Test",type:"Test",access:"Free",desc:"A free sample school practice test."}
+  ];
+  var members = [
+    {id:"M-101",name:"Demo Student 01",initials:"S1",className:"Class 10",plan:"Premium",joined:"12 Nov 2026"},
+    {id:"M-102",name:"Demo Student 02",initials:"S2",className:"Class 12",plan:"Premium",joined:"10 Nov 2026"},
+    {id:"M-103",name:"Demo Student 03",initials:"S3",className:"Class 11",plan:"Free",joined:"08 Nov 2026"},
+    {id:"M-104",name:"Demo Student 04",initials:"S4",className:"Class 10",plan:"Premium",joined:"05 Nov 2026"}
+  ];
+  var orders = [
+    {id:"SG-DEMO-1001",member:"Demo Student 01",amount:29,status:"Paid (sample)",review:"Not needed"},
+    {id:"SG-DEMO-1002",member:"Demo Student 02",amount:29,status:"Refund requested",review:"Pending"},
+    {id:"SG-DEMO-1003",member:"Demo Student 04",amount:29,status:"Paid (sample)",review:"Not needed"}
+  ];
+  var ads = [
+    {id:"home",name:"Free home / learning dashboard",detail:"Allowed on eligible Free pages",enabled:true},
+    {id:"library",name:"Free study library",detail:"Only beside free learning content",enabled:true},
+    {id:"articles",name:"Free articles and resources",detail:"Contextual placement only",enabled:true},
+    {id:"login",name:"Login and signup pages",detail:"Always excluded",enabled:false,locked:true},
+    {id:"tests",name:"Active test-taking screen",detail:"Always excluded to avoid distraction",enabled:false,locked:true},
+    {id:"checkout",name:"Checkout and payment pages",detail:"Always excluded",enabled:false,locked:true},
+    {id:"premium",name:"Premium member pages",detail:"Ad-free membership benefit",enabled:false,locked:true}
+  ];
+  var $ = function(id){return document.getElementById(id)};
+  var esc = function(value){return String(value == null ? "" : value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+  function money(value){return "₹" + Number(value).toLocaleString("en-IN")}
+  function toast(message){
+    var box=$("toast");box.textContent=message;box.classList.add("show");
+    clearTimeout(toastTimer);toastTimer=setTimeout(function(){box.classList.remove("show")},2600);
+  }
+  function setPage(next){
+    if(role==="student" && ["members","orders","ads","settings"].indexOf(next)>=0) next="overview";
+    page=next;
+    document.querySelectorAll(".page").forEach(function(p){p.classList.toggle("active",p.id==="page-"+next)});
+    document.querySelectorAll(".nav-item").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-page")===next)});
+    if(next==="content") renderContent();
+    if(next==="members") renderMembers();
+    if(next==="orders") renderOrders();
+    if(next==="ads") renderAds();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  function setRole(next){
+    role=next;
+    document.body.classList.toggle("student-mode",role==="student");
+    $("roleSwitch").textContent=role==="admin"?"Switch to Student View":"Switch to Admin View";
+    $("roleName").textContent=role==="admin"?"Demo Admin":"Demo Student";
+    $("avatar").textContent=role==="admin"?"AD":"ST";
+    $("welcomeTitle").textContent=role==="admin"?"Monetization Overview":"Welcome to StudyGuru";
+    $("welcomeText").textContent=role==="admin"?"अपने Premium plan, members और revenue का demo dashboard देखें।":"अपनी कक्षा के लिए free learning resources और premium options देखें।";
+    if(role==="student" && !["overview","plan","content","account"].includes(page)) page="overview";
+    setPage(page);
+    toast(role==="admin"?"Admin demo view":"Student demo view");
+    renderStudent();
+  }
+  function renderStudent(){
+    var label=studentPremium?"Premium":"Free";
+    $("studentPlan").textContent=label;
+    $("accountPlan").textContent=label;
+    $("studentPrice").textContent=money(planPrice);
+    $("accountPrice").textContent=money(planPrice)+" / month";
+    $("upgradeButton").textContent=studentPremium?"Premium Demo Active":"Try Premium Demo";
+  }
+  function renderOverview(){
+    var count=members.filter(function(m){return m.plan==="Premium"}).length;
+    var mrr=count*planPrice;
+    $("memberMetric").textContent=String(count);
+    $("revenueMetric").textContent=money(mrr);
+    $("adsMrr").textContent=money(mrr);
+    $("totalRevenue").textContent=money(mrr+460);
+    $("adMetric").textContent=ads.filter(function(a){return a.enabled && !a.locked}).length+" / 3";
+  }
+  function renderContent(){
+    var search=$("contentSearch").value.toLowerCase();
+    var filter=$("contentFilter").value;
+    var shown=contents.filter(function(item){
+      var matches=(item.title+" "+item.type+" "+item.desc).toLowerCase().indexOf(search)>=0;
+      return matches && (filter==="All" || item.access===filter);
+    });
+    $("contentList").innerHTML=shown.length?shown.map(function(item){
+      var edit=role==="admin" ? '<button class="btn small secondary" data-action="toggle-content" data-id="'+item.id+'">Make '+(item.access==="Premium"?"Free":"Premium")+'</button>' : '<button class="btn small outline" data-action="view-content" data-id="'+item.id+'">View sample</button>';
+      return '<article class="content-card"><div class="content-type">'+esc(item.type.toUpperCase())+'</div><h3>'+esc(item.title)+'</h3><p>'+esc(item.desc)+'</p><div class="content-meta"><span class="tag '+(item.access==="Premium"?"premium":"")+'">'+esc(item.access)+'</span><span class="tag">Sample item</span></div><div class="content-actions">'+edit+'</div></article>';
+    }).join(""):'<div class="empty">इस filter में कोई sample content नहीं मिला।</div>';
+  }
+  function renderMembers(){
+    $("memberRows").innerHTML=members.map(function(m){
+      var toggle=m.plan==="Premium"?"Set Free (demo)":"Set Premium (demo)";
+      return '<tr><td><div class="member-name"><span class="member-avatar">'+esc(m.initials)+'</span><strong>'+esc(m.name)+'</strong></div><small>'+esc(m.id)+'</small></td><td>'+esc(m.className)+'</td><td><span class="status-pill '+(m.plan==="Premium"?"ok":"neutral")+'">'+esc(m.plan)+'</span></td><td>'+esc(m.joined)+'</td><td><button class="btn small secondary" data-action="toggle-member" data-id="'+esc(m.id)+'">'+toggle+'</button></td></tr>';
+    }).join("");
+    $("memberCount").textContent=members.length+" sample members";
+  }
+  function renderOrders(){
+    $("orderRows").innerHTML=orders.map(function(o){
+      var action=o.review==="Pending" ? '<button class="btn small secondary" data-action="review-refund" data-id="'+esc(o.id)+'">Mark reviewed</button>' : '<span class="status-pill neutral">'+esc(o.review)+'</span>';
+      return '<tr><td><strong>'+esc(o.id)+'</strong></td><td>'+esc(o.member)+'</td><td>Premium monthly</td><td>'+money(o.amount)+'</td><td><span class="status-pill '+(o.status==="Refund requested"?"warn":"ok")+'">'+esc(o.status)+'</span></td><td>'+action+'</td></tr>';
+    }).join("");
+  }
+  function renderAds(){
+    $("adList").innerHTML=ads.map(function(a){
+      return '<div class="ad-row"><div><strong>'+esc(a.name)+'</strong><small>'+esc(a.detail)+'</small></div><button class="switch '+(a.enabled?"on":"")+'" type="button" data-action="toggle-ad" data-id="'+esc(a.id)+'" aria-label="Toggle '+esc(a.name)+'" '+(a.locked?'disabled':'')+'><span></span></button></div>';
+    }).join("");
+    $("eligibleCount").textContent=String(ads.filter(function(a){return a.enabled&&!a.locked}).length);
+    renderOverview();
+  }
+  function setPrice(){
+    var value=Number($("priceInput").value);
+    if(!Number.isInteger(value)||value<1||value>9999){toast("कृपया ₹1 से ₹9,999 के बीच valid price डालें।");return}
+    planPrice=value;
+    $("planPrice").innerHTML=money(planPrice)+' <small>/ month</small>';
+    renderStudent();renderOverview();
+    toast("Demo plan price updated to "+money(planPrice));
+  }
+  document.querySelectorAll("[data-page]").forEach(function(button){
+    button.addEventListener("click",function(){setPage(button.getAttribute("data-page"))});
+  });
+  $("roleSwitch").addEventListener("click",function(){setRole(role==="admin"?"student":"admin")});
+  $("contentSearch").addEventListener("input",renderContent);
+  $("contentFilter").addEventListener("change",renderContent);
+  $("contentForm").addEventListener("submit",function(event){
+    event.preventDefault();
+    var title=$("newContentTitle").value.trim();
+    if(!title)return;
+    contents.unshift({id:Date.now(),title:title,type:$("newContentType").value,access:$("newContentAccess").value,desc:"New sample item added in this local preview."});
+    $("newContentTitle").value="";
+    renderContent();toast("Sample content added. No database was changed.");
+  });
+  document.addEventListener("click",function(event){
+    var target=event.target.closest("[data-action]");
+    if(!target)return;
+    var action=target.getAttribute("data-action"),id=target.getAttribute("data-id");
+    if(action==="upgrade-demo"){
+      if(role!=="student"){setRole("student")}
+      studentPremium=true;renderStudent();
+      toast("Premium demo enabled. No payment was taken.");
+    }
+    if(action==="toggle-content"){
+      var item=contents.find(function(x){return String(x.id)===String(id)});
+      if(item){item.access=item.access==="Premium"?"Free":"Premium";renderContent();toast("Sample content access changed locally.")}
+    }
+    if(action==="view-content"){
+      var view=contents.find(function(x){return String(x.id)===String(id)});
+      if(view)toast(view.access==="Premium"&&!studentPremium?"Premium sample: try the demo plan first.":"Sample preview opened. No file is downloaded.");
+    }
+    if(action==="toggle-member"){
+      var member=members.find(function(x){return x.id===id});
+      if(member){member.plan=member.plan==="Premium"?"Free":"Premium";renderMembers();renderOverview();toast("Demo membership status updated.")}
+    }
+    if(action==="review-refund"){
+      var order=orders.find(function(x){return x.id===id});
+      if(order){order.review="Reviewed (demo)";renderOrders();toast("Refund marked reviewed in demo only. No refund was issued.")}
+    }
+    if(action==="toggle-ad"){
+      var ad=ads.find(function(x){return x.id===id});
+      if(ad&&!ad.locked){ad.enabled=!ad.enabled;renderAds();toast("Demo ad placement setting updated.")}
+    }
+    if(action==="save-price")setPrice();
+  });
+  $("planPrice").innerHTML=money(planPrice)+' <small>/ month</small>';
+  $("priceInput").value=String(planPrice);
+  renderContent();renderMembers();renderOrders();renderAds();renderStudent();renderOverview();
+})();
+</script>
+<footer>StudyGuru · Separate staging preview · Demo data resets when this page is refreshed</footer>
+</body>
+</html>
