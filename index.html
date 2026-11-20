@@ -124,6 +124,63 @@ button{border-radius:9px}
  .panel{padding:14px}.item{padding:14px}
 }
 
+
+/* Corrective responsive dashboard layout based on the supplied reference */
+:root{--orange:#ff7043;--dark:#252a35;--bg:#fffaf5;--line:#f0e8df}
+body{background:#fffaf5;color:#292d36}
+header{background:#fff;border-bottom:1px solid #f1e9e1;box-shadow:0 2px 12px rgba(40,30,20,.04)}
+main{max-width:1500px;padding:18px 20px 56px}
+#appView{display:grid;grid-template-columns:220px minmax(0,1fr);gap:0 22px;align-items:start}
+#appView>.tabs{grid-column:1;grid-row:1 / span 20;position:sticky;top:84px;display:flex;flex-direction:column;align-items:stretch;gap:5px;margin:0;padding:14px 10px;background:#fff;border:1px solid #f0e9e2;border-radius:16px;box-shadow:0 6px 22px rgba(50,40,30,.045)}
+#appView>.tabs:before{content:"MENU";display:block;padding:4px 10px 10px;color:#98918a;font-size:10px;font-weight:800;letter-spacing:.12em}
+#appView>.tabs button{width:100%;min-height:40px;text-align:left;display:flex;align-items:center;padding:10px 12px;border:0;border-radius:9px;background:transparent;color:#62636a;font-size:12px;font-weight:650}
+#appView>.tabs button.active{background:#fff0e8;color:#d95b35;box-shadow:none}
+#appView>.hero{grid-column:2;grid-row:1;position:relative;overflow:hidden;min-height:135px;margin:0 0 14px;padding:24px 28px;border-radius:15px;background:linear-gradient(110deg,#ff853d,#ffa45f);box-shadow:0 8px 22px rgba(255,132,61,.15)}
+#appView>.hero:after{content:"";position:absolute;right:25px;top:-100px;width:270px;height:270px;border:38px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+#appView>.hero h1{font-size:27px;letter-spacing:-.04em}
+#appView>.hero p{font-size:13px;color:#fff;max-width:520px}
+#appView>.topline{grid-column:2;grid-row:2;margin:0 0 10px;padding:3px 2px 12px;border-bottom:1px solid #f0e9e2}
+#appView>section{grid-column:2;min-width:0}
+#appView>section.hidden{display:none!important}
+#libraryPanel>.row.panel{margin-top:10px;border:1px solid #f0e9e2;border-radius:13px;box-shadow:0 3px 12px rgba(50,40,30,.03)}
+.section-title{font-size:18px}
+.panel,.item{border-color:#f0e9e2;border-radius:14px;box-shadow:0 4px 14px rgba(50,40,30,.035)}
+.item{padding:15px;background:#fff}
+.item h3{font-size:14px}
+button{border-radius:9px}
+.tabs button.active{background:#fff0e8;color:#d95b35;border-color:#ffe0d2}
+.field{background:#fff;border-color:#e9e2dc}
+.empty{background:#fff;border:1px solid #f0e9e2;border-radius:13px}
+@media(max-width:760px){
+ main{padding:14px 10px 44px}
+ #appView{grid-template-columns:94px minmax(0,1fr);gap:0 10px}
+ #appView>.tabs{grid-column:1;grid-row:1 / span 20;top:74px;padding:9px 5px;gap:4px;border-radius:12px}
+ #appView>.tabs:before{font-size:8px;padding:4px 6px 8px}
+ #appView>.tabs button{min-height:44px;justify-content:center;text-align:center;padding:7px 3px;font-size:10px;white-space:normal;line-height:1.15}
+ #appView>.hero{grid-column:2;grid-row:1;min-height:112px;padding:17px 15px;margin-bottom:10px;border-radius:12px}
+ #appView>.hero:after{width:140px;height:140px;right:-75px;top:-50px;border-width:20px}
+ #appView>.hero h1{font-size:20px;line-height:1.2}
+ #appView>.hero p{font-size:11px;line-height:1.45}
+ #appView>.topline{grid-column:2;grid-row:2;gap:6px;align-items:flex-start;font-size:12px;padding:5px 0 9px;margin-bottom:5px}
+ #appView>.topline button{padding:8px 10px;min-height:34px;font-size:11px}
+ #appView>section{grid-column:2}
+ #appView>section>.panel:first-child{margin-top:8px}
+ #libraryPanel>.row.panel{grid-template-columns:1fr;gap:8px;padding:12px}
+ #libraryPanel label{margin:5px 0}
+ .section-title{font-size:16px}
+ .panel{padding:12px;margin:9px 0}
+ .grid{grid-template-columns:1fr;gap:9px}
+ .item{padding:12px}
+ .item h3{font-size:13px}
+ .item p{font-size:11px}
+}
+@media(max-width:390px){
+ #appView{grid-template-columns:78px minmax(0,1fr);gap:0 8px}
+ #appView>.tabs button{font-size:9px;padding:6px 2px}
+ #appView>.hero h1{font-size:18px}
+ #appView>.hero p{font-size:10px}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
