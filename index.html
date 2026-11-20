@@ -141,13 +141,12 @@ footer{text-align:center;color:#9299a6;font-size:10px;padding:22px 10px 0}
 @media(max-width:480px){.demo-strip{font-size:9px;padding:8px 7px}.metrics{gap:8px}.metric{padding:13px}.metric-value{font-size:22px}.metric-top{font-size:10px}.metric-foot{font-size:9px}.content-grid{grid-template-columns:1fr}.settings-grid{grid-template-columns:1fr}.panel{padding:15px}.plan-card{padding:19px}.page-head .date-pill{display:none}.chart{gap:7px}.chart-label{font-size:9px}}
 </style>
 </head>
-<body>
+<body class="student-mode">
 <div class="demo-strip">STAGING PREVIEW <span>• DEMO DATA ONLY — NO REAL PAYMENTS OR ADS</span></div>
 <header class="topbar">
   <div class="brand"><div class="brand-mark">S</div><div>StudyGuru<small>LEARN • PRACTICE • EXCEL</small></div></div>
   <div class="top-actions">
-    <button class="role-switch" id="roleSwitch" type="button">Switch to Student View</button>
-    <div class="user-chip"><div class="avatar" id="avatar">AD</div><span id="roleName">Demo Admin</span></div>
+    <div class="user-chip"><div class="avatar" id="avatar">ST</div><span id="roleName">Demo Student</span></div>
   </div>
 </header>
 <div class="layout">
@@ -156,15 +155,16 @@ footer{text-align:center;color:#9299a6;font-size:10px;padding:22px 10px 0}
     <button class="nav-item active" data-page="overview"><span class="nav-ico">OV</span>Overview</button>
     <button class="nav-item" data-page="plan"><span class="nav-ico">PL</span>Premium Plan</button>
     <button class="nav-item" data-page="content"><span class="nav-ico">CT</span>Content</button>
+    <button class="nav-item student-only" data-page="account"><span class="nav-ico">ME</span>My Profile</button>
     <button class="nav-item admin-only" data-page="members"><span class="nav-ico">MB</span>Members</button>
     <button class="nav-item admin-only" data-page="orders"><span class="nav-ico">OR</span>Orders & Refunds</button>
     <button class="nav-item admin-only" data-page="ads"><span class="nav-ico">AD</span>Ads & Revenue</button>
     <button class="nav-item admin-only" data-page="settings"><span class="nav-ico">ST</span>Settings</button>
-    <div class="sidebar-note"><b>Isolated staging mode</b>यह preview केवल sample data इस्तेमाल करता है। Production website और database इससे जुड़े नहीं हैं।</div>
+    <div class="sidebar-note"><b>Student-safe preview</b>यह public preview केवल student view दिखाता है। Admin tools तब तक उपलब्ध नहीं होंगे जब तक secure server-side admin authentication तैयार न हो।</div>
   </aside>
   <main>
     <section class="page active" id="page-overview">
-      <div class="page-head"><div><div class="eyebrow">STUDYGURU WORKSPACE</div><h1 id="welcomeTitle">Monetization Overview</h1><p id="welcomeText">अपने Premium plan, members और revenue का demo dashboard देखें।</p></div><span class="date-pill">STAGING · SAMPLE REPORT</span></div>
+      <div class="page-head"><div><div class="eyebrow">STUDYGURU WORKSPACE</div><h1 id="welcomeTitle">Welcome to StudyGuru</h1><p id="welcomeText">अपनी कक्षा के लिए free learning resources और premium options देखें।</p></div><span class="date-pill">STAGING · SAMPLE REPORT</span></div>
       <div class="student-overview">
         <div class="student-banner"><h2>आपकी पढ़ाई, आपकी रफ्तार</h2><p>Class 10, 11 और 12 के लिए notes, practice tests और video learning एक ही जगह।</p></div>
         <div class="metrics">
@@ -306,7 +306,7 @@ footer{text-align:center;color:#9299a6;font-size:10px;padding:22px 10px 0}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
-  var role = "admin";
+  var role = "student";
   var page = "overview";
   var planPrice = 29;
   var studentPremium = false;
@@ -430,7 +430,6 @@ footer{text-align:center;color:#9299a6;font-size:10px;padding:22px 10px 0}
   document.querySelectorAll("[data-page]").forEach(function(button){
     button.addEventListener("click",function(){setPage(button.getAttribute("data-page"))});
   });
-  $("roleSwitch").addEventListener("click",function(){setRole(role==="admin"?"student":"admin")});
   $("contentSearch").addEventListener("input",renderContent);
   $("contentFilter").addEventListener("change",renderContent);
   $("contentForm").addEventListener("submit",function(event){
@@ -474,7 +473,8 @@ footer{text-align:center;color:#9299a6;font-size:10px;padding:22px 10px 0}
   });
   $("planPrice").innerHTML=money(planPrice)+' <small>/ month</small>';
   $("priceInput").value=String(planPrice);
-  renderContent();renderMembers();renderOrders();renderAds();renderStudent();renderOverview();
+  $("roleName").textContent="Demo Student";$("avatar").textContent="ST";
+  renderContent();renderStudent();
 })();
 </script>
 <footer>StudyGuru · Separate staging preview · Demo data resets when this page is refreshed</footer>
