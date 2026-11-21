@@ -30,6 +30,9 @@ create table if not exists public.course_chapter_resources (
 create index if not exists course_chapter_resources_chapter_idx
   on public.course_chapter_resources(chapter_id, created_at);
 
+grant select, insert, update, delete on public.course_chapters to authenticated;
+grant select, insert, update, delete on public.course_chapter_resources to authenticated;
+
 alter table public.practice_tests
   add column if not exists course_chapter_id uuid
   references public.course_chapters(id) on delete set null;
