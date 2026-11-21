@@ -58,6 +58,8 @@
         <label>Chapter</label><select id="sgTestChapter" class="field"></select>
         <label>Test Title</label><input id="sgTestTitle" class="field" maxlength="160" placeholder="जैसे Chapter 1 Practice Test">
         <label>Duration (minutes)</label><input id="sgTestDuration" class="field" type="number" min="1" max="240" value="15">
+        <div class="sg-course-grid"><div><label>Marks for correct answer (+)</label><input id="sgMarksPerQuestion" class="field" type="number" min="1" max="100" value="4"></div><div><label>Negative marks for wrong answer (−)</label><input id="sgNegativeMarks" class="field" type="number" min="0" max="100" value="1"></div></div>
+        <p class="sg-course-muted">Unanswered question: 0 marks. Default scheme: +4 / −1.</p>
         <label>Description</label><textarea id="sgTestDescription" class="field" rows="2"></textarea>
         <button onclick="createCourseTest()">Create MCQ Test</button><div id="sgTestStatus" class="status"></div>
         <div id="sgQuestionBuilder" class="hidden">
@@ -108,7 +110,7 @@
     const ids = selectedChapters.map(ch=>ch.id);
     const [resourceResult,testResult] = await Promise.all([
       db.from('course_chapter_resources').select('*').in('chapter_id',ids).order('created_at'),
-      db.from('practice_tests').select('id,title,description,duration_minutes,is_published,course_chapter_id').in('course_chapter_id',ids).order('created_at')
+      db.from('practice_tests').select('id,title,description,duration_minutes,is_published,course_chapter_id,marks_per_question,negative_marks').in('course_chapter_id',ids).order('created_at')
     ]);
     if(resourceResult.error || testResult.error){
       $('sgCourseChapterList').innerHTML='<div class="notice">Course content schema upgrade pending. Preview UI is ready, but backend chapter tables need the migration first.</div>';
@@ -128,7 +130,7 @@
             ? '<video class="sg-course-video" controls playsinline src="'+esc(url)+'"></video>' : '';
         return '<div class="sg-course-resource"><span class="sg-course-chip">'+tag+'</span><h4>'+esc(r.title)+'</h4><p>'+esc(r.description||'')+'</p>'+player+'<div class="sg-course-actions">'+(url?'<button onclick="window.open('+JSON.stringify(url)+',\'_blank\',\'noopener\')">'+(r.resource_type==='pdf'?'Open PDF':'Open Video')+'</button>':'<span class="sg-course-muted">File link unavailable</span>')+(manager?'<button class="secondary" onclick="toggleCourseResource(\''+r.id+'\','+(!r.is_published)+')">'+(r.is_published?'Hide':'Publish')+'</button><button class="danger" onclick="deleteCourseResource(\''+r.id+'\')">Delete</button>':'')+'</div></div>';
       }));
-      const testCards=quizzes.map(t=>'<div class="sg-course-resource"><span class="sg-course-chip">MCQ TEST</span><h4>'+esc(t.title)+'</h4><p>'+esc(t.duration_minutes)+' minutes · '+esc(t.description||'')+'</p><div class="sg-course-actions">'+(t.is_published?'<button onclick="startCourseChapterTest(\''+t.id+'\')">Start Test</button>':'<span class="sg-course-muted">Draft test</span>')+(manager?'<button class="secondary" onclick="editCourseTest(\''+t.id+'\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></div>');
+      const testCards=quizzes.map(t=>'<div class="sg-course-resource"><span class="sg-course-chip">MCQ TEST</span><h4>'+esc(t.title)+'</h4><p>'+esc(t.duration_minutes)+' minutes · +'+esc(t.marks_per_question??4)+' / −'+esc(t.negative_marks??1)+' · '+esc(t.description||'')+'</p><div class="sg-course-actions">'+(t.is_published?'<button onclick="startCourseChapterTest(\''+t.id+'\')">Start Test</button>':'<span class="sg-course-muted">Draft test</span>')+(manager?'<button class="secondary" onclick="editCourseTest(\''+t.id+'\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></div>');
       return '<article class="sg-course-chapter"><h3>'+esc(ch.title)+'</h3><p class="sg-course-muted">'+esc(ch.description||'')+'</p>'+((fileCards.length||testCards.length)?fileCards.join('')+testCards.join(''):'<p class="sg-course-muted">इस chapter में अभी PDF, Video या Test नहीं है।</p>')+'</article>';
     }));
     $('sgCourseChapterList').innerHTML=sections.join('');
@@ -199,11 +201,13 @@
   window.createCourseTest = async () => {
     if(!schemaReady || !selectedCourse || !canManage(selectedCourse)) return;
     const chapter=$('sgTestChapter').value,title=$('sgTestTitle').value.trim();
-    const duration=Number($('sgTestDuration').value);
+    const duration=Number($('sgTestDuration').value),marks=Number($('sgMarksPerQuestion').value),negative=Number($('sgNegativeMarks').value);
     if(!chapter||!title||!Number.isInteger(duration)||duration<1||duration>240) return status('sgTestStatus','Chapter, title और 1–240 मिनट का समय भरें।','error');
+    if(!Number.isInteger(marks)||marks<1||marks>100||!Number.isInteger(negative)||negative<0||negative>marks) return status('sgTestStatus','Marks 1–100 और negative marks 0 से marks तक रखें।','error');
     const {data,error}=await db.from('practice_tests').insert({
       title,class_name:selectedCourse.class_name,subject:selectedCourse.subject,
       description:$('sgTestDescription').value.trim(),duration_minutes:duration,
+      marks_per_question:marks,negative_marks:negative,
       course_chapter_id:chapter,created_by:profile.id,is_published:false
     }).select('id').single();
     if(error) return status('sgTestStatus',error.message,'error');
