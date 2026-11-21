@@ -47,7 +47,7 @@
           <div><label>Content Title</label><input id="sgResourceTitle" class="field" maxlength="160" placeholder="जैसे Chapter Notes PDF"></div>
           <div><label>Content Type</label><select id="sgResourceType" class="field"><option value="pdf">PDF / Test PDF</option><option value="video">Video</option></select></div>
         </div>
-        <label>File (PDF या MP4, अधिकतम 50 MB)</label><input id="sgResourceFile" class="field" type="file" accept=".pdf,application/pdf,video/mp4">
+        <label>File (PDF या MP4, अधिकतम 50 MB)</label><input id="sgResourceFile" class="field" type="file" accept=".pdf,application/pdf,video/mp4,video/webm">
         <label>या External URL (HTTPS)</label><input id="sgResourceUrl" class="field" type="url" placeholder="PDF / YouTube / Video URL">
         <label>Description</label><textarea id="sgResourceDescription" class="field" rows="2" maxlength="500"></textarea>
         <label style="display:flex;align-items:center;gap:8px"><input id="sgResourcePublish" type="checkbox" checked> Students को अभी दिखाएँ</label>
@@ -152,7 +152,8 @@
     const type=$('sgResourceType').value,file=$('sgResourceFile').files[0],url=$('sgResourceUrl').value.trim();
     if(!chapterId || !title) return status('sgResourceStatus','Chapter और title जरूरी हैं।','error');
     if(!file && !url) return status('sgResourceStatus','PDF/Video file चुनें या HTTPS URL दें।','error');
-    if(file && file.size>50*1024*1024) return status('sgResourceStatus','File 50 MB से बड़ी है।','error');
+    const maxBytes=type==='video'?25*1024*1024:50*1024*1024;
+    if(file && file.size>maxBytes) return status('sgResourceStatus',type==='video'?'Video 25 MB से बड़ी है।':'PDF 50 MB से बड़ी है।','error');
     if(file && type==='pdf' && file.type!=='application/pdf') return status('sgResourceStatus','PDF file ही चुनें।','error');
     if(file && type==='video' && !['video/mp4','video/webm'].includes(file.type)) return status('sgResourceStatus','MP4 या WebM video चुनें।','error');
     if(url && !/^https:\/\//i.test(url)) return status('sgResourceStatus','URL https:// से शुरू होना चाहिए।','error');
