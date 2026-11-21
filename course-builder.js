@@ -249,12 +249,12 @@
       if(ch==='"'&&quoted&&next==='"'){cell+='"';i++;}
       else if(ch==='"') quoted=!quoted;
       else if(ch===','&&!quoted){row.push(cell);cell='';}
-      else if((ch==='\\n'||ch==='\\r')&&!quoted){if(ch==='\\r'&&next==='\\n')i++;row.push(cell);if(row.some(v=>v.trim()))rows.push(row);row=[];cell='';}
+      else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(cell);if(row.some(v=>v.trim()))rows.push(row);row=[];cell='';}
       else cell+=ch;
     }
     row.push(cell);if(row.some(v=>v.trim()))rows.push(row);
     if(quoted) throw new Error('CSV में quotes सही तरह बंद नहीं हैं।');
-    const headers=(rows.shift()||[]).map(h=>h.trim().toLowerCase().replace(/^\\uFEFF/,''));
+    const headers=(rows.shift()||[]).map(h=>h.trim().toLowerCase().replace(/^\uFEFF/,''));
     return rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]||'').trim()])));
   }
   function sgQuestionRowsFromRecords(records){
@@ -264,7 +264,7 @@
       for(let n=1;n<=6;n++){const v=String(r['option'+n]||r['option_'+n]||'').trim();if(v)options.push(v);}
       if(Array.isArray(r.options)) options.splice(0,options.length,...r.options.map(v=>String(v).trim()).filter(Boolean));
       const raw=String(r.correct_answer??r.correct_option??r.answer??'').trim().toUpperCase();
-      const answer=/^[A-F]$/.test(raw)?raw.charCodeAt(0)-65:(/^\\d+$/.test(raw)?Number(raw)-1:-1);
+      const answer=/^[A-F]$/.test(raw)?raw.charCodeAt(0)-65:(/^\d+$/.test(raw)?Number(raw)-1:-1);
       if(!question) throw new Error('Row '+(i+2)+': question खाली है।');
       if(options.length<4||options.length>6) throw new Error('Row '+(i+2)+': 4 से 6 options जरूरी हैं।');
       if(answer<0||answer>=options.length) throw new Error('Row '+(i+2)+': correct_answer A-F या 1-6 होना चाहिए।');
@@ -272,8 +272,8 @@
     });
   }
   window.downloadStudyGuruQuestionTemplate=()=>{
-    const csv='question,option1,option2,option3,option4,option5,option6,correct_answer\\n"भारत की राजधानी क्या है?","दिल्ली","मुंबई","पटना","जयपुर","","","A"\\n';
-    const blob=new Blob(['\\uFEFF',csv],{type:'text/csv;charset=utf-8;'});
+    const csv='question,option1,option2,option3,option4,option5,option6,correct_answer\n"भारत की राजधानी क्या है?","दिल्ली","मुंबई","पटना","जयपुर","","","A"\n';
+    const blob=new Blob(['\uFEFF',csv],{type:'text/csv;charset=utf-8;'});
     const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyguru-2000-mcq-template.csv';a.click();URL.revokeObjectURL(url);
   };
   window.importStudyGuruQuestions=async()=>{
