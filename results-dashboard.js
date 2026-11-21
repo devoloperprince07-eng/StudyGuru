@@ -50,7 +50,7 @@
     $('testRunner').querySelectorAll('input[type=radio]:checked').forEach(i => answers[i.name.slice(4)] = Number(i.value));
     const elapsed = Math.max(1, Math.round((Date.now() - (startedAt || Date.now())) / 1000));
     const btn = $('testRunner').querySelector('button'); if (btn) btn.disabled = true;
-    const {data,error} = await db.rpc('submit_studyguru_test',{p_test_id:id,p_answers:answers});
+    const {data,error} = await db.rpc('submit_studyguru_test',{p_test_id:id,p_answers:answers,p_duration_seconds:elapsed});
     if (error) { if(btn)btn.disabled=false; return alert(error.message); }
     const total = Number(data.total || activeQuestions.length || 0);
     const score = Number(data.score || 0);
