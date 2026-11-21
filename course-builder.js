@@ -75,6 +75,13 @@
           <label>Correct Answer</label><select id="sgCorrectOption" class="field"><option value="0">Option 1</option><option value="1">Option 2</option><option value="2">Option 3</option><option value="3">Option 4</option></select>
           <div class="sg-course-actions"><button onclick="addCourseTestQuestion()">Add Question</button><button class="secondary" onclick="publishCourseTest()">Publish Test</button></div>
           <div id="sgQuestionStatus" class="status"></div>
+          <hr style="border:0;border-top:1px solid #e7e9ed;margin:16px 0">
+          <h3>Bulk Import — CSV / Excel</h3>
+          <p class="sg-course-muted">एक Test में अधिकतम 2,000 प्रश्न। CSV या .xlsx फाइल में question, option1–option6 और correct_answer कॉलम रखें। कम-से-कम 4 विकल्प जरूरी हैं।</p>
+          <div class="sg-course-actions"><button class="secondary" onclick="downloadStudyGuruQuestionTemplate()">Download CSV Template</button></div>
+          <label>CSV / Excel File</label><input id="sgQuestionImportFile" class="field" type="file" accept=".csv,.xlsx,.xls,text/csv">
+          <div class="sg-course-actions"><button onclick="importStudyGuruQuestions()">Import Questions</button></div>
+          <div id="sgBulkImportStatus" class="status" aria-live="polite"></div>
         </div>
       </div>
       <div id="sgCourseChapterList"></div>
@@ -220,6 +227,9 @@
 
   window.addCourseTestQuestion = async () => {
     if(!selectedCourseTest) return status('sgQuestionStatus','पहले test बनाएँ।','error');
+    const {count:existingCount,error:countError}=await db.from('test_questions').select('id',{count:'exact',head:true}).eq('test_id',selectedCourseTest);
+    if(countError) return status('sgQuestionStatus',countError.message,'error');
+    if(existingCount>=2000) return status('sgQuestionStatus','एक Test में अधिकतम 2,000 Questions हो सकते हैं।','error');
     const text=$('sgQuestionText').value.trim();
     const options=[0,1,2,3].map(i=>$('sgOption'+i).value.trim());
     if(!text||options.some(x=>!x)) return status('sgQuestionStatus','Question और चारों options भरें।','error');
@@ -229,6 +239,81 @@
     if(keyError){await db.from('test_questions').delete().eq('id',data.id);return status('sgQuestionStatus',keyError.message,'error');}
     $('sgQuestionText').value='';[0,1,2,3].forEach(i=>$('sgOption'+i).value='');
     status('sgQuestionStatus','Question save हो गया।','ok');
+  };
+
+
+  function sgParseCSV(text){
+    const rows=[];let row=[],cell='',quoted=false;
+    for(let i=0;i<text.length;i++){
+      const ch=text[i],next=text[i+1];
+      if(ch==='"'&&quoted&&next==='"'){cell+='"';i++;}
+      else if(ch==='"') quoted=!quoted;
+      else if(ch===','&&!quoted){row.push(cell);cell='';}
+      else if((ch==='\\n'||ch==='\\r')&&!quoted){if(ch==='\\r'&&next==='\\n')i++;row.push(cell);if(row.some(v=>v.trim()))rows.push(row);row=[];cell='';}
+      else cell+=ch;
+    }
+    row.push(cell);if(row.some(v=>v.trim()))rows.push(row);
+    if(quoted) throw new Error('CSV में quotes सही तरह बंद नहीं हैं।');
+    const headers=(rows.shift()||[]).map(h=>h.trim().toLowerCase().replace(/^\\uFEFF/,''));
+    return rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]||'').trim()])));
+  }
+  function sgQuestionRowsFromRecords(records){
+    return records.map((r,i)=>{
+      const question=String(r.question||r.question_text||'').trim();
+      const options=[];
+      for(let n=1;n<=6;n++){const v=String(r['option'+n]||r['option_'+n]||'').trim();if(v)options.push(v);}
+      if(Array.isArray(r.options)) options.splice(0,options.length,...r.options.map(v=>String(v).trim()).filter(Boolean));
+      const raw=String(r.correct_answer??r.correct_option??r.answer??'').trim().toUpperCase();
+      const answer=/^[A-F]$/.test(raw)?raw.charCodeAt(0)-65:(/^\\d+$/.test(raw)?Number(raw)-1:-1);
+      if(!question) throw new Error('Row '+(i+2)+': question खाली है।');
+      if(options.length<4||options.length>6) throw new Error('Row '+(i+2)+': 4 से 6 options जरूरी हैं।');
+      if(answer<0||answer>=options.length) throw new Error('Row '+(i+2)+': correct_answer A-F या 1-6 होना चाहिए।');
+      return {question_text:question,options,correct_option:answer,sort_order:i};
+    });
+  }
+  window.downloadStudyGuruQuestionTemplate=()=>{
+    const csv='question,option1,option2,option3,option4,option5,option6,correct_answer\\n"भारत की राजधानी क्या है?","दिल्ली","मुंबई","पटना","जयपुर","","","A"\\n';
+    const blob=new Blob(['\\uFEFF',csv],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyguru-2000-mcq-template.csv';a.click();URL.revokeObjectURL(url);
+  };
+  window.importStudyGuruQuestions=async()=>{
+    if(!selectedCourseTest)return status('sgBulkImportStatus','पहले Test चुनें।','error');
+    const file=$('sgQuestionImportFile')?.files?.[0];if(!file)return status('sgBulkImportStatus','CSV या Excel file चुनें।','error');
+    if(file.size>10*1024*1024)return status('sgBulkImportStatus','File अधिकतम 10 MB हो सकती है।','error');
+    const statusEl=$('sgBulkImportStatus');
+    const button=statusEl?.previousElementSibling?.querySelector('button');
+    if(button)button.disabled=true;
+    try{
+      let records;
+      const name=file.name.toLowerCase();
+      if(name.endsWith('.csv')) records=sgParseCSV(await file.text());
+      else{
+        if(!window.XLSX){
+          await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=resolve;s.onerror=()=>reject(new Error('Excel reader load नहीं हुआ। CSV Template इस्तेमाल करें।'));document.head.appendChild(s);});
+        }
+        const workbook=XLSX.read(await file.arrayBuffer(),{type:'array'});
+        records=XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]],{defval:''});
+      }
+      const rows=sgQuestionRowsFromRecords(records);
+      if(!rows.length)throw new Error('File में कोई प्रश्न नहीं मिला।');
+      const {count,error:countError}=await db.from('test_questions').select('id',{count:'exact',head:true}).eq('test_id',selectedCourseTest);
+      if(countError)throw countError;
+      if(count+rows.length>2000)throw new Error('इस Test में अभी '+count+' प्रश्न हैं। '+(2000-count)+' और प्रश्न ही जोड़े जा सकते हैं।');
+      let inserted=0;
+      for(let offset=0;offset<rows.length;offset+=100){
+        const chunk=rows.slice(offset,offset+100);
+        const {data,error}=await db.from('test_questions').insert(chunk.map(({correct_option,...q})=>({...q,test_id:selectedCourseTest}))).select('id');
+        if(error)throw error;
+        const keys=data.map((q,j)=>({question_id:q.id,correct_option:chunk[j].correct_option}));
+        const {error:keyError}=await db.from('test_answer_keys').insert(keys);
+        if(keyError)throw keyError;
+        inserted+=chunk.length;
+        statusEl.textContent='Importing… '+inserted+' / '+rows.length;
+      }
+      status('sgBulkImportStatus',inserted+' Questions और Answer Keys Import हो गईं।','ok');
+      $('sgQuestionImportFile').value='';
+    }catch(e){status('sgBulkImportStatus',e.message||'Import failed','error');}
+    finally{if(button)button.disabled=false;}
   };
 
   window.editCourseTest = async id => {
