@@ -500,6 +500,7 @@
     ]);
     if(chRes.error||testRes.error){$('sgSubjectChapterCards').innerHTML='<div class="notice">'+esc(chRes.error?.message||testRes.error?.message)+'</div>';return;}
     selectedChapters=chRes.data||[];
+    $('sgResourceChapter').innerHTML=selectedChapters.map(ch=>'<option value="'+ch.id+'">'+esc(ch.title)+'</option>').join('')||'<option value="">पहले Chapter जोड़ें</option>';
     let visibleChapters=manager?selectedChapters:selectedChapters.filter(ch=>ch.is_published);
     const chIds=visibleChapters.map(ch=>ch.id);
     let resources=[];
@@ -515,7 +516,7 @@
   };
   window.showCourseRoute=route=>{
     if(route==='chapter'){['sgCourseSubjects','sgSubjectDetail'].forEach(id=>$(id).classList.add('hidden'));$('sgChapterContent').classList.remove('hidden');if(canManage(selectedCourse))$('sgCourseUpload').classList.remove('hidden');return;}
-    if(route==='chapters'){backToCourseSubjects();return;}
+    if(route==='chapters'){if(selectedSubject)openCourseSubject(selectedSubject.id);else backToCourseSubjects();return;}
     if(route==='home'){backToCourseSubjects();return;}
   };
   window.openCourseChapter=chapterId=>{
