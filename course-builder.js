@@ -2,7 +2,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const canManage = course => !!window.profile && (window.profile.role === 'admin' || course?.created_by === window.profile.id);
+  const canManage = course => typeof profile !== 'undefined' && !!profile && (profile.role === 'admin' || course?.created_by === profile.id);
   let selectedCourse = null, selectedChapters = [], selectedCourseTest = null;
 
   const style = document.createElement('style');
