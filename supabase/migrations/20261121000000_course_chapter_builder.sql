@@ -166,6 +166,7 @@ using (
 -- Preserve the existing standalone test flow while restricting course-linked tests
 -- to the owner of the course (or an administrator).
 drop policy if exists "Teachers create tests" on public.practice_tests;
+drop policy if exists "tests_teacher_create" on public.practice_tests;
 create policy "Teachers create tests"
 on public.practice_tests for insert to authenticated
 with check (
@@ -188,6 +189,8 @@ with check (
 );
 
 drop policy if exists "Teachers update own tests and admins manage tests" on public.practice_tests;
+drop policy if exists "tests_owner_admin_update" on public.practice_tests;
+drop policy if exists "tests_read_published_owner_admin" on public.practice_tests;
 create policy "Teachers update own tests and admins manage tests"
 on public.practice_tests for update to authenticated
 using (
@@ -306,3 +309,19 @@ using (
       )
   )
 );
+
+drop policy if exists "Teachers read own course files" on storage.objects;
+create policy "Teachers read own course files" on storage.objects for select to authenticated
+using(bucket_id in ('study-pdfs','study-videos') and split_part(name,'/',1)=(select auth.uid())::text);
+drop policy if exists "Teachers update own course files" on storage.objects;
+create policy "Teachers update own course files" on storage.objects for update to authenticated
+using(bucket_id in ('study-pdfs','study-videos') and split_part(name,'/',1)=(select auth.uid())::text)
+with check(bucket_id in ('study-pdfs','study-videos') and split_part(name,'/',1)=(select auth.uid())::text);
+drop policy if exists "Admins manage course files" on storage.objects;
+create policy "Admins manage course files" on storage.objects for all to authenticated
+using(bucket_id in ('study-pdfs','study-videos') and private.studyguru_is_admin())
+with check(bucket_id in ('study-pdfs','study-videos') and private.studyguru_is_admin());
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
+values ('study-pdfs','study-pdfs',false,52428800,array['application/pdf']),
+ ('study-videos','study-videos',false,26214400,array['video/mp4','video/webm','video/quicktime'])
+on conflict(id) do update set public=false,file_size_limit=excluded.file_size_limit,allowed_mime_types=excluded.allowed_mime_types;
