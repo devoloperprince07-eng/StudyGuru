@@ -3,7 +3,7 @@
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const canManage = course => typeof profile !== 'undefined' && !!profile && (profile.role === 'admin' || course?.created_by === profile.id);
-  let selectedCourse = null, selectedChapters = [], selectedCourseTest = null;
+  let selectedCourse = null, selectedChapters = [], selectedCourseTest = null, schemaReady = false;
 
   const style = document.createElement('style');
   style.textContent = `
@@ -27,6 +27,7 @@
 
   const panel = $('coursesPanel');
   if (!panel || !$('courseList')) return;
+  $('courseList').insertAdjacentHTML('beforebegin', '<div id="sgMigrationNotice" class="notice hidden">Chapter-wise content का सुरक्षित backend migration अभी लागू नहीं है। यह Preview केवल design review के लिए है; course upload/create और test changes फिलहाल disabled हैं ताकि Production database में preview data न लिखा जाए।</div>');
   $('courseList').insertAdjacentHTML('beforebegin', `
     <section id="sgCourseDetail" class="sg-course-detail hidden">
       <div class="topline"><button class="plain" onclick="closeCourseDetail()">← सभी Courses</button><span id="sgCourseState" class="sg-course-muted"></span></div>
@@ -96,7 +97,7 @@
     $('sgCourseBanner').innerHTML = '<h2>'+esc(course.title)+'</h2><p>'+esc(course.class_name)+' · '+esc(course.subject)+'</p><p>'+esc(course.description||'')+'</p>';
     ['sgCourseManager','sgCourseUpload','sgCourseTest'].forEach(x => $(x).classList.toggle('hidden',!manager));
     const {data:chapters,error:chapterError} = await db.from('course_chapters').select('*').eq('course_id',id).order('sort_order').order('created_at');
-    if(chapterError){$('sgCourseChapterList').innerHTML='<div class="empty">'+esc(chapterError.message)+'</div>';return;}
+    if(chapterError){$('sgCourseChapterList').innerHTML='<div class="notice">Chapter-wise backend migration अभी लागू नहीं है। Preview में data-changing actions disabled हैं।</div>';return;}
     selectedChapters = chapters || [];
     const opts = selectedChapters.map(ch=>'<option value="'+ch.id+'">'+esc(ch.title)+'</option>').join('');
     $('sgResourceChapter').innerHTML=opts || '<option value="">पहले Chapter जोड़ें</option>';
@@ -132,7 +133,7 @@
   };
 
   window.addCourseChapter = async () => {
-    if(!selectedCourse || !canManage(selectedCourse)) return;
+    if(!schemaReady || !selectedCourse || !canManage(selectedCourse)) return;
     const title=$('sgChapterTitle').value.trim();
     if(!title) return status('sgChapterStatus','Chapter का नाम लिखें।','error');
     const {error}=await db.from('course_chapters').insert({
@@ -146,7 +147,7 @@
   };
 
   window.uploadCourseResource = async () => {
-    if(!selectedCourse || !canManage(selectedCourse)) return;
+    if(!schemaReady || !selectedCourse || !canManage(selectedCourse)) return;
     const chapterId=$('sgResourceChapter').value,title=$('sgResourceTitle').value.trim();
     const type=$('sgResourceType').value,file=$('sgResourceFile').files[0],url=$('sgResourceUrl').value.trim();
     if(!chapterId || !title) return status('sgResourceStatus','Chapter और title जरूरी हैं।','error');
@@ -193,7 +194,7 @@
   };
 
   window.createCourseTest = async () => {
-    if(!selectedCourse || !canManage(selectedCourse)) return;
+    if(!schemaReady || !selectedCourse || !canManage(selectedCourse)) return;
     const chapter=$('sgTestChapter').value,title=$('sgTestTitle').value.trim();
     const duration=Number($('sgTestDuration').value);
     if(!chapter||!title||!Number.isInteger(duration)||duration<1||duration>240) return status('sgTestStatus','Chapter, title और 1–240 मिनट का समय भरें।','error');
@@ -252,6 +253,12 @@
   // Replace course creation/list rendering while retaining the existing form and DB schema.
   window.loadCourses = async () => {
     const box=$('courseList');
+    const {error:schemaError}=await db.from('course_chapters').select('id').limit(1);
+    schemaReady = !schemaError;
+    $('sgMigrationNotice')?.classList.toggle('hidden',schemaReady);
+    if($('courseCreate')){
+      $('courseCreate').querySelectorAll('input,select,textarea,button').forEach(el=>{el.disabled=!schemaReady;});
+    }
     const {data,error}=await db.from('courses').select('*').order('created_at',{ascending:false});
     if(error){box.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return;}
     const courses=data||[];
@@ -263,6 +270,7 @@
   };
 
   window.createCourse = async () => {
+    if(!schemaReady){status('courseStatus','Backend migration pending है; Preview से course create disabled है।','error');return;}
     const title=$('courseTitle').value.trim(),subject=$('courseSubject').value.trim();
     if(!title||!subject) return status('courseStatus','Title और subject जरूरी हैं।','error');
     const {data,error}=await db.from('courses').insert({
