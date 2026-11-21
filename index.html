@@ -442,9 +442,37 @@ function editTest(id){activeTestId=id;$('questionBuilder').classList.remove('hid
 async function addQuestion(){if(!activeTestId)return;const question_text=$('questionText').value.trim(),options=[0,1,2,3].map(i=>$('option'+i).value.trim());if(!question_text||options.some(x=>!x))return status('questionStatus','Question और चारों options भरें।','error');const {data,error}=await db.from('test_questions').insert({test_id:activeTestId,question_text,options}).select('id').single();if(error)return status('questionStatus',error.message,'error');const {error:keyError}=await db.from('test_answer_keys').insert({question_id:data.id,correct_option:Number($('correctOption').value)});if(keyError)return status('questionStatus',keyError.message,'error');$('questionText').value='';[0,1,2,3].forEach(i=>$('option'+i).value='');status('questionStatus','Question save हो गया।','ok')}
 async function publishTest(){if(!activeTestId)return;const {count,error}=await db.from('test_questions').select('*',{count:'exact',head:true}).eq('test_id',activeTestId);if(error)return status('questionStatus',error.message,'error');if(!count)return status('questionStatus','कम से कम एक question जोड़ें।','error');const {error:e}=await db.from('practice_tests').update({is_published:true}).eq('id',activeTestId);if(e)return status('questionStatus',e.message,'error');status('questionStatus','Test प्रकाशित हो गया।','ok');activeTestId=null;loadTests()}
 async function toggleTest(id,value){const {error}=await db.from('practice_tests').update({is_published:value}).eq('id',id);if(error)alert(error.message);else loadTests()}
-async function startDbTest(id){const {data,error}=await db.from('test_questions').select('id,question_text,options,sort_order').eq('test_id',id).order('sort_order');if(error)return alert(error.message);if(!data||!data.length)return alert('इस test में questions नहीं हैं।');$('testRunner').classList.remove('hidden');$('testRunner').dataset.testId=id;$('testRunner').innerHTML='<h3>Test in progress</h3>'+data.map((q,i)=>'<div class="panel"><b>'+(i+1)+'. '+esc(q.question_text)+'</b>'+q.options.map((o,j)=>'<label><input type="radio" name="ans_'+q.id+'" value="'+j+'"> '+esc(o)+'</label>').join('')+'</div>').join('')+'<button onclick="submitDbTest()">Submit answers</button>'}
-async function submitDbTest(){const id=$('testRunner').dataset.testId,answers={};$('testRunner').querySelectorAll('input[type=radio]:checked').forEach(i=>answers[i.name.slice(4)]=Number(i.value));const {data,error}=await db.rpc('submit_studyguru_test',{p_test_id:id,p_answers:answers});if(error)return alert(error.message);$('testRunner').innerHTML='<h3>Test completed</h3><p>Your score: <b>'+data.score+' / '+data.total+'</b></p>';loadAttempts()}
-async function loadAttempts(){const box=$('attemptList');const {data,error}=await db.from('test_attempts').select('id,score,total_questions,submitted_at,practice_tests(title)').order('submitted_at',{ascending:false}).limit(10);if(error){box.innerHTML='';return}box.innerHTML='<h3>Recent results</h3>'+((data||[]).map(a=>'<div class="item"><b>'+esc(a.practice_tests?.title||'Practice test')+'</b><p>'+a.score+'/'+a.total_questions+' · '+new Date(a.submitted_at).toLocaleString()+'</p></div>').join('')||'<p class="muted">अभी कोई attempt नहीं है।</p>')}
+async function startDbTest(id){
+ const {data,error}=await db.from('test_questions').select('id,question_text,options,sort_order').eq('test_id',id).order('sort_order');
+ if(error)return alert(error.message);
+ if(!data||!data.length)return alert('इस test में questions नहीं हैं।');
+ const runner=$('testRunner');
+ runner.classList.remove('hidden');
+ runner.dataset.testId=id;
+ runner.dataset.startedAt=String(Date.now());
+ runner.innerHTML='<h3>Test in progress</h3>'+data.map((q,i)=>'<div class="panel"><b>'+(i+1)+'. '+esc(q.question_text)+'</b>'+q.options.map((o,j)=>'<label><input type="radio" name="ans_'+q.id+'" value="'+j+'"> '+esc(o)+'</label>').join('')+'</div>').join('')+'<button id="submitTestButton" onclick="submitDbTest()">Submit answers</button>';
+}
+async function submitDbTest(){
+ const runner=$('testRunner'),id=runner.dataset.testId,answers={};
+ runner.querySelectorAll('input[type=radio]:checked').forEach(i=>answers[i.name.slice(4)]=Number(i.value));
+ const startedAt=Number(runner.dataset.startedAt||Date.now());
+ const durationSeconds=Math.min(86400,Math.max(0,Math.floor((Date.now()-startedAt)/1000)));
+ const button=$('submitTestButton');if(button)button.disabled=true;
+ const {data,error}=await db.rpc('submit_studyguru_test',{p_test_id:id,p_answers:answers,p_duration_seconds:durationSeconds});
+ if(error){if(button)button.disabled=false;return alert(error.message);}
+ runner.innerHTML='<h3>Test completed</h3><p>Your score: <b>'+Number(data?.score??0)+' / '+Number(data?.total??0)+'</b></p><p class="small">समय: '+Math.floor(durationSeconds/60)+' मिनट '+(durationSeconds%60)+' सेकंड</p>';
+ await loadAttempts();
+}
+async function loadAttempts(){
+ const box=$('attemptList'),isAdmin=profile?.role==='admin';
+ const {data,error}=await db.from('studyguru_test_results').select('id,user_id,student_name,practice_test_title,score,total_questions,submitted_at,duration_seconds').order('submitted_at',{ascending:false}).limit(isAdmin?100:20);
+ if(error){box.innerHTML='<h3>Results</h3><p class="small">Results अभी लोड नहीं हो सके: '+esc(error.message)+'</p>';return;}
+ const rows=data||[];
+ box.innerHTML='<h3>'+(isAdmin?'All Student Results':'My Results')+'</h3>'+ (rows.length?rows.map(a=>{
+   const secs=Number(a.duration_seconds||0),duration=secs?Math.floor(secs/60)+'m '+(secs%60)+'s':'—';
+   return '<article class="item"><b>'+esc(a.practice_test_title||'Practice test')+'</b>'+(isAdmin?'<p>Student: '+esc(a.student_name||'Student')+'</p>':'')+'<p><strong>'+Number(a.score)+' / '+Number(a.total_questions)+'</strong> · '+new Date(a.submitted_at).toLocaleString()+'</p><p class="small">Duration: '+duration+'</p></article>';
+ }).join(''):'<p class="muted">अभी कोई result नहीं है।</p>');
+}
 async function loadNotes(){const {data,error}=await db.from('student_notes').select('*').order('updated_at',{ascending:false});if(error)return status('noteStatus',error.message,'error');$('noteList').innerHTML=(data||[]).length?data.map(n=>'<article class="item"><h3>'+esc(n.title)+'</h3><p style="white-space:pre-wrap">'+esc(n.body)+'</p><div class="actions"><button class="secondary" onclick="editNote(\''+n.id+'\')">Edit</button><button class="danger" onclick="deleteNoteDb(\''+n.id+'\')">Delete</button></div></article>').join(''):'<div class="empty">अभी कोई note save नहीं है।</div>'}
 async function saveNote(){const title=$('noteTitle').value.trim(),body=$('noteBody').value.trim();if(!title||!body)return status('noteStatus','Title और notes लिखें।','error');const {error}=await db.from('student_notes').insert({user_id:profile.id,title,body});if(error)return status('noteStatus',error.message,'error');$('noteTitle').value='';$('noteBody').value='';status('noteStatus','Note save हो गया।','ok');loadNotes()}
 async function editNote(id){const {data,error}=await db.from('student_notes').select('*').eq('id',id).single();if(error)return alert(error.message);const title=prompt('Note title',data.title);if(title===null)return;const body=prompt('Note text',data.body);if(body===null)return;const {error:e}=await db.from('student_notes').update({title,body,updated_at:new Date().toISOString()}).eq('id',id);if(e)alert(e.message);else loadNotes()}
@@ -472,4 +500,4 @@ function renderProfilePage(){
 function showTab(tab){currentTab=tab;['library','admin','courses','tests','premium','notes','live','profile'].forEach(t=>{const el=$(t+'Panel');if(el)el.classList.toggle('hidden',tab!==t);const b=$(t==='library'?'studentTab':t+'Tab');if(b)b.classList.toggle('active',tab===t)});if(tab==='profile')renderProfilePage();if(tab==='admin'&&profile?.role==='admin'){loadManageSubjects().then(loadAdminMaterials).then(loadAdminUsers).catch(e=>status('structureStatus',e.message,'error'))}if(tab==='courses'){if(canTeach())$('courseCreate').classList.remove('hidden');loadCourses()}if(tab==='tests'){if(canTeach())$('testCreate').classList.remove('hidden');loadTests()}if(tab==='notes')loadNotes();if(tab==='live'){if(profile?.role==='admin')$('liveCreate').classList.remove('hidden');loadLiveClasses()}}
 db.auth.onAuthStateChange((_event,session)=>{Promise.resolve().then(async()=>{if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}else showAuth()})});
 (async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}})();
-</script></body></html>
+</script><script src="/course-builder.js"></script></body></html>
