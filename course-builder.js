@@ -47,7 +47,7 @@
           <div><label>Content Title</label><input id="sgResourceTitle" class="field" maxlength="160" placeholder="जैसे Chapter Notes PDF"></div>
           <div><label>Content Type</label><select id="sgResourceType" class="field"><option value="pdf">PDF / Test PDF</option><option value="video">Video</option></select></div>
         </div>
-        <label>File (PDF या MP4, अधिकतम 50 MB)</label><input id="sgResourceFile" class="field" type="file" accept=".pdf,application/pdf,video/mp4,video/webm">
+        <label>File (PDF अधिकतम 50 MB / MP4 या WebM Video अधिकतम 25 MB)</label><input id="sgResourceFile" class="field" type="file" accept=".pdf,application/pdf,video/mp4,video/webm">
         <label>या External URL (HTTPS)</label><input id="sgResourceUrl" class="field" type="url" placeholder="PDF / YouTube / Video URL">
         <label>Description</label><textarea id="sgResourceDescription" class="field" rows="2" maxlength="500"></textarea>
         <label style="display:flex;align-items:center;gap:8px"><input id="sgResourcePublish" type="checkbox" checked> Students को अभी दिखाएँ</label>
