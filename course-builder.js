@@ -457,4 +457,131 @@
       if(tab==='courses') window.loadCourses();
     };
   }
+
+  // Subject-first course navigation and admin-only course deletion.
+  let selectedSubjects = [], selectedSubject = null;
+  const subjectStyles=document.createElement('style');
+  subjectStyles.textContent='.sg-subject-card{border:1px solid #eee8e3;border-radius:14px;padding:16px;background:#fff}.sg-subject-card h3{margin:0 0 7px}.sg-subject-section{margin:16px 0}.sg-subject-section h3{margin:0 0 10px}.sg-subject-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}';
+  document.head.appendChild(subjectStyles);
+  $('sgCourseBanner').insertAdjacentHTML('afterend', '<section id="sgCourseSubjects" class="sg-course-form"><div class="topline"><h3 style="margin:0">Subjects</h3><span class="sg-course-muted">Course के विषय</span></div><div id="sgSubjectCards" class="grid"></div><div id="sgAddSubjectBox" class="sg-subject-actions hidden"><input id="sgNewSubjectName" class="field" maxlength="120" placeholder="नया Subject नाम" style="max-width:340px"><button onclick="addCourseSubject()">+ Add Subject</button></div><div id="sgSubjectStatus" class="status"></div></section><section id="sgSubjectDetail" class="sg-course-form hidden"><button class="plain sg-course-back" onclick="backToCourseSubjects()">← सभी Subjects</button><h3 id="sgSubjectHeading"></h3><div class="sg-subject-section"><div class="topline"><h3>Chapters</h3></div><div id="sgSubjectChapterCards" class="grid"></div></div><div class="sg-subject-section"><div class="topline"><h3>Tests</h3></div><div id="sgSubjectTestCards" class="grid"></div></div></section>');
+  window.backToCourseSubjects=()=>{$('sgSubjectDetail').classList.add('hidden');$('sgCourseSubjects').classList.remove('hidden');['sgCourseManager','sgCourseUpload','sgCourseTest','sgChapterContent','sgChapterIndex','sgCourseHome','sgCourseTests'].forEach(id=>$(id)?.classList.add('hidden'));};
+  window.addCourseSubject=async()=>{
+    if(!selectedCourse||!canManage(selectedCourse))return;
+    const name=$('sgNewSubjectName').value.trim();
+    if(!name)return status('sgSubjectStatus','Subject का नाम लिखें।','error');
+    const {error}=await db.from('course_subjects').insert({course_id:selectedCourse.id,name,sort_order:selectedSubjects.length});
+    if(error)return status('sgSubjectStatus',error.message,'error');
+    $('sgNewSubjectName').value='';status('sgSubjectStatus','Subject जोड़ दिया गया।','ok');await openCourse(selectedCourse.id);
+  };
+  window.openCourse=async id=>{
+    $('courseList').classList.add('hidden');$('sgCourseDetail').classList.remove('hidden');
+    $('sgCourseBanner').innerHTML='<h2>Course लोड हो रहा है…</h2>';
+    const {data:course,error}=await db.from('courses').select('*').eq('id',id).single();
+    if(error){$('sgCourseBanner').textContent=error.message;return;}
+    selectedCourse=course;const manager=canManage(course);
+    $('sgCourseState').textContent=course.is_published?'Published course':'Draft — केवल owner/admin';
+    $('sgCourseBanner').innerHTML='<h2>'+esc(course.title)+'</h2><p>'+esc(course.class_name)+' · '+esc(course.subject)+'</p><p>'+esc(course.description||'')+'</p>';
+    ['sgCourseManager','sgCourseUpload','sgCourseTest','sgChapterContent','sgChapterIndex','sgCourseHome','sgCourseTests','sgSubjectDetail'].forEach(id=>$(id)?.classList.add('hidden'));
+    $('sgCourseSubjects').classList.remove('hidden');
+    $('sgAddSubjectBox').classList.toggle('hidden',!manager);
+    const {data:subs,error:subError}=await db.from('course_subjects').select('*').eq('course_id',id).order('sort_order').order('name');
+    if(subError){$('sgSubjectCards').innerHTML='<div class="notice">'+esc(subError.message)+'</div>';return;}
+    selectedSubjects=subs||[];
+    $('sgSubjectCards').innerHTML=selectedSubjects.map(s=>'<article class="sg-subject-card"><h3>'+esc(s.name)+'</h3><p class="sg-course-muted">इस Subject के Chapters और Tests</p><button onclick="openCourseSubject(\''+s.id+'\')">Open Subject</button></article>').join('')||'<div class="empty">अभी कोई Subject नहीं है। Admin/Teacher नया Subject जोड़ सकते हैं।</div>';
+  };
+  window.openCourseSubject=async subjectId=>{
+    selectedSubject=selectedSubjects.find(s=>s.id===subjectId);if(!selectedSubject||!selectedCourse)return;
+    $('sgCourseSubjects').classList.add('hidden');$('sgSubjectDetail').classList.remove('hidden');
+    $('sgSubjectHeading').textContent=selectedSubject.name;
+    const manager=canManage(selectedCourse);
+    const [chRes,testRes]=await Promise.all([
+      db.from('course_chapters').select('*').eq('course_id',selectedCourse.id).eq('course_subject_id',subjectId).order('sort_order').order('created_at'),
+      db.from('practice_tests').select('id,title,description,duration_minutes,is_published,course_subject_id,marks_per_question,negative_marks').eq('course_id',selectedCourse.id).eq('course_subject_id',subjectId).order('created_at')
+    ]);
+    if(chRes.error||testRes.error){$('sgSubjectChapterCards').innerHTML='<div class="notice">'+esc(chRes.error?.message||testRes.error?.message)+'</div>';return;}
+    selectedChapters=chRes.data||[];
+    let visibleChapters=manager?selectedChapters:selectedChapters.filter(ch=>ch.is_published);
+    const chIds=visibleChapters.map(ch=>ch.id);
+    let resources=[];
+    if(chIds.length){const rr=await db.from('course_chapter_resources').select('*').in('chapter_id',chIds).order('created_at');if(rr.error){$('sgSubjectChapterCards').innerHTML='<div class="notice">'+esc(rr.error.message)+'</div>';return;}resources=rr.data||[];}
+    courseResources=manager?resources:resources.filter(r=>r.is_published);
+    courseTests=manager?(testRes.data||[]):(testRes.data||[]).filter(t=>t.is_published);
+    $('sgSubjectChapterCards').innerHTML=visibleChapters.map(ch=>'<article class="item"><h3>'+esc(ch.title)+'</h3><p>'+esc(ch.description||'')+'</p><button onclick="openCourseChapter(\''+ch.id+'\')">Open Chapter</button></article>').join('')||'<div class="empty">इस Subject में अभी Chapters नहीं हैं।</div>';
+    $('sgSubjectTestCards').innerHTML=courseTests.map(t=>'<article class="item"><span class="sg-course-chip">SUBJECT TEST</span><h3>'+esc(t.title)+'</h3><p>'+Number(t.duration_minutes)+' min · +'+Number(t.marks_per_question||4)+' / −'+Number(t.negative_marks||1)+'</p><p>'+esc(t.description||'')+'</p><div class="sg-course-actions"><button onclick="startCourseChapterTest(\''+t.id+'\')">Start Test</button>'+(manager?'<button class="secondary" onclick="editCourseTest(\''+t.id+'\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></article>').join('')||'<div class="empty">इस Subject में अभी कोई Test नहीं है।</div>';
+    ['sgCourseManager','sgCourseTest','sgCourseUpload'].forEach(id=>$(id).classList.add('hidden'));
+    if(manager){$('sgCourseManager').classList.remove('hidden');$('sgCourseTest').classList.remove('hidden');$('sgCourseUpload').classList.add('hidden');}
+    $('sgTestChapter').innerHTML='<option value="'+subjectId+'">'+esc(selectedSubject.name)+'</option>';
+    $('sgTestChapter').value=subjectId;
+  };
+  window.showCourseRoute=route=>{
+    if(route==='chapter'){['sgCourseSubjects','sgSubjectDetail'].forEach(id=>$(id).classList.add('hidden'));$('sgChapterContent').classList.remove('hidden');if(canManage(selectedCourse))$('sgCourseUpload').classList.remove('hidden');return;}
+    if(route==='chapters'){backToCourseSubjects();return;}
+    if(route==='home'){backToCourseSubjects();return;}
+  };
+  window.openCourseChapter=chapterId=>{
+    activeChapter=selectedChapters.find(ch=>ch.id===chapterId);if(!activeChapter)return;
+    $('sgActiveChapterTitle').innerHTML='<h3>'+esc(activeChapter.title)+'</h3><p class="sg-course-muted">'+esc(activeChapter.description||'')+'</p>';
+    $('sgResourceChapter').value=chapterId;
+    $('sgSubjectDetail').classList.add('hidden');$('sgChapterContent').classList.remove('hidden');
+    if(canManage(selectedCourse))$('sgCourseUpload').classList.remove('hidden');
+    $('sgChapterResources').innerHTML='<div class="notice">ऊपर Lecture या PDF चुनें।</div>';
+  };
+  window.addCourseChapter=async()=>{
+    if(!schemaReady||!selectedCourse||!selectedSubject||!canManage(selectedCourse))return;
+    const title=$('sgChapterTitle').value.trim();if(!title)return status('sgChapterStatus','Chapter का नाम लिखें।','error');
+    const {error}=await db.from('course_chapters').insert({course_id:selectedCourse.id,course_subject_id:selectedSubject.id,title,description:$('sgChapterDescription').value.trim(),sort_order:selectedChapters.length,is_published:true});
+    if(error)return status('sgChapterStatus',error.message,'error');
+    $('sgChapterTitle').value='';$('sgChapterDescription').value='';status('sgChapterStatus','Chapter बन गया।','ok');await openCourseSubject(selectedSubject.id);
+  };
+  window.createCourseTest=async()=>{
+    if(!schemaReady||!selectedCourse||!selectedSubject||!canManage(selectedCourse))return;
+    const title=$('sgTestTitle').value.trim(),duration=Number($('sgTestDuration').value),marks=Number($('sgMarksPerQuestion').value),negative=Number($('sgNegativeMarks').value);
+    if(!title||!Number.isInteger(duration)||duration<1||duration>240)return status('sgTestStatus','Test title और 1–240 मिनट का समय भरें।','error');
+    if(!Number.isInteger(marks)||marks<1||marks>100||!Number.isInteger(negative)||negative<0||negative>marks)return status('sgTestStatus','Marks 1–100 और negative marks 0 से marks तक रखें।','error');
+    const {data,error}=await db.from('practice_tests').insert({title,class_name:selectedCourse.class_name,subject:selectedSubject.name,description:$('sgTestDescription').value.trim(),duration_minutes:duration,marks_per_question:marks,negative_marks:negative,course_id:selectedCourse.id,course_subject_id:selectedSubject.id,course_chapter_id:null,created_by:profile.id,is_published:false}).select('id').single();
+    if(error)return status('sgTestStatus',error.message,'error');
+    selectedCourseTest=data.id;$('sgQuestionBuilder').classList.remove('hidden');status('sgTestStatus','Subject Test draft बन गया। अब Questions जोड़ें।','ok');
+  };
+  window.deleteCourse=async id=>{
+    if(profile?.role!=='admin')return alert('केवल Admin Course delete कर सकता है।');
+    if(!confirm('इस Course के Subjects, Chapters, Lectures, PDFs, Tests और Test Attempts भी delete होंगे। यह कार्रवाई वापस नहीं होगी। क्या जारी रखें?'))return;
+    const {data:chapters,error:chapterError}=await db.from('course_chapters').select('id').eq('course_id',id);
+    if(chapterError)return alert(chapterError.message);
+    const ids=(chapters||[]).map(c=>c.id);
+    if(ids.length){
+      const {data:resources,error}=await db.from('course_chapter_resources').select('storage_bucket,storage_path').in('chapter_id',ids);
+      if(error)return alert(error.message);
+      for(const bucket of ['study-pdfs','study-videos']){
+        const paths=(resources||[]).filter(r=>r.storage_bucket===bucket&&r.storage_path).map(r=>r.storage_path);
+        for(let i=0;i<paths.length;i+=100){const {error:storageError}=await db.storage.from(bucket).remove(paths.slice(i,i+100));if(storageError)return alert('Storage files delete नहीं हुए: '+storageError.message+'। Course सुरक्षित रखा गया है।');}
+      }
+    }
+    const {error}=await db.from('courses').delete().eq('id',id);
+    if(error)return alert(error.message);
+    closeCourseDetail();await loadCourses();alert('Course और उसका संबंधित content delete हो गया।');
+  };
+  const originalLoadCourses=window.loadCourses;
+  window.loadCourses=async()=>{
+    await originalLoadCourses();
+    const {data,error}=await db.from('courses').select('id,created_by').order('created_at',{ascending:false});
+    if(error)return;
+    document.querySelectorAll('#courseList article.item').forEach((card,index)=>{
+      const course=data[index];if(!course||profile?.role!=='admin')return;
+      const actions=card.querySelector('.actions');if(actions&&!actions.querySelector('.sg-delete-course')){const btn=document.createElement('button');btn.className='danger sg-delete-course';btn.textContent='Delete Course';btn.onclick=()=>deleteCourse(course.id);actions.appendChild(btn);}
+    });
+  };
+  const originalCreateCourse=window.createCourse;
+  window.createCourse=async()=>{
+    await originalCreateCourse();
+    // Create the legacy Subject as a child Subject row so older course forms remain compatible.
+    const title=$('courseTitle').value.trim();
+  };
+  const originalLoadTests=window.loadTests;
+  window.loadTests=async()=>{
+    const {data,error}=await db.from('practice_tests').select('id,title,description,class_name,subject,duration_minutes,is_published,created_by,marks_per_question,negative_marks').is('course_id',null).order('created_at',{ascending:false});
+    const box=$('testList');if(error){box.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return;}
+    box.innerHTML=(data||[]).length?data.map(t=>'<article class="item"><h3>'+esc(t.title)+'</h3><p>'+esc(t.class_name)+' · '+esc(t.subject)+' · '+t.duration_minutes+' min</p><p>Marking: +'+Number(t.marks_per_question??4)+' correct · −'+Number(t.negative_marks??1)+' wrong</p><p>'+esc(t.description||'')+'</p><div class="actions"><button onclick="startDbTest(\''+t.id+'\')">Start test</button>'+(canTeach()&&(t.created_by===profile.id||profile.role==='admin')?'<button class="secondary" onclick="editTest(\''+t.id+'\')">Add questions</button>':'')+(profile.role==='admin'?'<button class="secondary" onclick="toggleTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></article>').join(''):'<div class="empty">अभी कोई अलग Test Course उपलब्ध नहीं है।</div>';
+    loadAttempts();
+  };
+
 })();
