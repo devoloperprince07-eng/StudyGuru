@@ -570,11 +570,17 @@
       const actions=card.querySelector('.actions');if(actions&&!actions.querySelector('.sg-delete-course')){const btn=document.createElement('button');btn.className='danger sg-delete-course';btn.textContent='Delete Course';btn.onclick=()=>deleteCourse(course.id);actions.appendChild(btn);}
     });
   };
-  const originalCreateCourse=window.createCourse;
   window.createCourse=async()=>{
-    await originalCreateCourse();
-    // Create the legacy Subject as a child Subject row so older course forms remain compatible.
-    const title=$('courseTitle').value.trim();
+    if(!schemaReady)return status('courseStatus','Course structure migration अभी उपलब्ध नहीं है।','error');
+    const title=$('courseTitle').value.trim(),subject=$('courseSubject').value.trim();
+    if(!title||!subject)return status('courseStatus','Course title और पहला Subject जरूरी हैं।','error');
+    const {data:course,error}=await db.from('courses').insert({title,class_name:$('courseClass').value,subject,description:$('courseDescription').value.trim(),created_by:profile.id}).select('id').single();
+    if(error)return status('courseStatus',error.message,'error');
+    const {error:subjectError}=await db.from('course_subjects').insert({course_id:course.id,name:subject,sort_order:0});
+    if(subjectError){await db.from('courses').delete().eq('id',course.id);return status('courseStatus','Course subject save नहीं हुआ: '+subjectError.message,'error');}
+    $('courseTitle').value='';$('courseSubject').value='';$('courseDescription').value='';
+    status('courseStatus','Course और पहला Subject बन गया।','ok');
+    await loadCourses();await openCourse(course.id);
   };
   const originalLoadTests=window.loadTests;
   window.loadTests=async()=>{
