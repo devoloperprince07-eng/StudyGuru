@@ -200,6 +200,16 @@ with check (
     and exists (select 1 from public.profiles p where p.id = (select auth.uid()) and p.role = 'teacher')
   )
   or private.studyguru_is_admin()
+)
+and (
+  course_chapter_id is null
+  or exists (
+    select 1
+    from public.course_chapters ch
+    join public.courses c on c.id = ch.course_id
+    where ch.id = practice_tests.course_chapter_id
+      and (c.created_by = (select auth.uid()) or private.studyguru_is_admin())
+  )
 );
 
 -- Existing policies already allow admins. These additional policies let teachers
@@ -243,5 +253,51 @@ using (
       and r.is_published = true
       and ch.is_published = true
       and c.is_published = true
+  )
+);
+
+-- Students can discover course-linked tests only through published courses/chapters.
+drop policy if exists "Users read published tests or own tests" on public.practice_tests;
+create policy "Users read published tests or own tests"
+on public.practice_tests for select to authenticated
+using (
+  (
+    is_published
+    and (
+      course_chapter_id is null
+      or exists (
+        select 1
+        from public.course_chapters ch
+        join public.courses c on c.id = ch.course_id
+        where ch.id = practice_tests.course_chapter_id
+          and ch.is_published = true
+          and c.is_published = true
+      )
+    )
+  )
+  or created_by = (select auth.uid())
+  or exists (
+    select 1 from public.profiles p
+    where p.id = (select auth.uid()) and p.role = 'admin'
+  )
+);
+
+drop policy if exists "Students read published course files" on storage.objects;
+create policy "Students read published course files"
+on storage.objects for select to authenticated
+using (
+  bucket_id in ('study-pdfs','study-videos')
+  and exists (
+    select 1
+    from public.course_chapter_resources r
+    join public.course_chapters ch on ch.id = r.chapter_id
+    join public.courses c on c.id = ch.course_id
+    where r.storage_bucket = storage.objects.bucket_id
+      and r.storage_path = storage.objects.name
+      and (
+        (r.is_published = true and ch.is_published = true and c.is_published = true)
+        or c.created_by = (select auth.uid())
+        or private.studyguru_is_admin()
+      )
   )
 );
