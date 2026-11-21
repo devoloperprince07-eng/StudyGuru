@@ -60,8 +60,8 @@
         <button id="sgResourceSave" onclick="uploadCourseResource()">Upload to Chapter</button><div id="sgResourceStatus" class="status"></div>
       </div>
       <div id="sgCourseTest" class="sg-course-form hidden">
-        <h3 class="section-title" style="margin-top:0">Chapter-wise MCQ Test बनाएँ</h3>
-        <label>Chapter</label><select id="sgTestChapter" class="field"></select>
+        <h3 class="section-title" style="margin-top:0">Subject-wise MCQ Test बनाएँ</h3>
+        <label>Subject</label><select id="sgTestChapter" class="field"></select>
         <label>Test Title</label><input id="sgTestTitle" class="field" maxlength="160" placeholder="जैसे Chapter 1 Practice Test">
         <label>Duration (minutes)</label><input id="sgTestDuration" class="field" type="number" min="1" max="240" value="15">
         <div class="sg-course-grid"><div><label>Marks for correct answer (+)</label><input id="sgMarksPerQuestion" class="field" type="number" min="1" max="100" value="4"></div><div><label>Negative marks for wrong answer (−)</label><input id="sgNegativeMarks" class="field" type="number" min="0" max="100" value="1"></div></div>
