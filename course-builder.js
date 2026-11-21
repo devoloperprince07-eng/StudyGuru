@@ -126,7 +126,7 @@
             ? '<video class="sg-course-video" controls playsinline src="'+esc(url)+'"></video>' : '';
         return '<div class="sg-course-resource"><span class="sg-course-chip">'+tag+'</span><h4>'+esc(r.title)+'</h4><p>'+esc(r.description||'')+'</p>'+player+'<div class="sg-course-actions">'+(url?'<button onclick="window.open('+JSON.stringify(url)+',\'_blank\',\'noopener\')">'+(r.resource_type==='pdf'?'Open PDF':'Open Video')+'</button>':'<span class="sg-course-muted">File link unavailable</span>')+(manager?'<button class="secondary" onclick="toggleCourseResource(\''+r.id+'\','+(!r.is_published)+')">'+(r.is_published?'Hide':'Publish')+'</button><button class="danger" onclick="deleteCourseResource(\''+r.id+'\')">Delete</button>':'')+'</div></div>';
       }));
-      const testCards=quizzes.map(t=>'<div class="sg-course-resource"><span class="sg-course-chip">MCQ TEST</span><h4>'+esc(t.title)+'</h4><p>'+esc(t.duration_minutes)+' minutes · '+esc(t.description||'')+'</p><div class="sg-course-actions">'+(t.is_published?'<button onclick="startDbTest(\''+t.id+'\')">Start Test</button>':'<span class="sg-course-muted">Draft test</span>')+(manager?'<button class="secondary" onclick="editCourseTest(\''+t.id+'\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></div>');
+      const testCards=quizzes.map(t=>'<div class="sg-course-resource"><span class="sg-course-chip">MCQ TEST</span><h4>'+esc(t.title)+'</h4><p>'+esc(t.duration_minutes)+' minutes · '+esc(t.description||'')+'</p><div class="sg-course-actions">'+(t.is_published?'<button onclick="startCourseChapterTest(\''+t.id+'\')">Start Test</button>':'<span class="sg-course-muted">Draft test</span>')+(manager?'<button class="secondary" onclick="editCourseTest(\''+t.id+'\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></div>');
       return '<article class="sg-course-chapter"><h3>'+esc(ch.title)+'</h3><p class="sg-course-muted">'+esc(ch.description||'')+'</p>'+((fileCards.length||testCards.length)?fileCards.join('')+testCards.join(''):'<p class="sg-course-muted">इस chapter में अभी PDF, Video या Test नहीं है।</p>')+'</article>';
     }));
     $('sgCourseChapterList').innerHTML=sections.join('');
@@ -243,6 +243,11 @@
     const id=selectedCourse.id;
     selectedCourseTest=null;
     await openCourse(id);
+  };
+
+  window.startCourseChapterTest = async id => {
+    if(typeof window.showTab === 'function') window.showTab('tests');
+    await window.startDbTest(id);
   };
 
   window.toggleCourseTest = async (id,value) => {
