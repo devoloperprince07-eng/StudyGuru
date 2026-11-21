@@ -129,4 +129,5 @@ function showTab(tab){currentTab=tab;['library','admin','courses','tests','notes
 db.auth.onAuthStateChange((_event,session)=>{Promise.resolve().then(async()=>{if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}else showAuth()})});
 (async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}})();
 </script><script src="./results-dashboard.js"></script>
+<script src="./course-builder.js"></script>
 </body></html>
