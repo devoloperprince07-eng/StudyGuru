@@ -128,4 +128,5 @@ async function setUserRole(id){const role=$('role_'+id).value;const {error}=awai
 function showTab(tab){currentTab=tab;['library','admin','courses','tests','notes','live'].forEach(t=>{const el=$(t+'Panel');if(el)el.classList.toggle('hidden',tab!==t);const b=$(t==='library'?'studentTab':t+'Tab');if(b)b.classList.toggle('active',tab===t)});if(tab==='admin'&&profile?.role==='admin'){loadManageSubjects().then(loadAdminMaterials).then(loadAdminUsers).catch(e=>status('structureStatus',e.message,'error'))}if(tab==='courses'){if(canTeach())$('courseCreate').classList.remove('hidden');loadCourses()}if(tab==='tests'){if(canTeach())$('testCreate').classList.remove('hidden');loadTests()}if(tab==='notes')loadNotes();if(tab==='live'){if(profile?.role==='admin')$('liveCreate').classList.remove('hidden');loadLiveClasses()}}
 db.auth.onAuthStateChange((_event,session)=>{Promise.resolve().then(async()=>{if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}else showAuth()})});
 (async()=>{const {data:{session}}=await db.auth.getSession();if(session?.user){try{await enterApp(session.user)}catch(e){showAuth();status('authStatus',e.message||'Profile load failed','error')}}})();
-</script></body></html>
+</script><script src="./results-dashboard.js"></script>
+</body></html>
