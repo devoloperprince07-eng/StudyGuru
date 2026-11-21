@@ -103,7 +103,7 @@
     $('courseList').classList.add('hidden');
     $('sgCourseDetail').classList.remove('hidden');
     $('sgCourseBanner').innerHTML = '<h2>Course लोड हो रहा है…</h2>';
-    $('sgCourseChapterList').innerHTML = '';
+    $('sgChapterCards').innerHTML = '';
     const {data:course,error} = await db.from('courses').select('*').eq('id',id).single();
     if(error){$('sgCourseBanner').textContent=error.message;return;}
     selectedCourse = course;
@@ -112,7 +112,7 @@
     $('sgCourseBanner').innerHTML = '<h2>'+esc(course.title)+'</h2><p>'+esc(course.class_name)+' · '+esc(course.subject)+'</p><p>'+esc(course.description||'')+'</p>';
     ['sgCourseManager','sgCourseUpload','sgCourseTest'].forEach(x => $(x).classList.add('hidden'));
     const {data:chapters,error:chapterError} = await db.from('course_chapters').select('*').eq('course_id',id).order('sort_order').order('created_at');
-    if(chapterError){$('sgCourseChapterList').innerHTML='<div class="notice">Chapter-wise backend migration अभी लागू नहीं है। Preview में data-changing actions disabled हैं।</div>';return;}
+    if(chapterError){$('sgChapterCards').innerHTML='<div class="notice">Chapter-wise backend migration अभी लागू नहीं है।</div>'; $('sgCourseHome').classList.add('hidden'); $('sgChapterIndex').classList.remove('hidden'); return;}
     selectedChapters = chapters || [];
     const opts = selectedChapters.map(ch=>'<option value="'+ch.id+'">'+esc(ch.title)+'</option>').join('');
     $('sgResourceChapter').innerHTML=opts || '<option value="">पहले Chapter जोड़ें</option>';
@@ -124,7 +124,7 @@
       db.from('practice_tests').select('id,title,description,duration_minutes,is_published,course_chapter_id').in('course_chapter_id',ids).order('created_at')
     ]);
     if(resourceResult.error || testResult.error){
-      $('sgCourseChapterList').innerHTML='<div class="notice">Course content schema upgrade pending. Preview UI is ready, but backend chapter tables need the migration first.</div>';
+      $('sgCourseHome').classList.add('hidden'); $('sgChapterIndex').classList.remove('hidden'); $('sgChapterCards').innerHTML='<div class="notice">Course content schema upgrade pending. Chapter content अभी उपलब्ध नहीं है।</div>';
       return;
     }
     courseResources=resourceResult.data||[];
