@@ -4,6 +4,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const canManage = course => typeof profile !== 'undefined' && !!profile && (profile.role === 'admin' || course?.created_by === profile.id);
   let selectedCourse = null, selectedChapters = [], selectedCourseTest = null, schemaReady = false;
+  let courseResources = [], courseTests = [], activeChapter = null, courseRoute = 'home';
 
   const style = document.createElement('style');
   style.textContent = `
@@ -20,6 +21,11 @@
   .sg-course-chip{display:inline-block;border-radius:99px;padding:5px 9px;background:#fff0ed;color:#d94f38;font-size:11px;font-weight:700}
   .sg-course-muted{font-size:12px;color:#6b7280}
   .sg-course-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .sg-course-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+  .sg-course-nav button{background:#fff;color:#1F2633;border:1px solid #e7e9ed;border-radius:15px;padding:20px;text-align:left;min-height:94px}
+  .sg-course-nav button strong{display:block;font-size:17px;margin:7px 0 3px}
+  .sg-course-nav button span{font-size:12px;color:#6b7280;font-weight:500}
+  .sg-course-back{background:#f0f1f3!important;color:#1F2633!important;margin:10px 0}
   .sg-course-video{width:100%;max-height:360px;border-radius:12px;background:#111;margin-top:10px}
   @media(max-width:600px){.sg-course-grid{grid-template-columns:1fr}.sg-course-detail{margin-top:10px}}
   `;
@@ -75,7 +81,16 @@
           <div id="sgQuestionStatus" class="status"></div>
         </div>
       </div>
-      <div id="sgCourseChapterList"></div>
+      <div id="sgCourseHome" class="sg-course-nav">
+        <button onclick="showCourseRoute('chapters')"><strong>📚 Chapters</strong><span>सभी Chapters और उनके Lectures / PDFs</span></button>
+        <button onclick="showCourseRoute('tests')"><strong>📝 Tests</strong><span>सभी Chapter-wise MCQ Tests</span></button>
+      </div>
+      <div id="sgChapterIndex" class="hidden"><button class="plain sg-course-back" onclick="showCourseRoute('home')">← Course</button><h3>All Chapters</h3><div id="sgChapterCards" class="grid"></div></div>
+      <div id="sgChapterContent" class="hidden"><button class="plain sg-course-back" onclick="showCourseRoute('chapters')">← All Chapters</button><div id="sgActiveChapterTitle"></div><div class="sg-course-nav">
+        <button onclick="showChapterResourceType('video')"><strong>▶ Lecture</strong><span>इस Chapter के सभी Lectures</span></button>
+        <button onclick="showChapterResourceType('pdf')"><strong>▤ PDF</strong><span>इस Chapter के सभी PDFs</span></button>
+      </div><div id="sgChapterResources"></div></div>
+      <div id="sgCourseTests" class="hidden"><button class="plain sg-course-back" onclick="showCourseRoute('home')">← Course</button><h3>All Tests</h3><div id="sgCourseTestCards" class="grid"></div></div>
     </section>`);
 
   window.closeCourseDetail = () => {
@@ -95,14 +110,14 @@
     const manager = canManage(course);
     $('sgCourseState').textContent = course.is_published ? 'Published course' : 'Draft — केवल course owner/admin';
     $('sgCourseBanner').innerHTML = '<h2>'+esc(course.title)+'</h2><p>'+esc(course.class_name)+' · '+esc(course.subject)+'</p><p>'+esc(course.description||'')+'</p>';
-    ['sgCourseManager','sgCourseUpload','sgCourseTest'].forEach(x => $(x).classList.toggle('hidden',!manager));
+    ['sgCourseManager','sgCourseUpload','sgCourseTest'].forEach(x => $(x).classList.add('hidden'));
     const {data:chapters,error:chapterError} = await db.from('course_chapters').select('*').eq('course_id',id).order('sort_order').order('created_at');
     if(chapterError){$('sgCourseChapterList').innerHTML='<div class="notice">Chapter-wise backend migration अभी लागू नहीं है। Preview में data-changing actions disabled हैं।</div>';return;}
     selectedChapters = chapters || [];
     const opts = selectedChapters.map(ch=>'<option value="'+ch.id+'">'+esc(ch.title)+'</option>').join('');
     $('sgResourceChapter').innerHTML=opts || '<option value="">पहले Chapter जोड़ें</option>';
     $('sgTestChapter').innerHTML=opts || '<option value="">पहले Chapter जोड़ें</option>';
-    if(!selectedChapters.length){$('sgCourseChapterList').innerHTML='<div class="empty">अभी कोई chapter नहीं है।'+(manager?' ऊपर से पहला chapter जोड़ें।':'')+'</div>';return;}
+    if(!selectedChapters.length){$('sgChapterCards').innerHTML='<div class="empty">अभी कोई chapter नहीं है।'+(manager?' ऊपर से पहला chapter जोड़ें।':'')+'</div>'; $('sgCourseHome').classList.add('hidden'); $('sgChapterIndex').classList.remove('hidden'); if(manager)$('sgCourseManager').classList.remove('hidden'); return;}
     const ids = selectedChapters.map(ch=>ch.id);
     const [resourceResult,testResult] = await Promise.all([
       db.from('course_chapter_resources').select('*').in('chapter_id',ids).order('created_at'),
@@ -112,24 +127,68 @@
       $('sgCourseChapterList').innerHTML='<div class="notice">Course content schema upgrade pending. Preview UI is ready, but backend chapter tables need the migration first.</div>';
       return;
     }
-    const resources=resourceResult.data||[], tests=testResult.data||[];
-    const sections = await Promise.all(selectedChapters.map(async ch=>{
-      const files = resources.filter(r=>r.chapter_id===ch.id);
-      const quizzes = tests.filter(t=>t.course_chapter_id===ch.id);
-      const fileCards = await Promise.all(files.map(async r=>{
-        let url=r.external_url||'';
-        if(!url && r.storage_path){const {data}=await db.storage.from(r.storage_bucket).createSignedUrl(r.storage_path,3600);url=data?.signedUrl||'';}
-        const tag=r.resource_type==='pdf'?'PDF':'VIDEO';
-        const player=r.resource_type==='video' && url && /youtu(?:\.be|be\.com)/i.test(url)
-          ? '<p><a href="'+esc(url)+'" target="_blank" rel="noopener">YouTube पर Video खोलें</a></p>'
-          : r.resource_type==='video' && url && /\.(mp4|webm)(\?|$)/i.test(url)
-            ? '<video class="sg-course-video" controls playsinline src="'+esc(url)+'"></video>' : '';
-        return '<div class="sg-course-resource"><span class="sg-course-chip">'+tag+'</span><h4>'+esc(r.title)+'</h4><p>'+esc(r.description||'')+'</p>'+player+'<div class="sg-course-actions">'+(url?'<button onclick="window.open('+JSON.stringify(url)+',\'_blank\',\'noopener\')">'+(r.resource_type==='pdf'?'Open PDF':'Open Video')+'</button>':'<span class="sg-course-muted">File link unavailable</span>')+(manager?'<button class="secondary" onclick="toggleCourseResource(\''+r.id+'\','+(!r.is_published)+')">'+(r.is_published?'Hide':'Publish')+'</button><button class="danger" onclick="deleteCourseResource(\''+r.id+'\')">Delete</button>':'')+'</div></div>';
-      }));
-      const testCards=quizzes.map(t=>'<div class="sg-course-resource"><span class="sg-course-chip">MCQ TEST</span><h4>'+esc(t.title)+'</h4><p>'+esc(t.duration_minutes)+' minutes · '+esc(t.description||'')+'</p><div class="sg-course-actions">'+(t.is_published?'<button onclick="startCourseChapterTest(\''+t.id+'\')">Start Test</button>':'<span class="sg-course-muted">Draft test</span>')+(manager?'<button class="secondary" onclick="editCourseTest(\''+t.id+'\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\''+t.id+'\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></div>');
-      return '<article class="sg-course-chapter"><h3>'+esc(ch.title)+'</h3><p class="sg-course-muted">'+esc(ch.description||'')+'</p>'+((fileCards.length||testCards.length)?fileCards.join('')+testCards.join(''):'<p class="sg-course-muted">इस chapter में अभी PDF, Video या Test नहीं है।</p>')+'</article>';
-    }));
-    $('sgCourseChapterList').innerHTML=sections.join('');
+    courseResources=resourceResult.data||[];
+    courseTests=testResult.data||[];
+    activeChapter=null;
+    $('sgCourseHome').classList.remove('hidden');
+    $('sgChapterIndex').classList.add('hidden');
+    $('sgChapterContent').classList.add('hidden');
+    $('sgCourseTests').classList.add('hidden');
+    ['sgCourseManager','sgCourseUpload','sgCourseTest'].forEach(x => $(x).classList.add('hidden'));
+    $('sgChapterCards').innerHTML=selectedChapters.map(ch=>{
+      const n=courseResources.filter(r=>r.chapter_id===ch.id && r.is_published).length;
+      const t=courseTests.filter(t=>t.course_chapter_id===ch.id && t.is_published).length;
+      return '<article class="item"><h3>'+esc(ch.title)+'</h3><p>'+esc(ch.description||'')+'</p><p>'+n+' learning materials · '+t+' tests</p><button onclick="openCourseChapter(\\''+ch.id+'\\')">Open Chapter</button></article>';
+    }).join('') || '<div class="empty">अभी कोई Chapter नहीं है।</div>';
+    $('sgCourseTestCards').innerHTML=courseTests.filter(t=>t.is_published || manager).map(t=>{
+      const ch=selectedChapters.find(x=>x.id===t.course_chapter_id);
+      return '<article class="item"><span class="sg-course-chip">MCQ TEST</span><h3>'+esc(t.title)+'</h3><p>'+esc(ch?.title||'Chapter')+' · '+esc(t.duration_minutes)+' minutes</p><p>'+esc(t.description||'')+'</p><div class="sg-course-actions">'+(t.is_published?'<button onclick="startCourseChapterTest(\\''+t.id+'\\')">Start Test</button>':'<span class="sg-course-muted">Draft test</span>')+(manager?'<button class="secondary" onclick="editCourseTest(\\''+t.id+'\\')">Add Questions</button><button class="secondary" onclick="toggleCourseTest(\\''+t.id+'\\','+(!t.is_published)+')">'+(t.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></article>';
+    }).join('') || '<div class="empty">अभी कोई Test उपलब्ध नहीं है।</div>';
+    if(manager) $('sgCourseManager').classList.remove('hidden');
+    courseRoute='home';
+  };
+  
+  window.showCourseRoute = route => {
+    courseRoute=route;
+    $('sgCourseHome').classList.toggle('hidden',route!=='home');
+    $('sgChapterIndex').classList.toggle('hidden',route!=='chapters');
+    $('sgChapterContent').classList.toggle('hidden',route!=='chapter');
+    $('sgCourseTests').classList.toggle('hidden',route!=='tests');
+    ['sgCourseManager','sgCourseUpload','sgCourseTest'].forEach(x => $(x).classList.add('hidden'));
+    if(!canManage(selectedCourse)) return;
+    if(route==='chapters') $('sgCourseManager').classList.remove('hidden');
+    if(route==='chapter') $('sgCourseUpload').classList.remove('hidden');
+    if(route==='tests') $('sgCourseTest').classList.remove('hidden');
+  };
+  
+  window.openCourseChapter = chapterId => {
+    activeChapter=selectedChapters.find(ch=>ch.id===chapterId);
+    if(!activeChapter) return;
+    $('sgActiveChapterTitle').innerHTML='<h3>'+esc(activeChapter.title)+'</h3><p class="sg-course-muted">'+esc(activeChapter.description||'')+'</p>';
+    $('sgResourceChapter').value=chapterId;
+    showCourseRoute('chapter');
+    $('sgChapterResources').innerHTML='<div class="notice">Lecture या PDF चुनें।</div>';
+  };
+  
+  window.showChapterResourceType = type => {
+    if(!activeChapter) return;
+    const files=courseResources.filter(r=>r.chapter_id===activeChapter.id && r.resource_type===type && (r.is_published || canManage(selectedCourse)));
+    if(!files.length){$('sgChapterResources').innerHTML='<div class="empty">इस Chapter में अभी '+(type==='video'?'कोई Lecture':'कोई PDF')+' उपलब्ध नहीं है।</div>';return;}
+    $('sgChapterResources').innerHTML=files.map(r=>{
+      const tag=type==='pdf'?'PDF':'LECTURE';
+      return '<article class="sg-course-resource"><span class="sg-course-chip">'+tag+'</span><h4>'+esc(r.title)+'</h4><p>'+esc(r.description||'')+'</p><div id="sgResourceOpen_'+r.id+'"><span class="sg-course-muted">File link लोड हो रहा है…</span></div>'+(canManage(selectedCourse)?'<div class="sg-course-actions"><button class="secondary" onclick="toggleCourseResource(\\''+r.id+'\\','+(!r.is_published)+')">'+(r.is_published?'Hide':'Publish')+'</button><button class="danger" onclick="deleteCourseResource(\\''+r.id+'\\')">Delete</button></div>':'')+'</article>';
+    }).join('');
+    files.forEach(async r=>{
+      let url=r.external_url||'';
+      if(!url && r.storage_path){const {data}=await db.storage.from(r.storage_bucket).createSignedUrl(r.storage_path,3600);url=data?.signedUrl||'';}
+      const holder=$('sgResourceOpen_'+r.id);if(!holder)return;
+      const video=type==='video' && url && /\\.(mp4|webm)(\\?|$)/i.test(url);
+      const youtube=type==='video' && url && /youtu(?:\\.be|be\\.com)/i.test(url);
+      holder.innerHTML=video?'<video class="sg-course-video" controls playsinline src="'+esc(url)+'"></video>':youtube?'<p><a href="'+esc(url)+'" target="_blank" rel="noopener">Lecture खोलें</a></p>':url?'<button onclick="window.open('+JSON.stringify(url)+',\\'_blank\\',\\'noopener\\')">'+(type==='pdf'?'PDF खोलें':'Lecture खोलें')+'</button>':'<span class="sg-course-muted">File link unavailable</span>';
+    });
+  };
+  
+  window.showCourseRoute('home');
   };
 
   window.addCourseChapter = async () => {
