@@ -442,36 +442,217 @@ function editTest(id){activeTestId=id;$('questionBuilder').classList.remove('hid
 async function addQuestion(){if(!activeTestId)return;const question_text=$('questionText').value.trim(),options=[0,1,2,3].map(i=>$('option'+i).value.trim());if(!question_text||options.some(x=>!x))return status('questionStatus','Question और चारों options भरें।','error');const {data,error}=await db.from('test_questions').insert({test_id:activeTestId,question_text,options}).select('id').single();if(error)return status('questionStatus',error.message,'error');const {error:keyError}=await db.from('test_answer_keys').insert({question_id:data.id,correct_option:Number($('correctOption').value)});if(keyError)return status('questionStatus',keyError.message,'error');$('questionText').value='';[0,1,2,3].forEach(i=>$('option'+i).value='');status('questionStatus','Question save हो गया।','ok')}
 async function publishTest(){if(!activeTestId)return;const {count,error}=await db.from('test_questions').select('*',{count:'exact',head:true}).eq('test_id',activeTestId);if(error)return status('questionStatus',error.message,'error');if(!count)return status('questionStatus','कम से कम एक question जोड़ें।','error');const {error:e}=await db.from('practice_tests').update({is_published:true}).eq('id',activeTestId);if(e)return status('questionStatus',e.message,'error');status('questionStatus','Test प्रकाशित हो गया।','ok');activeTestId=null;loadTests()}
 async function toggleTest(id,value){const {error}=await db.from('practice_tests').update({is_published:value}).eq('id',id);if(error)alert(error.message);else loadTests()}
-async function startDbTest(id){
- const {data,error}=await db.from('test_questions').select('id,question_text,options,sort_order').eq('test_id',id).order('sort_order');
- if(error)return alert(error.message);
- if(!data||!data.length)return alert('इस test में questions नहीं हैं।');
- const runner=$('testRunner');
- runner.classList.remove('hidden');
- runner.dataset.testId=id;
- runner.dataset.startedAt=String(Date.now());
- runner.innerHTML='<h3>Test in progress</h3>'+data.map((q,i)=>'<div class="panel"><b>'+(i+1)+'. '+esc(q.question_text)+'</b>'+q.options.map((o,j)=>'<label><input type="radio" name="ans_'+q.id+'" value="'+j+'"> '+esc(o)+'</label>').join('')+'</div>').join('')+'<button id="submitTestButton" onclick="submitDbTest()">Submit answers</button>';
+
+let sgTestSession = null;
+let sgTestTimer = null;
+
+function sgFormatClock(seconds){
+ const value=Math.max(0,Number(seconds)||0),h=Math.floor(value/3600),m=Math.floor((value%3600)/60),s=value%60;
+ return [h,m,s].map(n=>String(n).padStart(2,'0')).join(':');
 }
-async function submitDbTest(){
- const runner=$('testRunner'),id=runner.dataset.testId,answers={};
- runner.querySelectorAll('input[type=radio]:checked').forEach(i=>answers[i.name.slice(4)]=Number(i.value));
- const startedAt=Number(runner.dataset.startedAt||Date.now());
- const durationSeconds=Math.min(86400,Math.max(0,Math.floor((Date.now()-startedAt)/1000)));
- const button=$('submitTestButton');if(button)button.disabled=true;
- const {data,error}=await db.rpc('submit_studyguru_test',{p_test_id:id,p_answers:answers,p_duration_seconds:durationSeconds});
- if(error){if(button)button.disabled=false;return alert(error.message);}
- runner.innerHTML='<h3>Test completed</h3><p>Your score: <b>'+Number(data?.score??0)+' / '+Number(data?.total??0)+'</b></p><p class="small">समय: '+Math.floor(durationSeconds/60)+' मिनट '+(durationSeconds%60)+' सेकंड</p>';
+function sgEnsureTestStyles(){
+ if($('sgTestExperienceStyles')) return;
+ const style=document.createElement('style');style.id='sgTestExperienceStyles';
+ style.textContent=
+ '.sg-test-open{overflow:hidden!important}'+
+ '.sg-test-experience{position:fixed;inset:0;z-index:99999;background:#f7f8fa;color:#1F2633;display:flex;flex-direction:column;font-family:Inter,system-ui,sans-serif}'+
+ '.sg-test-header{display:grid;grid-template-columns:44px minmax(0,1fr) auto auto;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid #e7e9ed;min-height:74px}'+
+ '.sg-test-header h2{font-size:16px;line-height:1.25;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'+
+ '.sg-test-header small{display:block;color:#6b7280;font-size:11px;margin-top:3px}'+
+ '.sg-test-icon-btn{width:42px;height:42px;border:1px solid #e3e6eb;border-radius:11px;background:white;color:#1F2633;font-size:22px;padding:0}'+
+ '.sg-test-time{text-align:center;min-width:72px}.sg-test-time strong{display:block;font-size:16px;font-variant-numeric:tabular-nums}'+
+ '.sg-test-submit{min-height:42px;padding:9px 13px;background:#FF6148;color:#fff;border-radius:10px;font-weight:750;white-space:nowrap}'+
+ '.sg-test-strip{display:flex;gap:8px;padding:11px 14px;background:#fff;border-bottom:1px solid #e7e9ed;overflow-x:auto;scrollbar-width:thin}'+
+ '.sg-test-num{flex:0 0 44px;height:44px;border:1px solid #dfe3e8;border-radius:9px;background:#f7f8fa;color:#303846;font-weight:700;padding:0}'+
+ '.sg-test-num.is-current{border:2px solid #FF6148;background:#fff0ed;color:#c74732}'+
+ '.sg-test-num.is-answered{background:#1F2633;border-color:#1F2633;color:#fff}'+
+ '.sg-test-num.is-answered.is-current{background:#FF6148;border-color:#FF6148;color:#fff}'+
+ '.sg-test-scroll{flex:1;overflow:auto;padding:18px 16px 110px}'+
+ '.sg-test-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 auto 14px;max-width:760px;font-size:12px;color:#6b7280}'+
+ '.sg-test-tag{display:inline-flex;background:#fff0ed;color:#c74732;border-radius:99px;padding:6px 10px;font-weight:750}'+
+ '.sg-test-progress{height:5px;background:#e8ebef;border-radius:99px;overflow:hidden;max-width:760px;margin:0 auto 18px}'+
+ '.sg-test-progress span{height:100%;display:block;background:#FF6148;transition:width .2s}'+
+ '.sg-test-card{max-width:760px;margin:0 auto;background:#fff;border:1px solid #e5e8ed;border-radius:16px;padding:22px;box-shadow:0 4px 16px #1f263308}'+
+ '.sg-test-card .sg-test-qno{margin:0 0 12px;font-size:12px;letter-spacing:.04em;color:#c74732;font-weight:800;text-transform:uppercase}'+
+ '.sg-test-card h3{font-size:clamp(18px,3vw,23px);line-height:1.6;font-weight:650;margin:0 0 22px;white-space:pre-wrap;overflow-wrap:anywhere}'+
+ '.sg-test-options{display:grid;gap:11px}'+
+ '.sg-test-option{width:100%;display:grid;grid-template-columns:38px minmax(0,1fr) 22px;gap:12px;align-items:center;text-align:left;padding:13px 14px;background:#fff;border:1px solid #dfe3e8;border-radius:12px;color:#1F2633;min-height:62px}'+
+ '.sg-test-option .letter{width:34px;height:34px;border-radius:9px;background:#f3f4f6;display:grid;place-items:center;font-weight:800;color:#596273}'+
+ '.sg-test-option .option-text{font-size:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}'+
+ '.sg-test-option .radio{width:19px;height:19px;border:2px solid #b8bec7;border-radius:50%;justify-self:end}'+
+ '.sg-test-option.is-selected{border:2px solid #FF6148;background:#fff8f6;padding:12px 13px}'+
+ '.sg-test-option.is-selected .letter{background:#FF6148;color:#fff}'+
+ '.sg-test-option.is-selected .radio{border:6px solid #FF6148}'+
+ '.sg-test-bottom{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e7e9ed}'+
+ '.sg-test-bottom button{min-width:112px;min-height:46px;border-radius:11px;font-weight:750}'+
+ '.sg-test-prev{background:#fff;border:1px solid #d9dde3;color:#303846}.sg-test-next{background:#FF6148;color:#fff}'+
+ '.sg-test-answer-state{font-size:12px;color:#6b7280;text-align:center}'+
+ '.sg-test-result-scroll{flex:1;overflow:auto;padding:18px 16px 34px;background:#f2f5fb}'+
+ '.sg-result-wrap{max-width:760px;margin:0 auto}'+
+ '.sg-result-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}'+
+ '.sg-result-top h2{font-size:18px;margin:0;line-height:1.35}'+
+ '.sg-result-score{display:flex;justify-content:space-between;align-items:center;gap:18px;background:#fff;border:1px solid #d9e4ef;border-radius:16px;padding:22px;margin-bottom:17px}'+
+ '.sg-result-score small{display:block;font-size:12px;font-weight:800;letter-spacing:.06em;color:#526070}'+
+ '.sg-result-score strong{display:block;font-size:44px;line-height:1.15;margin-top:8px;color:#17668e;font-weight:800}'+
+ '.sg-result-score .score-percent{font-size:13px;color:#687384;margin-top:5px}'+
+ '.sg-result-chart{font-size:40px;color:#FF6148}'+
+ '.sg-result-stat{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px}'+
+ '.sg-result-stat-head{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:14px}'+
+ '.sg-result-stat-head strong{font-size:15px}'+
+ '.sg-result-bar{height:7px;background:#e8ebef;border-radius:99px;overflow:hidden;margin-top:12px}'+
+ '.sg-result-bar span{height:100%;display:block;border-radius:99px;background:#FF6148}'+
+ '.sg-result-bar.correct span{background:#28a16b}.sg-result-bar.incorrect span{background:#d9534f}.sg-result-bar.skipped span{background:#8c96a5}'+
+ '.sg-result-mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}'+
+ '.sg-result-mini{background:#fff;border-radius:13px;padding:15px 12px;min-height:108px}'+
+ '.sg-result-mini span{display:block;color:#687384;font-size:12px;margin-bottom:9px}'+
+ '.sg-result-mini strong{display:block;font-size:19px;color:#1F2633;overflow-wrap:anywhere}'+
+ '.sg-result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}'+
+ '.sg-result-actions button{min-height:46px;padding:10px 16px;border-radius:11px;font-weight:750}'+
+ '.sg-result-primary{background:#FF6148;color:white}.sg-result-secondary{background:#fff;color:#1F2633;border:1px solid #dfe3e8}'+
+ '@media(max-width:480px){.sg-test-header{grid-template-columns:38px minmax(0,1fr) auto;gap:7px;padding:9px 10px}.sg-test-header h2{font-size:14px}.sg-test-time{min-width:62px}.sg-test-submit{grid-column:1/-1;width:100%;min-height:40px}.sg-test-scroll{padding:14px 12px 104px}.sg-test-card{padding:17px 14px}.sg-test-option{grid-template-columns:34px minmax(0,1fr) 18px;padding:11px;gap:9px}.sg-test-option.is-selected{padding:10px}.sg-test-bottom{padding-inline:12px}.sg-test-bottom button{min-width:96px}.sg-result-score{padding:18px}.sg-result-score strong{font-size:38px}.sg-result-mini-grid{gap:7px}.sg-result-mini{padding:12px 9px}.sg-result-mini strong{font-size:16px}}';
+ document.head.appendChild(style);
+}
+function sgTestAnsweredCount(){
+ if(!sgTestSession) return 0;
+ return Object.keys(sgTestSession.answers).length;
+}
+function sgJumpToQuestion(index){
+ if(!sgTestSession || sgTestSession.submitted) return;
+ sgTestSession.currentIndex=Math.max(0,Math.min(index,sgTestSession.questions.length-1));
+ sgRenderTestQuestion();
+}
+function sgChooseAnswer(questionId,optionIndex){
+ if(!sgTestSession || sgTestSession.submitted) return;
+ sgTestSession.answers[questionId]=optionIndex;
+ sgRenderTestQuestion();
+}
+function sgRenderTestQuestion(){
+ const s=sgTestSession;if(!s)return;
+ const q=s.questions[s.currentIndex],total=s.questions.length,answered=sgTestAnsweredCount();
+ const root=$('sgTestExperience');if(!root)return;
+ const nav=s.questions.map((item,index)=>{
+   const state=(index===s.currentIndex?' is-current':'')+(Object.prototype.hasOwnProperty.call(s.answers,item.id)?' is-answered':'');
+   return '<button class="sg-test-num'+state+'" onclick="sgJumpToQuestion('+index+')" aria-label="Question '+(index+1)+'">'+(index+1)+'</button>';
+ }).join('');
+ const options=(Array.isArray(q.options)?q.options:[]).map((option,index)=>{
+   const selected=Number(s.answers[q.id])===index;
+   return '<button class="sg-test-option'+(selected?' is-selected':'')+'" onclick="sgChooseAnswer('+JSON.stringify(q.id)+','+index+')" aria-pressed="'+selected+'"><span class="letter">'+String.fromCharCode(65+index)+'</span><span class="option-text">'+esc(option)+'</span><span class="radio"></span></button>';
+ }).join('');
+ const currentProgress=Math.round(((s.currentIndex+1)/total)*100);
+ root.innerHTML=
+ '<header class="sg-test-header">'+
+ '<button class="sg-test-icon-btn" onclick="sgExitTest()" aria-label="Close test">‹</button>'+
+ '<div><h2>'+esc(s.test.title)+'</h2><small>'+esc(s.test.class_name||'')+(s.test.subject?' · '+esc(s.test.subject):'')+'</small></div>'+
+ '<div class="sg-test-time"><small>TIME TAKEN</small><strong id="sgTestClock">00:00:00</strong></div>'+
+ '<button class="sg-test-submit" onclick="sgSubmitTest()">Submit Test</button>'+
+ '</header>'+
+ '<nav class="sg-test-strip" aria-label="Question navigation">'+nav+'</nav>'+
+ '<main class="sg-test-scroll">'+
+ '<div class="sg-test-meta"><span class="sg-test-tag">QUESTION '+(s.currentIndex+1)+'</span><span>'+answered+' of '+total+' answered</span></div>'+
+ '<div class="sg-test-progress"><span style="width:'+currentProgress+'%"></span></div>'+
+ '<section class="sg-test-card"><p class="sg-test-qno">Question '+(s.currentIndex+1)+' of '+total+'</p><h3>'+esc(q.question_text)+'</h3><div class="sg-test-options">'+options+'</div></section>'+
+ '</main>'+
+ '<footer class="sg-test-bottom">'+
+ '<button class="sg-test-prev" onclick="sgJumpToQuestion('+(s.currentIndex-1)+')" '+(s.currentIndex===0?'disabled':'')+'>← Previous</button>'+
+ '<span class="sg-test-answer-state">'+answered+'/'+total+' answered</span>'+
+ (s.currentIndex===total-1?'<button class="sg-test-next" onclick="sgSubmitTest()">Submit Test</button>':'<button class="sg-test-next" onclick="sgJumpToQuestion('+(s.currentIndex+1)+')">Next →</button>')+
+ '</footer>';
+ sgUpdateTestClock();
+ const active=root.querySelector('.sg-test-num.is-current');
+ if(active) active.scrollIntoView({block:'nearest',inline:'nearest'});
+}
+function sgUpdateTestClock(){
+ if(!sgTestSession || sgTestSession.submitted)return;
+ const el=$('sgTestClock');if(el)el.textContent=sgFormatClock(Math.floor((Date.now()-sgTestSession.startedAt)/1000));
+}
+async function startDbTest(id){
+ try{
+   const [testResult,questionResult]=await Promise.all([
+     db.from('practice_tests').select('id,title,description,class_name,subject,duration_minutes').eq('id',id).single(),
+     db.from('test_questions').select('id,question_text,options,sort_order').eq('test_id',id).order('sort_order')
+   ]);
+   if(testResult.error)return alert(testResult.error.message);
+   if(questionResult.error)return alert(questionResult.error.message);
+   if(!questionResult.data||!questionResult.data.length)return alert('इस test में questions नहीं हैं।');
+   if(!profile)return alert('पहले Login करें।');
+   if(sgTestTimer){clearInterval(sgTestTimer);sgTestTimer=null;}
+   sgTestSession={id:id,test:testResult.data,questions:questionResult.data,answers:{},currentIndex:0,startedAt:Date.now(),submitted:false};
+   sgEnsureTestStyles();
+   const previous=$('sgTestExperience');if(previous)previous.remove();
+   const root=document.createElement('section');root.id='sgTestExperience';root.className='sg-test-experience';root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');
+   document.body.appendChild(root);document.body.classList.add('sg-test-open');
+   sgRenderTestQuestion();
+   sgTestTimer=setInterval(sgUpdateTestClock,1000);
+ }catch(error){alert(error?.message||'Test खोलने में समस्या आई।');}
+}
+async function sgSubmitTest(){
+ const s=sgTestSession;if(!s||s.submitted)return;
+ const unanswered=s.questions.length-sgTestAnsweredCount();
+ if(unanswered>0&&!confirm(unanswered+' प्रश्न अभी खाली हैं। क्या फिर भी Test Submit करना है?'))return;
+ const durationSeconds=Math.min(86400,Math.max(0,Math.floor((Date.now()-s.startedAt)/1000)));
+ const root=$('sgTestExperience');
+ const buttons=root?root.querySelectorAll('button'):[];buttons.forEach(b=>b.disabled=true);
+ const {data,error}=await db.rpc('submit_studyguru_test',{p_test_id:s.id,p_answers:s.answers,p_duration_seconds:durationSeconds});
+ if(error){buttons.forEach(b=>b.disabled=false);alert(error.message||'Result save नहीं हो सका।');return;}
+ s.submitted=true;s.result=data||{};
+ if(sgTestTimer){clearInterval(sgTestTimer);sgTestTimer=null;}
+ sgRenderTestResult();
  await loadAttempts();
+}
+function sgRenderTestResult(){
+ const s=sgTestSession;if(!s)return;
+ const r=s.result||{},total=Number(r.total||s.questions.length),correct=Number(r.correct??r.score??0);
+ const incorrect=Number(r.incorrect??Math.max(0,sgTestAnsweredCount()-correct));
+ const skipped=Number(r.skipped??Math.max(0,total-correct-incorrect));
+ const attempted=Number(r.attempted??(correct+incorrect));
+ const accuracy=Number(r.accuracy??(attempted?correct/attempted*100:0));
+ const completion=Number(r.completion??(total?attempted/total*100:0));
+ const duration=Number(r.duration_seconds??Math.floor((Date.now()-s.startedAt)/1000));
+ const percent=total?Math.round(correct/total*100):0;
+ const bar=(value,denominator)=>denominator?Math.max(0,Math.min(100,Math.round(value/denominator*100))):0;
+ const root=$('sgTestExperience');if(!root)return;
+ root.innerHTML=
+ '<main class="sg-test-result-scroll"><div class="sg-result-wrap">'+
+ '<div class="sg-result-top"><button class="sg-test-icon-btn" onclick="sgCloseTestResult()" aria-label="Back to tests">‹</button><div><h2>'+esc(s.test.title)+'</h2><small>'+esc(s.test.class_name||'')+(s.test.subject?' · '+esc(s.test.subject):'')+'</small></div></div>'+
+ '<section class="sg-result-score"><div><small>YOUR SCORE</small><strong>'+correct+' / '+total+'</strong><div class="score-percent">'+percent+'% marks · '+attempted+' of '+total+' attempted</div></div><div class="sg-result-chart" aria-hidden="true">▥</div></section>'+
+ '<section class="sg-result-stat"><div class="sg-result-stat-head"><span>✓ Correct</span><strong>'+correct+'/'+total+'</strong></div><div class="sg-result-bar correct"><span style="width:'+bar(correct,total)+'%"></span></div></section>'+
+ '<section class="sg-result-stat"><div class="sg-result-stat-head"><span>✕ Incorrect</span><strong>'+incorrect+'/'+total+'</strong></div><div class="sg-result-bar incorrect"><span style="width:'+bar(incorrect,total)+'%"></span></div></section>'+
+ '<section class="sg-result-stat"><div class="sg-result-stat-head"><span>Skipped</span><strong>'+skipped+'/'+total+'</strong></div><div class="sg-result-bar skipped"><span style="width:'+bar(skipped,total)+'%"></span></div></section>'+
+ '<div class="sg-result-mini-grid"><article class="sg-result-mini"><span>Accuracy</span><strong>'+accuracy.toFixed(accuracy%1?1:0)+'%</strong></article><article class="sg-result-mini"><span>Completed</span><strong>'+completion.toFixed(completion%1?1:0)+'%</strong></article><article class="sg-result-mini"><span>Time Taken</span><strong>'+sgFormatClock(duration)+'</strong></article></div>'+
+ '<div class="sg-result-actions"><button class="sg-result-primary" onclick="sgReattemptTest()">Reattempt</button><button class="sg-result-secondary" onclick="sgCloseTestResult()">Back to Tests</button></div>'+
+ '<p class="small" style="margin-top:16px">आपका Result सुरक्षित रूप से StudyGuru में save हो गया है। Student केवल अपना Result देख सकता है।</p>'+
+ '</div></main>';
+}
+function sgReattemptTest(){
+ const id=sgTestSession?.id;if(!id)return;startDbTest(id);
+}
+function sgCloseTestResult(){
+ if(sgTestTimer){clearInterval(sgTestTimer);sgTestTimer=null;}
+ const root=$('sgTestExperience');if(root)root.remove();
+ document.body.classList.remove('sg-test-open');
+ sgTestSession=null;
+ showTab('tests');
+}
+function sgExitTest(){
+ const s=sgTestSession;if(!s)return;
+ if(!s.submitted&&sgTestAnsweredCount()>0&&!confirm('Test अभी Submit नहीं हुआ है। बाहर निकलने पर आपके उत्तर save नहीं होंगे। बाहर जाना है?'))return;
+ sgCloseTestResult();
 }
 async function loadAttempts(){
  const box=$('attemptList'),isAdmin=profile?.role==='admin';
- const {data,error}=await db.from('studyguru_test_results').select('id,user_id,student_name,practice_test_title,score,total_questions,submitted_at,duration_seconds').order('submitted_at',{ascending:false}).limit(isAdmin?100:20);
+ const {data,error}=await db.from('studyguru_test_results')
+   .select('id,user_id,student_name,practice_test_title,score,total_questions,attempted,incorrect,skipped,accuracy,completion,submitted_at,duration_seconds')
+   .order('submitted_at',{ascending:false}).limit(isAdmin?100:20);
  if(error){box.innerHTML='<h3>Results</h3><p class="small">Results अभी लोड नहीं हो सके: '+esc(error.message)+'</p>';return;}
  const rows=data||[];
- box.innerHTML='<h3>'+(isAdmin?'All Student Results':'My Results')+'</h3>'+ (rows.length?rows.map(a=>{
-   const secs=Number(a.duration_seconds||0),duration=secs?Math.floor(secs/60)+'m '+(secs%60)+'s':'—';
-   return '<article class="item"><b>'+esc(a.practice_test_title||'Practice test')+'</b>'+(isAdmin?'<p>Student: '+esc(a.student_name||'Student')+'</p>':'')+'<p><strong>'+Number(a.score)+' / '+Number(a.total_questions)+'</strong> · '+new Date(a.submitted_at).toLocaleString()+'</p><p class="small">Duration: '+duration+'</p></article>';
- }).join(''):'<p class="muted">अभी कोई result नहीं है।</p>');
+ box.innerHTML='<h3>'+(isAdmin?'All Student Results':'My Results')+'</h3>'+
+ (rows.length?rows.map(a=>{
+   return '<article class="item"><b>'+esc(a.practice_test_title||'Practice test')+'</b>'+
+   (isAdmin?'<p>Student: '+esc(a.student_name||'Student')+'</p>':'')+
+   '<p><strong>'+Number(a.score)+' / '+Number(a.total_questions)+'</strong> · '+Number(a.accuracy||0)+'% accuracy</p>'+
+   '<p class="small">Correct '+Number(a.score)+' · Incorrect '+Number(a.incorrect||0)+' · Skipped '+Number(a.skipped||0)+' · '+sgFormatClock(Number(a.duration_seconds||0))+'</p>'+
+   '<p class="small">'+new Date(a.submitted_at).toLocaleString()+'</p></article>';
+ }).join(''):'<p class="muted">अभी कोई attempt नहीं है।</p>');
 }
 async function loadNotes(){const {data,error}=await db.from('student_notes').select('*').order('updated_at',{ascending:false});if(error)return status('noteStatus',error.message,'error');$('noteList').innerHTML=(data||[]).length?data.map(n=>'<article class="item"><h3>'+esc(n.title)+'</h3><p style="white-space:pre-wrap">'+esc(n.body)+'</p><div class="actions"><button class="secondary" onclick="editNote(\''+n.id+'\')">Edit</button><button class="danger" onclick="deleteNoteDb(\''+n.id+'\')">Delete</button></div></article>').join(''):'<div class="empty">अभी कोई note save नहीं है।</div>'}
 async function saveNote(){const title=$('noteTitle').value.trim(),body=$('noteBody').value.trim();if(!title||!body)return status('noteStatus','Title और notes लिखें।','error');const {error}=await db.from('student_notes').insert({user_id:profile.id,title,body});if(error)return status('noteStatus',error.message,'error');$('noteTitle').value='';$('noteBody').value='';status('noteStatus','Note save हो गया।','ok');loadNotes()}
