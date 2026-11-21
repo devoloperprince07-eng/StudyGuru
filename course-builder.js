@@ -267,6 +267,7 @@
       const manager=canManage(c);
       return '<article class="item"><h3>'+esc(c.title)+'</h3><p>'+esc(c.class_name)+' · '+esc(c.subject)+'</p><p>'+esc(c.description||'')+'</p><div class="actions"><span class="small">'+(c.is_published?'Published':'Draft')+'</span><button onclick="openCourse(\''+c.id+'\')">'+(manager?'Manage Course':'Open Course')+'</button>'+(manager?'<button class="secondary" onclick="toggleCourse(\''+c.id+'\','+(!c.is_published)+')">'+(c.is_published?'Unpublish':'Publish Course')+'</button>':'')+'</div></article>';
     }).join('');
+    if(!schemaReady) box.querySelectorAll('button[onclick^="toggleCourse"]').forEach(btn=>btn.disabled=true);
   };
 
   window.createCourse = async () => {
