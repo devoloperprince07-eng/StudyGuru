@@ -536,7 +536,7 @@ function sgRenderTestQuestion(){
  }).join('');
  const options=(Array.isArray(q.options)?q.options:[]).map((option,index)=>{
    const selected=Number(s.answers[q.id])===index;
-   return '<button class="sg-test-option'+(selected?' is-selected':'')+'" onclick="sgChooseAnswer('+JSON.stringify(q.id)+','+index+')" aria-pressed="'+selected+'"><span class="letter">'+String.fromCharCode(65+index)+'</span><span class="option-text">'+esc(option)+'</span><span class="radio"></span></button>';
+   return '<button class="sg-test-option'+(selected?' is-selected':'')+'" onclick="sgChooseAnswer(&quot;'+esc(q.id)+'&quot;,'+index+')" aria-pressed="'+selected+'"><span class="letter">'+String.fromCharCode(65+index)+'</span><span class="option-text">'+esc(option)+'</span><span class="radio"></span></button>';
  }).join('');
  const currentProgress=Math.round(((s.currentIndex+1)/total)*100);
  root.innerHTML=
