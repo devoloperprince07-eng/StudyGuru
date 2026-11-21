@@ -196,19 +196,21 @@ using (
 )
 with check (
   (
-    created_by = (select auth.uid())
-    and exists (select 1 from public.profiles p where p.id = (select auth.uid()) and p.role = 'teacher')
+    (
+      created_by = (select auth.uid())
+      and exists (select 1 from public.profiles p where p.id = (select auth.uid()) and p.role = 'teacher')
+    )
+    or private.studyguru_is_admin()
   )
-  or private.studyguru_is_admin()
-)
-and (
-  course_chapter_id is null
-  or exists (
-    select 1
-    from public.course_chapters ch
-    join public.courses c on c.id = ch.course_id
-    where ch.id = practice_tests.course_chapter_id
-      and (c.created_by = (select auth.uid()) or private.studyguru_is_admin())
+  and (
+    course_chapter_id is null
+    or exists (
+      select 1
+      from public.course_chapters ch
+      join public.courses c on c.id = ch.course_id
+      where ch.id = practice_tests.course_chapter_id
+        and (c.created_by = (select auth.uid()) or private.studyguru_is_admin())
+    )
   )
 );
 
