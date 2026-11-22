@@ -134,7 +134,7 @@
  }
  function install(){
    if(!profile?.id||!db)return;
-   addOverview();addLiveTests();
+   addOverview();addLiveTests();patchStartTest();
    if(!window.__sgLoginRecorded){window.__sgLoginRecorded=true;event('login')}
    if(isAdmin())el('overviewTab')?.classList.remove('hidden');
  }
@@ -150,6 +150,22 @@
  }
  const oldCourses=window.loadCourses;if(typeof oldCourses==='function')window.loadCourses=async function(){await oldCourses();await decorateCourses()};
  const oldLive=window.loadLiveClasses;if(typeof oldLive==='function')window.loadLiveClasses=async function(){await oldLive();await decorateLive()};
+ let sgStartWrapped=false;
+ function patchStartTest(){
+   if(sgStartWrapped||typeof window.startDbTest!=='function')return;
+   const original=window.startDbTest;
+   window.startDbTest=async function(testId){
+     const {data,error}=await db.from('live_test_sessions').select('starts_at,ends_at').eq('test_id',testId).eq('is_published',true).order('starts_at',{ascending:false}).limit(1);
+     if(error){alert('Live Test status जाँचा नहीं जा सका: '+error.message);return}
+     if(data&&data.length){
+       const session=data[0],now=Date.now(),start=new Date(session.starts_at).getTime(),end=new Date(session.ends_at).getTime();
+       if(now<start||now>end){alert('यह Live Test केवल निर्धारित समय पर उपलब्ध होगा।');return}
+     }
+     await event('test_attempt',data&&data.length?'live_test':'practice_test',testId);
+     return original(testId);
+   };
+   sgStartWrapped=true;
+ }
  const oldEnter=window.enterApp;if(typeof oldEnter==='function')window.enterApp=async function(user){await oldEnter(user);install();};
  document.addEventListener('DOMContentLoaded',install);
  setInterval(install,1200);
