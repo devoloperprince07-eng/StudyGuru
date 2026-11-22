@@ -140,7 +140,15 @@
  }
  const originalShow=window.showTab;
  if(typeof originalShow==='function'){
-   window.showTab=function(tab){if(tab==='overview')return showOverview();originalShow(tab);if(tab==='live')setTimeout(()=>{addLiveTests();loadLiveTests();decorateLive()},0);if(tab==='courses')setTimeout(decorateCourses,0)};
+   window.showTab=function(tab){
+   const overview=el('overviewPanel'),overviewTab=el('overviewTab');
+   if(tab==='overview'){showOverview();return;}
+   if(overview)overview.classList.add('hidden');
+   if(overviewTab)overviewTab.classList.remove('active');
+   originalShow(tab);
+   if(tab==='live')setTimeout(()=>{addLiveTests();loadLiveTests();decorateLive()},0);
+   if(tab==='courses')setTimeout(decorateCourses,0);
+ };
  }
  async function decorateCourses(){
    const {data,error}=await db.from('courses').select('id').order('created_at',{ascending:false});if(!error)decorate('course','courseList',data||[]);
