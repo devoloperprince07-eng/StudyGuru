@@ -3,14 +3,14 @@
  'use strict';
  const el=id=>document.getElementById(id);
  const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const isAdmin=()=>window.profile?.role==='admin';
+ const isAdmin=()=>profile?.role==='admin';
  const event=async(type,content_type=null,content_id=null)=>{
-   if(!window.profile?.id)return;
-   const {error}=await window.db.from('study_activity_events').insert({user_id:profile.id,event_type:type,content_type,content_id});
+   if(!profile?.id)return;
+   const {error}=await db.from('study_activity_events').insert({user_id:profile.id,event_type:type,content_type,content_id});
    if(error)console.warn('Activity tracking:',error.message);
  };
  const recordView=async(type,id)=>{
-   if(!window.profile?.id)return;
+   if(!profile?.id)return;
    const {error}=await db.from('study_content_views').upsert({content_type:type,content_id:id,user_id:profile.id},{onConflict:'content_type,content_id,user_id,viewed_on',ignoreDuplicates:true});
    if(error)console.warn('View tracking:',error.message);
    await event('view',type,id);
@@ -133,7 +133,7 @@
    box.querySelectorAll('.sg-live-test-delete').forEach(b=>b.onclick=async()=>{if(!confirm('Live Test हटाएँ?'))return;const {error}=await db.from('live_test_sessions').delete().eq('id',b.dataset.id);if(error)alert(error.message);else loadLiveTests()});
  }
  function install(){
-   if(!window.profile?.id||!window.db)return;
+   if(!profile?.id||!db)return;
    addOverview();addLiveTests();
    if(!window.__sgLoginRecorded){window.__sgLoginRecorded=true;event('login')}
    if(isAdmin())el('overviewTab')?.classList.remove('hidden');
