@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://studyguru-inky.vercel.app/sitemap.xml
