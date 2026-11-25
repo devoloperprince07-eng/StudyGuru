@@ -204,11 +204,11 @@
     if(file&&file.size>50*1024*1024)throw new Error('File 50 MB से बड़ी है।');
     if(file&&type==='pdf'&&file.type!=='application/pdf')throw new Error('PDF file चुनें।');
     if(file&&type==='video'&&file.type!=='video/mp4')throw new Error('MP4 video चुनें।');
-    if(url&&!/^https:\/\//i.test(url))throw new Error('External URL https:// से शुरू होना चाहिए।');
+    if(url&&!String(url).toLowerCase().startsWith('https://'))throw new Error('External URL https:// से शुरू होना चाहिए।');
     const btn=form.querySelector('[type=submit]');btn.disabled=true;btn.textContent='Uploading…';
     const bucket=type==='pdf'?'study-pdfs':'study-videos';let path='';
     try{
-      if(file){path=profile.id+'/'+crypto.randomUUID()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error}
+      if(file){path=profile.id+'/'+crypto.randomUUID()+'-'+file.name.split('').map(ch=>/[a-zA-Z0-9._-]/.test(ch)?ch:'_').join('');const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error}
       const {error}=await db.from('learning_materials').insert({chapter_id:null,course_chapter_id:state.chapter.id,title,description:String(data.get('description')||'').trim()||null,material_type:type,storage_bucket:bucket,storage_path:path,external_url:file?null:url,is_published:data.get('publish')==='on',created_by:profile.id});
       if(error){if(path)await db.storage.from(bucket).remove([path]);throw error}
       await openChapter(state.chapter.id);
@@ -218,7 +218,7 @@
   async function editMaterial(id){
     if(!admin())return;const {data,error}=await db.from('learning_materials').select('*').eq('id',id).single();if(error)return alert(error.message);
     modal('Edit Lecture / PDF',[{name:'title',label:'Title',value:data.title,required:true},{name:'description',label:'Description',value:data.description||'',type:'textarea'},{name:'external_url',label:'External URL (leave blank for uploaded file)',value:data.external_url||''}],async v=>{
-      if(v.external_url&&!/^https:\/\//i.test(v.external_url))throw new Error('URL https:// से शुरू होना चाहिए।');
+      if(v.external_url&&!String(v.external_url).toLowerCase().startsWith('https://'))throw new Error('URL https:// से शुरू होना चाहिए।');
       const {error:e}=await db.from('learning_materials').update({title:v.title.trim(),description:v.description.trim()||null,external_url:v.external_url.trim()||null,updated_at:new Date().toISOString()}).eq('id',id);if(e)throw e;await openChapter(state.chapter.id);
     });
   }
