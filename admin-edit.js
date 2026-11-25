@@ -1,7 +1,7 @@
 /* StudyGuru Admin Editing tools - injected enhancement */
 (function(){
   const $=id=>document.getElementById(id);
-  const isAdmin=()=>window.profile&&profile.role==='admin';
+  const isAdmin=()=>profile&&profile.role==='admin';
   const escText=s=>String(s||'');
   function addButton(container,label,cls,handler){
     if(!container)return;const b=document.createElement('button');b.type='button';b.textContent=label;b.className=cls||'secondary';b.addEventListener('click',handler);container.appendChild(b);return b;
@@ -88,7 +88,7 @@
     if(!data?.length)box.innerHTML='<div class="empty">अभी प्रश्न नहीं हैं। नीचे Add Question से जोड़ें।</div>';
   }
   async function editQuestion(q){
-    if(!window.canTeach?.()&&!isAdmin())return alert('Teacher/Admin access चाहिए।');
+    if(!canTeach()&&!isAdmin())return alert('Teacher/Admin access चाहिए।');
     const question=prompt('Question:',q.question_text);if(question===null)return;
     const options=[];for(let n=0;n<4;n++){const value=prompt('Option '+(n+1)+':',(q.options||[])[n]||'');if(value===null)return;options.push(value.trim())}
     const answer=prompt('Correct option number (1-4):',String((q.test_answer_keys?.[0]?.correct_option??0)+1));if(answer===null)return;
@@ -96,7 +96,7 @@
     const n=Number(answer);if(!question.trim()||options.some(x=>!x)||!Number.isInteger(n)||n<1||n>4)return alert('Question/options/answer सही भरें।');
     const {error}=await db.from('test_questions').update({question_text:question.trim(),options}).eq('id',q.id);if(error)return alert(error.message);
     const {error:keyError}=await db.from('test_answer_keys').update({correct_option:n-1,explanation:explanation.trim()||null}).eq('question_id',q.id);if(keyError)return alert('Question update हुआ, लेकिन Answer Key error: '+keyError.message);
-    alert('Question और Answer Key update हो गई।');await loadQuestionList(window.activeTestId);loadTests();
+    alert('Question और Answer Key update हो गई।');await loadQuestionList(activeTestId);loadTests();
   }
   async function deleteQuestion(id,testId){
     if(!confirm('इस question को delete करें?'))return;
@@ -106,8 +106,8 @@
   }
   function hookTests(){
     const originalLoad=window.loadTests;if(originalLoad&&!originalLoad.__sgAdminEdit){const wrapped=async function(){await originalLoad.apply(this,arguments);if(!isAdmin())return;const {data,error}=await db.from('practice_tests').select('id').order('created_at',{ascending:false});if(error)return;const cards=$('testList')?.querySelectorAll('.test-card')||[];cards.forEach((card,i)=>{if(data[i])addButton(card.querySelector('.actions'),'Edit test details','secondary',()=>editTestDetails(data[i].id))})};wrapped.__sgAdminEdit=true;window.loadTests=wrapped}
-    const originalEdit=window.editTest;if(originalEdit&&!originalEdit.__sgAdminEdit){const wrapped=function(id){originalEdit.apply(this,arguments);window.activeTestId=id;loadQuestionList(id)};wrapped.__sgAdminEdit=true;window.editTest=wrapped}
-    const originalAdd=window.addQuestion;if(originalAdd&&!originalAdd.__sgAdminEdit){const wrapped=async function(){await originalAdd.apply(this,arguments);if(window.activeTestId)await loadQuestionList(window.activeTestId)};wrapped.__sgAdminEdit=true;window.addQuestion=wrapped}
+    const originalEdit=window.editTest;if(originalEdit&&!originalEdit.__sgAdminEdit){const wrapped=function(id){originalEdit.apply(this,arguments);activeTestId=id;loadQuestionList(id)};wrapped.__sgAdminEdit=true;window.editTest=wrapped}
+    const originalAdd=window.addQuestion;if(originalAdd&&!originalAdd.__sgAdminEdit){const wrapped=async function(){await originalAdd.apply(this,arguments);if(activeTestId)await loadQuestionList(activeTestId)};wrapped.__sgAdminEdit=true;window.addQuestion=wrapped}
   }
   function install(){hookCourses();hookMaterials();hookTests();hookStructure()}
   document.addEventListener('DOMContentLoaded',install);
