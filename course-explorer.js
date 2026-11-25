@@ -208,7 +208,7 @@
     const btn=form.querySelector('[type=submit]');btn.disabled=true;btn.textContent='Uploading…';
     const bucket=type==='pdf'?'study-pdfs':'study-videos';let path='';
     try{
-      if(file){path=profile.id+'/'+crypto.randomUUID()+'-'+file.name.split('').map(ch=>/[a-zA-Z0-9._-]/.test(ch)?ch:'_').join('');const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error}
+      if(file){path=profile.id+'/'+crypto.randomUUID()+'-'+file.name.split('').map(ch=>'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-'.includes(ch)?ch:'_').join('');const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error}
       const {error}=await db.from('learning_materials').insert({chapter_id:null,course_chapter_id:state.chapter.id,title,description:String(data.get('description')||'').trim()||null,material_type:type,storage_bucket:bucket,storage_path:path,external_url:file?null:url,is_published:data.get('publish')==='on',created_by:profile.id});
       if(error){if(path)await db.storage.from(bucket).remove([path]);throw error}
       await openChapter(state.chapter.id);
