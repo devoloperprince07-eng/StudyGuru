@@ -93,6 +93,23 @@
     }catch(error){showError(error)}
   }
 
+  function renderChapterCards(items){
+    const cards=items.map(function(ch){
+      const statusClass=ch.is_published?'':'draft';
+      const statusText=ch.is_published?'Published':'Draft';
+      const adminButtons=admin()
+        ? '<button class="cx-btn soft" data-action="edit-chapter" data-id="'+safe(ch.id)+'">Edit</button>'+
+          '<button class="cx-btn danger" data-action="delete-chapter" data-id="'+safe(ch.id)+'">Delete</button>'+
+          '<button class="cx-btn soft" data-action="toggle-chapter" data-id="'+safe(ch.id)+'" data-value="'+String(!ch.is_published)+'">'+(ch.is_published?'Unpublish':'Publish')+'</button>'
+        : '';
+      return '<article class="cx-card"><div class="cx-card-heading"><h3>'+safe(ch.title)+'</h3><span class="cx-pill '+statusClass+'">'+statusText+'</span></div>'+
+        '<p>'+safe(ch.description||'Chapter lectures और PDFs')+'</p><div class="cx-card-actions">'+
+        '<button class="cx-btn" data-action="open-chapter" data-id="'+safe(ch.id)+'">Open Chapter</button>'+adminButtons+
+        '</div></article>';
+    }).join('');
+    return '<div class="cx-card-grid">'+cards+'</div>';
+  }
+
   async function openSubject(id){
     const el=ensureRoot();if(!el)return;el.innerHTML='<div class="cx-empty">Subject खुल रहा है…</div>';
     try{
@@ -109,7 +126,7 @@
       const visible=(chapters||[]).filter(ch=>admin()||ch.is_published);
       el.innerHTML='<div class="cx-crumb"><button data-action="back-course">← '+safe(course?.title||'Course')+'</button><span>›</span><b>'+safe(subject.name)+'</b></div><div class="cx-head"><div><h2 class="section-title">'+safe(subject.name)+'</h2><p class="cx-muted">'+visible.length+' Chapters</p></div>'+(admin()?'<button class="cx-btn soft" data-action="edit-subject" data-id="'+safe(id)+'">Edit Subject</button>':'')+'</div>'+
       (admin()?'<form class="cx-form" data-form="add-chapter"><h3>नया Chapter जोड़ें</h3><label>Chapter Title</label><input name="title" required maxlength="160" placeholder="Chapter का नाम"><label>Description (optional)</label><textarea name="description" maxlength="500" placeholder="छोटा विवरण"></textarea><button class="cx-btn" type="submit">Add Chapter</button></form>':'')+
-      (visible.length?'<div class="cx-card-grid">'+visible.map(ch=>'<article class="cx-card"><div style="display:flex;justify-content:space-between;gap:8px"><h3>'+safe(ch.title)+'</h3><span class="cx-pill '+(ch.is_published?'':'draft')+'">'+(ch.is_published?'Published':'Draft')+'</span></div><p>'+safe(ch.description||'Chapter lectures और PDFs')</p><div class="cx-card-actions"><button class="cx-btn" data-action="open-chapter" data-id="'+safe(ch.id)+'">Open Chapter</button>'+(admin()?'<button class="cx-btn soft" data-action="edit-chapter" data-id="'+safe(ch.id)+'">Edit</button><button class="cx-btn danger" data-action="delete-chapter" data-id="'+safe(ch.id)+'">Delete</button><button class="cx-btn soft" data-action="toggle-chapter" data-id="'+safe(ch.id)+'" data-value="'+(!ch.is_published)+'">'+(ch.is_published?'Unpublish':'Publish')+'</button>':'')+'</div></article>').join('')+'</div>':'<div class="cx-empty">अभी कोई Chapter उपलब्ध नहीं है।'+(admin()?' ऊपर से Chapter जोड़ें।':'')+'</div>');
+       (visible.length ? renderChapterCards(visible) : '<div class="cx-empty">अभी कोई Chapter उपलब्ध नहीं है।' + (admin() ? ' ऊपर से Chapter जोड़ें।' : '') + '</div>');
     }catch(error){showError(error)}
   }
 
@@ -151,10 +168,10 @@
 
   async function deleteCourse(id){
     if(!admin()||!confirm('इस Course, उसके Subjects और Chapters को हटाएँ?'))return;
-    const {data:chs,error}=await db.from('course_chapters').select('id').eq('course_id',id);if(error)return alert(error.message);
+    const {data:chs,error:chaptersError}=await db.from('course_chapters').select('id').eq('course_id',id);if(chaptersError)return alert(chaptersError.message);
     const ids=(chs||[]).map(x=>x.id);let files=[];
     if(ids.length){const {data,error:e}=await db.from('learning_materials').select('storage_bucket,storage_path').in('course_chapter_id',ids);if(e)return alert(e.message);files=data||[]}
-    const {error}=await db.from('courses').delete().eq('id',id);if(error)return alert(error.message);
+    const {error:deleteError}=await db.from('courses').delete().eq('id',id);if(deleteError)return alert(deleteError.message);
     for(const bucket of ['study-pdfs','study-videos']){const paths=files.filter(f=>f.storage_bucket===bucket&&f.storage_path).map(f=>f.storage_path);if(paths.length)await db.storage.from(bucket).remove(paths)}
     await loadCourses();
   }
@@ -168,11 +185,11 @@
 
   async function deleteSubject(id){
     if(!admin()||!confirm('इस Subject और इसके Chapters/Lectures को हटाएँ?'))return;
-    const {data:chs,error}=await db.from('course_chapters').select('id').eq('course_subject_id',id);if(error)return alert(error.message);
+    const {data:chs,error:chaptersError}=await db.from('course_chapters').select('id').eq('course_subject_id',id);if(chaptersError)return alert(chaptersError.message);
     const ids=(chs||[]).map(x=>x.id);let files=[];
     if(ids.length){const {data,error:e}=await db.from('learning_materials').select('storage_bucket,storage_path').in('course_chapter_id',ids);if(e)return alert(e.message);files=data||[]}
     const courseId=state.course?.id;
-    const {error}=await db.from('course_subjects').delete().eq('id',id);if(error)return alert(error.message);
+    const {error:deleteError}=await db.from('course_subjects').delete().eq('id',id);if(deleteError)return alert(deleteError.message);
     for(const bucket of ['study-pdfs','study-videos']){const paths=files.filter(f=>f.storage_bucket===bucket&&f.storage_path).map(f=>f.storage_path);if(paths.length)await db.storage.from(bucket).remove(paths)}
     await openCourse(courseId);
   }
