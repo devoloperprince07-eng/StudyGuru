@@ -101,6 +101,44 @@ body:not(.sg-authenticated) #authView{position:relative;z-index:1;width:min(430p
 .sg-galaxy-brand{text-align:center;margin:0 0 25px}.sg-logo-orbit{width:58px;height:58px;margin:0 auto 12px;border-radius:50%;border:1px solid rgba(213,211,255,.55);display:grid;place-items:center;background:rgba(255,255,255,.035);box-shadow:0 0 30px rgba(126,105,255,.22),inset 0 0 18px rgba(126,105,255,.08)}.sg-logo-letter{font-weight:800;font-size:24px;color:#d9d2ff;text-shadow:0 0 18px rgba(179,163,255,.55)}.sg-galaxy-brand h1{font-size:25px!important;letter-spacing:.06em;margin:0 0 5px!important;color:#fff!important}.sg-tagline{margin:0!important;color:#b5b5cf!important;font-size:12px;letter-spacing:.12em}.sg-welcome{margin:23px 0 6px!important;color:#f7f7ff!important;font-size:20px;font-weight:700}.sg-brand-sub{margin:0!important;color:#b0b2c5!important;font-size:13px;line-height:1.6}
 body:not(.sg-authenticated) #authView label{color:#d9d9e8!important;margin-top:13px}body:not(.sg-authenticated) #authView .field{background:rgba(255,255,255,.055)!important;color:#fff!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:15px!important;padding:13px 14px!important;min-height:48px}body:not(.sg-authenticated) #authView .field::placeholder{color:#8e91a9}body:not(.sg-authenticated) #authView button{width:100%;margin-top:12px;min-height:48px;border-radius:999px!important;background:linear-gradient(135deg,#7463db,#4e65b8)!important;color:white!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 8px 24px rgba(74,69,170,.16)}body:not(.sg-authenticated) #authView .google-btn{background:rgba(255,255,255,.07)!important;color:#f5f5fc!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:none!important}body:not(.sg-authenticated) #authView .google-btn:hover{background:rgba(255,255,255,.12)!important}body:not(.sg-authenticated) #authView #modeButton{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important;color:#e2e3f2!important}body:not(.sg-authenticated) #authView .forgot-btn{background:rgba(255,255,255,.07)!important;color:#ddd9ff!important;border-color:rgba(255,255,255,.12)!important}body:not(.sg-authenticated) #authView .muted,body:not(.sg-authenticated) #authView .small{color:#a7a9bd!important}body:not(.sg-authenticated) #authView .status{color:#c7c9dc!important}body:not(.sg-authenticated) #authView .status.error{color:#ff9caa!important}body:not(.sg-authenticated) #authView .status.ok{color:#9ce4bd!important}
 @media(max-width:480px){body:not(.sg-authenticated) main{padding:16px 12px!important}body:not(.sg-authenticated) #authView{padding:25px 19px 22px!important;border-radius:24px!important}.sg-galaxy-brand{margin-bottom:20px}.sg-logo-orbit{width:52px;height:52px}}
+
+/* Final light theme: white + orange + navy, replacing galaxy login styles */
+:root{--orange:#ff6500;--dark:#14213d;--bg:#f5f7fc;--muted:#667085;--line:#e3e8f2;--white:#fff}
+body:not(.sg-authenticated){background:#f5f7fc!important;color:#14213d!important;min-height:100vh!important;background-image:radial-gradient(ellipse at 15% 10%,rgba(255,101,0,.08),transparent 35%),radial-gradient(ellipse at 90% 0%,rgba(77,129,255,.07),transparent 35%)!important}
+body:not(.sg-authenticated)::before{display:none!important}
+body:not(.sg-authenticated) header,body:not(.sg-authenticated) #sidebar,body:not(.sg-authenticated) #sidebarBackdrop{display:none!important}
+body:not(.sg-authenticated) main{position:relative!important;z-index:1!important;margin:0!important;max-width:1180px!important;width:100%!important;min-height:100vh!important;padding:32px 20px!important;display:block!important}
+body:not(.sg-authenticated) #authView{width:min(560px,100%)!important;max-width:560px!important;margin:0 auto 28px!important;padding:28px 30px!important;border:1px solid #e4e8f1!important;border-radius:26px!important;background:#fff!important;box-shadow:0 12px 36px rgba(20,33,61,.08)!important;color:#14213d!important}
+.sg-galaxy-brand{text-align:center;margin:0 0 20px!important}
+.sg-logo-orbit{width:54px!important;height:54px!important;margin:0 auto 10px!important;border-radius:16px!important;border:0!important;background:linear-gradient(135deg,#ff6500,#ff8b43)!important;box-shadow:0 8px 22px rgba(255,101,0,.18)!important;display:grid!important;place-items:center!important}
+.sg-logo-letter{font-weight:800!important;font-size:24px!important;color:#fff!important;text-shadow:none!important}
+.sg-galaxy-brand h1{font-size:26px!important;letter-spacing:-.04em!important;margin:0 0 3px!important;color:#14213d!important}
+.sg-tagline{margin:0!important;color:#667085!important;font-size:12px!important;letter-spacing:.06em!important}
+.sg-welcome{margin:16px 0 5px!important;color:#14213d!important;font-size:20px!important;font-weight:750!important}
+.sg-brand-sub{margin:0!important;color:#667085!important;font-size:13px!important}
+body:not(.sg-authenticated) #authView label{color:#344054!important;margin-top:13px!important}
+body:not(.sg-authenticated) #authView .field{background:#fff!important;color:#14213d!important;border:1px solid #dce3ef!important;border-radius:13px!important;padding:13px 14px!important;min-height:48px!important;box-shadow:none!important}
+body:not(.sg-authenticated) #authView .field:focus{outline:2px solid rgba(255,101,0,.18)!important;border-color:#ff8b43!important}
+body:not(.sg-authenticated) #authView button{width:100%!important;margin-top:12px!important;min-height:48px!important;border-radius:999px!important;background:linear-gradient(135deg,#ff6500,#ff7c2b)!important;color:#fff!important;border:1px solid #ff6500!important;box-shadow:0 7px 18px rgba(255,101,0,.15)!important}
+body:not(.sg-authenticated) #authView .google-btn{background:#fff!important;color:#14213d!important;border:1px solid #dce3ef!important;box-shadow:0 2px 5px rgba(20,33,61,.05)!important}
+body:not(.sg-authenticated) #authView .google-btn:hover{background:#f8faff!important}
+body:not(.sg-authenticated) #authView #modeButton{background:#fff4ed!important;border-color:#ffd9c3!important;color:#c84d00!important;box-shadow:none!important}
+body:not(.sg-authenticated) #authView .forgot-btn{background:#fff!important;color:#c84d00!important;border:1px solid #ffd9c3!important;box-shadow:none!important}
+body:not(.sg-authenticated) #authView .muted,body:not(.sg-authenticated) #authView .small{color:#667085!important}
+body:not(.sg-authenticated) #authView .status{color:#667085!important}body:not(.sg-authenticated) #authView .status.error{color:#c33d3d!important}body:not(.sg-authenticated) #authView .status.ok{color:#16865b!important}
+.public-explore{margin:0 auto 36px;max-width:1120px;padding:26px;background:#fff;border:1px solid #e4e8f1;border-radius:24px;box-shadow:0 8px 28px rgba(20,33,61,.045)}
+.public-explore-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.public-kicker{font-size:11px;letter-spacing:.12em;font-weight:800;color:#ff6500}
+.public-explore h2{font-size:26px;margin:6px 0 4px;color:#14213d}.public-explore-heading p{margin:0;color:#667085;font-size:14px}
+.public-explore-login{width:auto!important;margin:0!important;min-height:42px!important;border-radius:12px!important;background:#fff4ed!important;color:#c84d00!important;border:1px solid #ffd9c3!important;box-shadow:none!important;padding:10px 14px!important}
+.public-class-filters{display:flex;gap:8px;margin:18px 0 14px;flex-wrap:wrap}.public-class-filter{width:auto!important;margin:0!important;background:#fff!important;color:#14213d!important;border:1px solid #dce3ef!important;box-shadow:none!important;min-height:40px!important;border-radius:999px!important;padding:9px 16px!important}.public-class-filter.active{background:#ff6500!important;color:#fff!important;border-color:#ff6500!important}
+.public-course-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.public-course-card{border:1px solid #e4e8f1;border-radius:18px;padding:18px;background:linear-gradient(140deg,#fff,#f7f9ff);min-width:0}
+.public-course-card h3{font-size:20px;color:#14213d;margin:12px 0 4px}.public-course-card p{margin:0 0 10px;color:#667085;font-size:13px}.public-course-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;font-weight:800}.public-course-icon.blue{background:#e9f2ff;color:#2765cc}.public-course-icon.violet{background:#f2eaff;color:#7939c9}.public-course-icon.green{background:#e6f7ee;color:#178653}.public-subjects{font-size:12px;line-height:1.6;color:#475467;min-height:40px}.public-course-card button{width:auto!important;margin-top:14px!important;border-radius:11px!important;padding:10px 13px!important;min-height:40px!important;background:#14213d!important;border-color:#14213d!important;box-shadow:none!important;font-size:13px}
+.public-benefits{margin-top:16px;padding:14px 16px;border-radius:15px;background:#fff8f3;border:1px solid #ffeadc;display:flex;gap:16px;flex-wrap:wrap;align-items:center;color:#475467;font-size:13px}.public-benefits strong{color:#c84d00}
+body.sg-authenticated #publicExplore{display:none!important}
+@media(max-width:700px){body:not(.sg-authenticated) main{padding:18px 12px!important}body:not(.sg-authenticated) #authView{margin:0 auto 18px!important;padding:24px 19px!important;border-radius:22px!important}.public-explore{padding:18px;border-radius:20px}.public-explore h2{font-size:22px}.public-course-grid{grid-template-columns:1fr}.public-benefits{gap:10px 13px}.public-explore-login{width:100%!important}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -119,6 +157,16 @@ body:not(.sg-authenticated) #authView label{color:#d9d9e8!important;margin-top:1
 <button type="button" class="forgot-btn" onclick="forgotPassword()">पासवर्ड भूल गए?</button>
 <div id="authStatus" class="status" role="status"></div>
 <p class="small">Admin access verified email और सुरक्षित server-side role से नियंत्रित होता है।</p>
+</section>
+<section id="publicExplore" class="public-explore">
+  <div class="public-explore-heading"><div><span class="public-kicker">STUDYGURU · FREE LEARNING</span><h2>Explore Courses</h2><p>अपनी कक्षा चुनें और सीखना शुरू करें।</p></div><button type="button" class="public-explore-login" onclick="document.getElementById('email').focus();window.scrollTo({top:0,behavior:'smooth'})">Login to Explore →</button></div>
+  <div class="public-class-filters" aria-label="Class filter"><button class="public-class-filter active" onclick="filterPublicCourses('10',this)">Class 10</button><button class="public-class-filter" onclick="filterPublicCourses('11',this)">Class 11</button><button class="public-class-filter" onclick="filterPublicCourses('12',this)">Class 12</button></div>
+  <div class="public-course-grid">
+    <article class="public-course-card class10"><div class="public-course-icon blue">▦</div><h3>Class 10</h3><p>Complete syllabus</p><div class="public-subjects">Mathematics · Science · Social Science · Hindi · English</div><button onclick="document.getElementById('email').focus();window.scrollTo({top:0,behavior:'smooth'})">Explore Course →</button></article>
+    <article class="public-course-card class11 hidden"><div class="public-course-icon violet">⚗</div><h3>Class 11</h3><p>Science learning</p><div class="public-subjects">Mathematics · Physics · Chemistry · Biology · Hindi · English</div><button onclick="document.getElementById('email').focus();window.scrollTo({top:0,behavior:'smooth'})">Explore Course →</button></article>
+    <article class="public-course-card class12 hidden"><div class="public-course-icon green">🎓</div><h3>Class 12</h3><p>Board preparation</p><div class="public-subjects">Mathematics · Physics · Chemistry · Biology · Hindi · English</div><button onclick="document.getElementById('email').focus();window.scrollTo({top:0,behavior:'smooth'})">Explore Course →</button></article>
+  </div>
+  <div class="public-benefits"><strong>100% Free Education</strong><span>Video Lectures</span><span>PDF Notes</span><span>Practice Tests</span><span>Live Classes</span></div>
 </section>
 <section id="appView" class="hidden">
 <div class="hero"><h1>Learn • Practice • Excel</h1><p>अपनी कक्षा, विषय और अध्याय के अनुसार study material पढ़ें।</p></div>
